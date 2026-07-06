@@ -1,6 +1,6 @@
 # Mainline Evidence Chain
 
-This is the single-entry audit trail for the DAG-IG / Pix2Fact paper mainline. It links the frozen data/corpus, unified rollout schema, node-level credit audit, selected GRPO checkpoint, and final dev/test result.
+This is the single-entry audit trail for the corrected DAG-IG / Pix2Fact paper mainline. It links the frozen data/corpus, unified rollout schema, node-level credit audit, KL-fixed GRPO reruns, fixed-reader control, and corrected dev/test result.
 
 - created_at_utc: `2026-07-05T23:13:17.894333+00:00`
 - overall pass: `True`
@@ -12,8 +12,8 @@ This is the single-entry audit trail for the DAG-IG / Pix2Fact paper mainline. I
 | data_and_corpora | `True` | GRPO train/dev/test data and frozen BM25 train/eval corpora are present and counted. | `outputs/dagig_grpo_main/derived_assets/derived_manifest.json`<br>`outputs/dagig_grpo_main/derived_assets` |
 | rollout_schema | `True` | Unified rollouts expose visual, query, evidence, answer, metrics, and node-credit fields. | `outputs/dagig_paper_main_v1/protocol/PAPER_MAIN_V1_SCHEMA.md`<br>`outputs/dagig_paper_main_v1/rollouts/train_rollouts_unified_scored.jsonl` |
 | reward_audit | `True` | DAG-IG node-level reward is discriminative and non-collapsed before main GRPO training. | `outputs/dagig_paper_main_v1/reports/node_credit_component_analysis/node_credit_component_summary.json`<br>`outputs/dagig_paper_main_v1/paper_assets/node_credit_diagnostic_table.tex` |
-| main_grpo_training | `True` | The selected two-stage DAG-IG GRPO checkpoint trained successfully under the paper-main config. | `outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/grpo_run_config.json`<br>`outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/grpo_train_summary.json`<br>`outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60` |
-| main_dev_test_result | `True` | The selected DAG-IG checkpoint improves over Format-SFT on both dev and test strict success and R@5. | `outputs/dagig_paper_main_v1/reports/paper_main_v1_consolidated_results.json`<br>`outputs/dagig_paper_main_v1/paper_assets/main_results_table.tex` |
+| main_grpo_training | `True` | Two KL-fixed DAG-IG GRPO seeds trained successfully under the corrected paper-main config. | `outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_klfixed_scale60_s320_seed42/grpo_train_summary.json`<br>`outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_klfixed_scale60_s320_seed43/grpo_train_summary.json` |
+| main_dev_test_result | `True` | The KL-fixed two-seed mean improves over Format-SFT on both dev and test strict success and R@5. | `results/reports/KLFIXED_GRPO_60_REPORT.md`<br>`results/metrics/klfixed_grpo_60_summary.json`<br>`results/tables/main_results_table.csv` |
 
 ## Data And Corpus Counts
 
@@ -33,32 +33,24 @@ This is the single-entry audit trail for the DAG-IG / Pix2Fact paper mainline. I
 - top_k_counts: `{'5': 14656}`
 - invalid row examples: `[]`
 
-## Reward Audit
+## Corrected Training Health
 
-| run | hit AUC | strict AUC | constant groups | top strict | bottom strict | query AUC hit | evidence AUC hit | answer AUC strict |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| seed42_main | 1.000 | 0.974 | 0.8% | 50.4% | 15.4% | 1.000 | 1.000 | 1.000 |
-| seed43_confirm | 1.000 | 0.984 | 0.8% | 43.8% | 12.1% | 1.000 | 1.000 | 1.000 |
-| goldfixed_control | 1.000 | 0.960 | 0.8% | 51.7% | 13.3% | 1.000 | 1.000 | 1.000 |
+| run | optimizer steps | micro steps | constant groups | constant rate |
+|---|---:|---:|---:|---:|
+| KL-fixed seed42 | 60 | 240 | 3 | 1.2% |
+| KL-fixed seed43 | 60 | 240 | 1 | 0.4% |
 
-## Selected Checkpoint
-
-- checkpoint: `outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60`
-- status: `success`
-- optimizer_steps: `60`
-- micro_steps: `240`
-- constant_reward_groups: `2`
-- two_stage_loss_scope: `stage1`
-- kl_coef: `0.1`
+The KL penalty uses the non-negative k3 estimator, and answer metrics use checker v4. Old-KL seed42/seed43 and goldfixed runs are diagnostics, not the corrected headline.
 
 ## Main Result
 
-| split | Format-SFT strict | DAG-IG seed42 strict | seed42 strict gain | Format-SFT R@5 | DAG-IG seed42 R@5 | seed42 R@5 gain | seed43 strict gain |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| dev | 42.9% | 49.0% | 6.1 pts | 52.0% | 57.1% | 5.1 pts | 6.1 pts |
-| test | 34.4% | 40.6% | 6.2 pts | 46.9% | 51.6% | 4.7 pts | 4.7 pts |
+| split | Format-SFT strict | KL-fixed mean strict | strict gain | Format-SFT R@5 | KL-fixed mean R@5 | R@5 gain |
+|---|---:|---:|---:|---:|---:|---:|
+| dev | 40.8% | 45.9% | 5.1 pts | 52.0% | 56.1% | 4.1 pts |
+| test | 34.4% | 39.1% | 4.7 pts | 46.9% | 50.0% | 3.1 pts |
+
+Fixed-reader controls match the own-reader two-seed strict result: 45.9% dev and 39.1% test.
 
 ## Boundary
 
-This chain supports the current paper mainline only: DAG-IG node-level GRPO for a two-stage multimodal search agent. It does not promote DAG-SFT trace imitation, query reranking, no-teacher fusion, or broad answer repair to the main method.
-
+This chain supports the corrected paper mainline only: DAG-IG node-level GRPO for a two-stage multimodal search agent in a frozen Pix2Fact evidence-note retrieval setting. It does not promote DAG-SFT trace imitation, query reranking, no-teacher fusion, broad answer repair, old-KL results, or best-test-seed selection to the main method.

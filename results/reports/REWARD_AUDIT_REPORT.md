@@ -3,8 +3,8 @@
 ## 1. Protocol
 
 - Frozen rollout schema: `protocol/PAPER_MAIN_V1_SCHEMA.md`
-- Derived asset: `/root/autodl-tmp/search-test-1/outputs/dagig_grpo_main/derived_assets`
-- Train corpus: `/root/autodl-tmp/search-test-1/outputs/dagig_grpo_main/derived_assets/bm25_train_corpus.jsonl`
+- Derived asset: `outputs/dagig_grpo_main/derived_assets`
+- Train corpus: `outputs/dagig_grpo_main/derived_assets/bm25_train_corpus.jsonl`
 - This audit does not train. It rescored existing sampled train rollouts with dense node-level DAG-IG credits.
 
 ## 2. Counts

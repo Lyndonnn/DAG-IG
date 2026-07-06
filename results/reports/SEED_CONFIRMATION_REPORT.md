@@ -1,8 +1,10 @@
 # Paper Main v1 Seed Confirmation
 
+> Status: superseded old-KL diagnostic. This report records the pre-audit seed confirmation run and is retained for traceability only. It must not be used as the corrected paper headline. Use `KLFIXED_GRPO_60_REPORT.md`, `PAPER_MAIN_V1_CURRENT_STATUS.md`, and `results/metrics/klfixed_grpo_60_summary.json` for the current KL-fixed two-seed result.
+
 ## Purpose
 
-This report checks whether the current two-stage DAG-IG GRPO recipe is a repeatable mainline result, not a single-seed artifact.
+This report checks whether the earlier two-stage DAG-IG GRPO recipe was repeatable before the reviewer-audit KL/checker fixes.
 
 ## Training Health
 
@@ -41,6 +43,6 @@ Selection rule: choose by dev strict first, then R@5 as a tie-breaker. ckpt40 an
 
 ## Decision
 
-Seed43 confirms the main recipe: dev strict remains `49.0%`, test strict is `39.1%`, and both dev/test remain above Format-SFT. The current best single checkpoint is still seed42 scale60_s320 checkpoint-60 because it has the best test strict (`40.6%`) and test R@5 (`51.6%`).
+This old-KL diagnostic showed directionally positive seed behavior, but it is no longer the paper-facing selection result. The corrected report uses k3 KL, checker v4, and the seed42/seed43 mean instead of selecting the best test checkpoint.
 
-Use seed42 checkpoint-60 as the current main checkpoint, and cite seed43 as seed confirmation. The next mainline work should target remaining retrieval misses with better query/evidence credit data, not more answer repair or reward reshuffling.
+Use this file only as a historical diagnostic. Do not use seed42 checkpoint-60 from this report as the current main checkpoint.

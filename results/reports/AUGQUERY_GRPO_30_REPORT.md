@@ -1,8 +1,10 @@
 # Augmented-Query GRPO 30-Step Report
 
+> Status: superseded old-KL diagnostic. This report predates the KL-fixed/checker-v4 correction and is retained only to document a failed warmup branch. It must not be used to identify the current paper-main checkpoint.
+
 ## Scope
 
-This is the dev-gated GRPO run initialized from augmented query-node SFT. It uses the same paper-main v1 two-stage stage1-loss recipe as the current mainline. It is evaluated on dev only unless it beats the current dev gate.
+This is the dev-gated GRPO run initialized from augmented query-node SFT. It used the earlier paper-main v1 two-stage stage1-loss recipe and was evaluated on dev only unless it beat the then-current dev gate.
 
 ## Training Health
 
@@ -34,7 +36,7 @@ The run is healthy: `constant_reward_groups=0`, so this is not reward collapse.
 
 ## Decision
 
-No-go for augmented-init GRPO. Keep `paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60` as the current main checkpoint, with seed43 as confirmation. The next mainline action should target stronger non-oracle query candidate generation for the remaining no-hit train samples, not another GRPO run from the same augmented warmup.
+No-go for augmented-init GRPO under the old protocol. Do not use this report to select the current main checkpoint. The corrected paper-facing result is the KL-fixed seed42/seed43 mean reported in `KLFIXED_GRPO_60_REPORT.md`.
 
 ## Artifacts
 

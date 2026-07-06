@@ -13,13 +13,13 @@ Risk level: high.
 Answer:
 
 - Acknowledge the gains are modest.
-- Emphasize consistency across dev/test and seed confirmation.
+- Emphasize the corrected two-seed mean and fixed-reader control.
 - Frame the contribution as credit assignment and reward audit, not a large benchmark win.
 
 Evidence:
 
-- seed42 improves strict success by +6.1 dev points and +6.2 test points.
-- seed43 confirms the direction: 49.0% dev strict and 39.1% test strict.
+- KL-fixed two-seed mean improves strict success by +5.1 dev points and +4.7 test points.
+- Individual paired tests are directionally positive but not conventionally significant.
 
 Paper wording:
 
@@ -40,9 +40,10 @@ Answer:
 
 Evidence:
 
-- seed42 reward AUC hit/strict: 1.000 / 0.974.
-- constant reward groups: 2/240.
-- format component AUC is around 0.5, while query/evidence/answer components align with retrieval/strict outcomes.
+- KL-fixed seed42 constant reward groups: 3/240.
+- KL-fixed seed43 constant reward groups: 1/240.
+- the earlier high constant-reward concern does not apply to the KL-fixed reruns.
+- reward-component AUC is diagnostic and should not be framed as causal proof.
 
 Paper location:
 
@@ -102,19 +103,19 @@ Do not say:
 
 > DAG-IG works on real web search.
 
-### R6. "Does goldfixed change the main result?"
+### R6. "Are old-KL or goldfixed runs the main result?"
 
 Risk level: medium.
 
 Answer:
 
-- No. Goldfixed is a robustness/control run after a train-corpus label repair.
-- It improves dev but not test; seed42 remains the main checkpoint.
+- No. Old-KL and goldfixed runs are diagnostics/controls.
+- The corrected headline is the KL-fixed seed42/seed43 mean under checker v4 and k3 KL.
 
 Evidence:
 
-- goldfixed dev/test strict: 50.0% / 39.1%.
-- seed42 dev/test strict: 49.0% / 40.6%.
+- KL-fixed two-seed mean dev/test strict: 45.9% / 39.1%.
+- Format-SFT v4 dev/test strict: 40.8% / 34.4%.
 
 ### R7. "Are failures mostly answer extraction?"
 
@@ -127,8 +128,8 @@ Answer:
 
 Evidence:
 
-- seed42 retrieval misses: 42 dev / 31 test.
-- seed42 hit-answer-wrong: 8 dev / 7 test.
+- KL-fixed seed42 retrieval misses: 43 dev / 31 test.
+- KL-fixed seed42 hit-answer-wrong: 10 dev / 7 test.
 
 Paper wording:
 
@@ -180,7 +181,7 @@ Evidence:
 Answer:
 
 - The eval tracks answer-in-query leakage.
-- Main runs have zero or near-zero answer-in-query.
+- KL-fixed main runs have zero or near-zero answer-in-query.
 
 Evidence:
 
@@ -191,13 +192,13 @@ Evidence:
 
 Answer:
 
-- Main evaluation uses each model's own adapter as reader, and fixed-reader isolation was tested earlier.
-- The paper should emphasize the two-stage setup and note fixed-reader diagnostics if needed.
+- Main evaluation uses each model's own adapter as reader.
+- Fixed-reader control uses the same Format-SFT reader for all KL-fixed queries and preserves the two-seed strict result, closing the main reader-drift concern.
 
 Evidence:
 
 - `PAPER_MAIN_V1_CURRENT_STATUS.md`
-- fixed-reader notes for scale60_s320.
+- `KLFIXED_GRPO_60_REPORT.md`
 
 ## Final Writing Guidance
 
@@ -205,8 +206,8 @@ The safest paper stance is:
 
 1. DAG-IG is a credit-assignment method for multimodal search agents.
 2. The current implementation optimizes stage-1 visual/query behavior.
-3. The offline Pix2Fact result shows consistent, modest gains over Format-SFT.
-4. Reward audits prove the credit signal is not collapsed.
+3. The offline Pix2Fact evidence-note result shows modest two-seed gains over Format-SFT.
+4. KL-fixed training audits show the reward is not collapsed.
 5. Remaining work is retrieval coverage and reader extraction.
 
 Do not let the paper drift into claims about live web search, solved answer extraction, or final DPO/RL beyond the current GRPO evidence.

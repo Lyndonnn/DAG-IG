@@ -2,13 +2,13 @@
 
 ## Working Title
 
-DAG-IG: Node-Level Counterfactual Credit Assignment for Long-Horizon Multimodal Search Agents
+DAG-IG: Node-Level Credit Assignment for Long-Horizon Multimodal Search Agents
 
 ## Core Thesis
 
 Long-horizon multimodal search agents fail because final answer reward is too sparse to identify whether the visual observation, search query, retrieved evidence, or answer extraction caused success or failure. DAG-IG assigns node-level credit to these stages and uses the resulting reward to optimize the stage-1 policy of a two-stage Pix2Fact agent.
 
-The current paper result should be stated narrowly: under a frozen offline BM25 Pix2Fact evaluation, DAG-IG GRPO improves a Format-SFT two-stage agent on dev and test, and the reward is non-collapsed and predictive of retrieval/strict success.
+The current paper result should be stated narrowly: under a frozen offline Pix2Fact evidence-note BM25 evaluation, KL-fixed DAG-IG GRPO improves a Format-SFT two-stage agent on dev and test as a two-seed mean, and the training rewards are non-collapsed. It should not be phrased as a causal counterfactual-intervention result.
 
 ## Contributions
 
@@ -16,8 +16,8 @@ The current paper result should be stated narrowly: under a frozen offline BM25 
    `image + question -> visual_observation -> search_query -> retrieve top-k evidence -> final_answer`.
 2. A node-level DAG-IG reward that separates visual, query, evidence, answer, format, and leakage terms instead of relying only on final answer correctness.
 3. A two-stage GRPO training setup that optimizes the stage-1 policy while keeping retrieval and reader evaluation fixed and auditable.
-4. Empirical evidence on Pix2Fact showing consistent improvement over Format-SFT, plus seed confirmation and a fixed-corpus control.
-5. A reward audit showing high AUC against retrieval and strict success, with very low constant-reward group rate.
+4. Empirical evidence on Pix2Fact showing a modest two-seed improvement over Format-SFT, plus a fixed-reader control.
+5. A reward/training-health audit showing low constant-reward group rate after the k3 KL fix.
 
 ## Main Method Section
 
@@ -55,7 +55,7 @@ Use grouped GRPO with:
 - base: Qwen2.5-VL-3B-Instruct
 - initializer: Format-SFT
 - stage1-only policy loss
-- KL=0.1
+- KL=0.1 with a non-negative k3 KL estimator
 - num generations=4
 - top-k retrieval=5
 - 60 optimizer steps for the main run
@@ -71,16 +71,16 @@ Use the clean Pix2Fact diagnostic setup. Keep the description high-level:
 - no real web search
 - no teacher/oracle query in evaluation
 
-Mention that old unclean data and oracle trajectories are excluded from the paper-main training/evaluation path.
+Mention that old unclean data and oracle trajectories are excluded from the paper-main training/evaluation path. Also state that the corpus is a frozen Pix2Fact evidence-note corpus, not live web or noisy full documents.
 
 ### Baselines And Controls
 
 Main table should include:
 
 - Format-SFT
-- DAG-IG seed42 main
-- DAG-IG seed43 confirmation
-- Goldfixed control
+- KL-fixed DAG-IG seed42
+- KL-fixed DAG-IG seed43
+- KL-fixed two-seed mean
 
 Older experiments should be appendix/diagnostics only:
 
@@ -102,14 +102,14 @@ Key numbers:
 
 | method | dev R@5 | dev strict | test R@5 | test strict |
 |---|---:|---:|---:|---:|
-| Format-SFT | 52.0% | 42.9% | 46.9% | 34.4% |
-| DAG-IG seed42 main | 57.1% | 49.0% | 51.6% | 40.6% |
-| DAG-IG seed43 confirm | 58.2% | 49.0% | 50.0% | 39.1% |
-| Goldfixed control | 57.1% | 50.0% | 50.0% | 39.1% |
+| Format-SFT v4 | 52.0% | 40.8% | 46.9% | 34.4% |
+| KL-fixed GRPO seed42 | 56.1% | 45.9% | 51.6% | 40.6% |
+| KL-fixed GRPO seed43 | 56.1% | 45.9% | 48.4% | 37.5% |
+| KL-fixed GRPO two-seed mean | 56.1% | 45.9% | 50.0% | 39.1% |
 
 Paper wording:
 
-DAG-IG improves strict success over Format-SFT by 6.1 dev points and 6.2 test points. A second seed confirms the improvement direction. The goldfixed run confirms reward health after train-corpus label repair but is not promoted because test strict is lower than seed42.
+KL-fixed DAG-IG improves strict success over Format-SFT by +5.1 dev points and +4.7 test points as a two-seed mean. Seed42 individually reaches 40.6% test strict and seed43 reaches 37.5%, so the clean headline is the two-seed mean rather than best test seed.
 
 ## Reward And Credit Diagnostics
 
@@ -117,10 +117,10 @@ Use `outputs/dagig_paper_main_v1/paper_assets/node_credit_diagnostic_table.tex`.
 
 Main claims:
 
-- reward AUC(hit) is 1.000 for all three audited runs.
-- reward AUC(strict) is 0.974 for seed42, 0.984 for seed43, 0.960 for goldfixed.
-- constant reward groups are 2/240 in all audited GRPO runs.
-- top-ranked rollouts in a group have much higher strict success than bottom-ranked rollouts.
+- KL-fixed seed42 has 3/240 constant-reward groups.
+- KL-fixed seed43 has 1/240 constant-reward groups.
+- the earlier 78.8% constant-reward concern does not apply to the KL-fixed reruns.
+- reward-component AUC analyses are diagnostic and should not be overstated as causal proof.
 
 This section is critical because it answers the earlier concern that GRPO groups might have constant or noisy rewards.
 
@@ -130,10 +130,10 @@ Use `outputs/dagig_paper_main_v1/paper_assets/case_studies/CASE_STUDY_SUMMARY.md
 
 Main counts:
 
-- dev: DAG-IG only strict 8, Format-only strict 2.
-- test: DAG-IG only strict 5, Format-only strict 1.
-- DAG-IG retrieval gain: 8 dev, 5 test.
-- DAG-IG retrieval loss: 3 dev, 2 test.
+- KL-fixed seed42 dev: 7 method-only strict wins and 2 baseline-only losses.
+- KL-fixed seed42 test: 5 method-only strict wins and 1 baseline-only loss.
+- KL-fixed seed43 dev: 6 method-only strict wins and 1 baseline-only loss.
+- KL-fixed seed43 test: 2 method-only strict wins and 0 baseline-only losses.
 
 Use one or two wins and one loss:
 
@@ -145,8 +145,8 @@ Use one or two wins and one loss:
 
 Frame failures as remaining bottlenecks, not method invalidation:
 
-- retrieval misses remain high: seed42 has 42 dev and 31 test retrieval misses.
-- retrieved-evidence answer errors remain: seed42 has 8 dev and 7 test hit-answer-wrong cases.
+- retrieval misses remain high: KL-fixed seed42 has 43 dev and 31 test retrieval misses; seed43 has 43 dev and 33 test retrieval misses.
+- retrieved-evidence answer errors remain: both KL-fixed seeds have 10 dev and 7 test hit-answer-wrong cases.
 - format failures and answer-in-query leakage are not the dominant issue.
 
 This justifies future work on stronger query candidate generation and reader/verifier training, but not more same-recipe GRPO.
@@ -158,8 +158,9 @@ State explicitly:
 - evaluation is offline BM25, not live web search.
 - Pix2Fact sample size is limited.
 - reader/answer extraction is still weak.
-- gains are modest but consistent.
-- goldfixed is a control, not a promoted main result.
+- gains are modest and paired tests are not individually significant.
+- old-KL and goldfixed runs are diagnostic/control results, not the corrected headline.
+- the method is node-level reward/credit, not a demonstrated causal counterfactual intervention.
 - DAG-IG currently optimizes stage-1 policy only; full end-to-end retrieval/reader policy optimization remains future work.
 
 ## Figures And Tables Needed
@@ -181,7 +182,8 @@ State explicitly:
 - Do not make DAG-SFT the main method.
 - Do not present DPO/pair scoring as complete.
 - Do not claim answer repair or reader SFT solved the bottleneck.
-- Do not mix goldfixed control into the main checkpoint claim.
+- Do not use old-KL seed42 as the main checkpoint claim.
+- Do not select by best test checkpoint.
 
 ## Efficient Next Step
 

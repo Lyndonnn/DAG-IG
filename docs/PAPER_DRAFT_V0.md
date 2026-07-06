@@ -1,8 +1,10 @@
-# DAG-IG: Node-Level Counterfactual Credit Assignment for Long-Horizon Multimodal Search Agents
+# DAG-IG: Node-Level Credit Assignment for Long-Horizon Multimodal Search Agents
+
+> Status: superseded draft. Use `paper/latex/main.tex`, `results/reports/KLFIXED_GRPO_60_REPORT.md`, and `results/reports/CORPUS_REALITY_AUDIT.md` for the corrected paper-facing claims. This file is retained as a historical prose draft and must not be used as the authoritative result source.
 
 ## Abstract
 
-Multimodal search agents must convert visual observations into search queries, retrieve external evidence, and extract an answer from noisy documents. A final-answer reward alone is too sparse to identify which part of this chain caused success or failure. We introduce DAG-IG, a node-level credit assignment method for long-horizon multimodal search agents. DAG-IG represents each rollout as a directed computation graph over a visual node, query node, evidence node, and answer node, then assigns reward to each node according to its contribution to grounded retrieval and final answer success. We instantiate DAG-IG in a two-stage Pix2Fact agent: the policy emits a visual observation and search query, a frozen BM25 retriever returns top-k evidence, and a fixed reader produces the final answer. Grouped GRPO optimizes the stage-1 policy using the DAG-IG reward. In a frozen offline BM25 Pix2Fact setting, DAG-IG improves strict success over a Format-SFT two-stage baseline from 42.9% to 49.0% on dev and from 34.4% to 40.6% on test. A second seed confirms the recipe, and reward audits show the node-level reward is non-collapsed and highly predictive of retrieval and strict success. The gains are modest, and remaining errors are dominated by retrieval misses and retrieved-evidence answer mistakes, but the results support node-level credit assignment as a practical path beyond final-answer-only supervision.
+Multimodal search agents must convert visual observations into search queries, retrieve evidence, and extract an answer. A final-answer reward alone is too sparse to identify which part of this chain caused success or failure. We introduce DAG-IG, a node-level credit assignment method for long-horizon multimodal search agents. DAG-IG represents each rollout as a directed computation graph over a visual node, query node, evidence node, and answer node, then assigns reward to each node according to grounded retrieval and final answer success. In a frozen Pix2Fact evidence-note BM25 setting, KL-fixed DAG-IG GRPO improves strict success over a Format-SFT two-stage baseline from 40.8% to 45.9% on dev and from 34.4% to 39.1% on test as a two-seed mean. A fixed-reader control obtains the same strict result, showing the gain is not explained by reader drift. The gains are modest and not individually significant on the small test set, but they are directionally consistent under a corrected KL penalty and stricter answer checker.
 
 ## 1. Introduction
 
@@ -131,7 +133,7 @@ The main training recipe uses:
 - stage1-only policy loss;
 - top-k retrieval \(k=5\);
 - grouped GRPO with 4 generations per sample;
-- KL coefficient 0.1;
+- KL coefficient 0.1 with a non-negative k3 estimator;
 - learning rate \(1\times10^{-6}\);
 - 60 optimizer steps for the main run.
 
@@ -139,10 +141,10 @@ The main training recipe uses:
 
 The paper-main comparison includes:
 
-- Format-SFT: the stage-1 format baseline.
-- DAG-IG seed42 main: current best checkpoint.
-- DAG-IG seed43 confirm: same recipe, second seed.
-- Goldfixed control: same recipe after a train-corpus gold-label repair; used as a robustness/control run, not promoted as the best checkpoint.
+- Format-SFT v4: the stage-1 format baseline under checker v4.
+- KL-fixed DAG-IG seed42: corrected k3-KL rerun.
+- KL-fixed DAG-IG seed43: corrected k3-KL second seed.
+- KL-fixed two-seed mean: the corrected headline result.
 
 Other routes, including verbose DAG-SFT, outcome-only SFT, preference/DPO pilots, query reranking, multi-query fusion, and broad answer repair, are diagnostics. They motivated the current method but are not the main result.
 
@@ -152,36 +154,34 @@ The main evaluation is shown below.
 
 | Method | Split | R@1 | R@3 | R@5 | Ans. | Strict |
 |---|---|---:|---:|---:|---:|---:|
-| Format-SFT | dev | 35.7 | 49.0 | 52.0 | 45.9 | 42.9 |
-| Format-SFT | test | 31.2 | 43.8 | 46.9 | 34.4 | 34.4 |
-| DAG-IG seed42 main | dev | 38.8 | 51.0 | 57.1 | 51.0 | 49.0 |
-| DAG-IG seed42 main | test | 39.1 | 46.9 | 51.6 | 40.6 | 40.6 |
-| DAG-IG seed43 confirm | dev | 40.8 | 53.1 | 58.2 | 51.0 | 49.0 |
-| DAG-IG seed43 confirm | test | 39.1 | 46.9 | 50.0 | 39.1 | 39.1 |
-| Goldfixed control | dev | 38.8 | 51.0 | 57.1 | 52.0 | 50.0 |
-| Goldfixed control | test | 35.9 | 45.3 | 50.0 | 39.1 | 39.1 |
+| Format-SFT v4 | dev | 35.7 | 49.0 | 52.0 | 42.9 | 40.8 |
+| Format-SFT v4 | test | 31.2 | 43.8 | 46.9 | 34.4 | 34.4 |
+| KL-fixed DAG-IG seed42 | dev | 36.7 | 51.0 | 56.1 | 48.0 | 45.9 |
+| KL-fixed DAG-IG seed42 | test | 39.1 | 46.9 | 51.6 | 40.6 | 40.6 |
+| KL-fixed DAG-IG seed43 | dev | 36.7 | 51.0 | 56.1 | 48.0 | 45.9 |
+| KL-fixed DAG-IG seed43 | test | 34.4 | 43.8 | 48.4 | 37.5 | 37.5 |
+| KL-fixed two-seed mean | dev | 36.7 | 51.0 | 56.1 | 48.0 | 45.9 |
+| KL-fixed two-seed mean | test | 36.8 | 45.4 | 50.0 | 39.1 | 39.1 |
 
-DAG-IG seed42 improves strict success over Format-SFT by 6.1 points on dev and 6.2 points on test. Retrieval R@5 also improves from 52.0% to 57.1% on dev and from 46.9% to 51.6% on test.
-
-Seed43 confirms the direction of improvement, reaching 49.0% dev strict and 39.1% test strict. The goldfixed control reaches 50.0% dev strict, but its test strict is 39.1%, so seed42 remains the main checkpoint.
+KL-fixed DAG-IG improves strict success over Format-SFT by +5.1 points on dev and +4.7 points on test as a two-seed mean. Retrieval R@5 improves from 52.0% to 56.1% on dev and from 46.9% to 50.0% on test. Seed42 individually reaches 40.6% test strict, while seed43 reaches 37.5%; the clean headline is therefore the two-seed mean rather than the best test seed.
 
 ## 6. Reward And Credit Diagnostics
 
 Because GRPO can fail if reward groups are constant or noisy, we audit reward quality directly.
 
-| Run | AUC(hit) | AUC(strict) | Top hit | Bottom hit | Top strict | Bottom strict |
-|---|---:|---:|---:|---:|---:|---:|
-| seed42_main | 1.000 | 0.974 | 63.3 | 27.1 | 50.4 | 15.4 |
-| seed43_confirm | 1.000 | 0.984 | 56.2 | 24.2 | 43.8 | 12.1 |
-| goldfixed_control | 1.000 | 0.960 | 69.2 | 29.6 | 51.7 | 13.3 |
+| Run | Optimizer steps | Micro steps | Constant groups | Constant rate |
+|---|---:|---:|---:|---:|
+| KL-fixed smoke v2 | 1 | 4 | 0 | 0.0% |
+| KL-fixed seed42 | 60 | 240 | 3 | 1.2% |
+| KL-fixed seed43 | 60 | 240 | 1 | 0.4% |
 
-The main seed42 run has only 2 constant-reward groups out of 240 training micro-steps. Query and evidence components have AUC(hit)=1.000, and the answer component has AUC(strict)=1.000. These diagnostics show that the reward separates good and bad rollouts and is not merely a format reward.
+The KL-fixed reruns have low constant-reward rates, so the earlier high-constant-reward concern does not apply. Earlier reward-component AUC analyses remain useful diagnostics, but they should not be interpreted as causal counterfactual intervention evidence.
 
-This audit is central to the paper claim. The method is not just a successful checkpoint; the node-level credit signal itself is measurable and predictive.
+This audit is central to the paper claim. The method is not just a successful checkpoint; the node-level credit signal itself is measurable, though the current evidence should be described as diagnostic rather than causal.
 
 ## 7. Qualitative Analysis
 
-Compared with Format-SFT, DAG-IG seed42 has 8 dev strict-only wins and 2 dev strict-only losses. On test, it has 5 strict-only wins and 1 strict-only loss. It also has 8 dev retrieval gains and 5 test retrieval gains, versus 3 dev and 2 test retrieval losses.
+Compared with Format-SFT, KL-fixed seed42 has 7 dev strict-only wins and 2 dev strict-only losses. On test, it has 5 strict-only wins and 1 strict-only loss. KL-fixed seed43 has 6 dev strict-only wins and 1 dev strict-only loss, and 2 test strict-only wins with 0 test strict-only losses.
 
 One dev win is `pix2fact_11b37c2b51`. Format-SFT queries `Bank of America Los Angeles branches` and answers `3`, missing support. DAG-IG queries `Bank of America branches in Los Angeles offering home loan services`, retrieves support, and answers `6`.
 
@@ -195,7 +195,7 @@ DAG-IG also has losses. In `pix2fact_9ac94cba26`, Format-SFT retrieves the corre
 
 The main remaining failures are not output format or answer leakage. Format parse success is near-perfect, and answer-in-query leakage is zero or near zero in the main runs.
 
-For seed42, dev/test retrieval misses are 42 and 31. Retrieved-evidence answer-wrong cases are 8 and 7. This indicates two bottlenecks:
+For KL-fixed seed42, dev/test retrieval misses are 43 and 31. Retrieved-evidence answer-wrong cases are 10 and 7. This indicates two bottlenecks:
 
 1. The stage-1 policy still sometimes fails to formulate a query that retrieves support.
 2. Even when evidence is retrieved, the reader sometimes extracts the wrong span or answers at the wrong granularity.
@@ -204,13 +204,13 @@ Several attempted fixes did not become the main path. Broad answer repair create
 
 ## 9. Limitations
 
-The experiment is offline and uses a frozen BM25 corpus, so it does not establish live web-search generalization. The split is also modest, so effect sizes should be interpreted as diagnostic but meaningful rather than definitive large-scale performance. The reader remains weak, and answer extraction errors limit strict success even when retrieval succeeds.
+The experiment is offline and uses a frozen Pix2Fact evidence-note BM25 corpus, so it does not establish live web-search generalization or robustness to full noisy web pages. The split is also modest, and paired tests are not individually significant, so effect sizes should be interpreted as diagnostic but meaningful rather than definitive large-scale performance. The reader remains weak, and answer extraction errors limit strict success even when retrieval succeeds.
 
-DAG-IG currently optimizes the visual/query stage only. Full end-to-end optimization of visual grounding, retrieval, evidence selection, and answer extraction remains future work. The goldfixed control verifies reward health under a corrected train corpus, but it is not the promoted main checkpoint because its test result is lower than seed42.
+DAG-IG currently optimizes the visual/query stage only. Full end-to-end optimization of visual grounding, retrieval, evidence selection, and answer extraction remains future work. Old-KL and goldfixed runs are retained as diagnostics/controls, not as the corrected headline result.
 
 ## 10. Conclusion
 
-DAG-IG addresses a central problem in long-horizon multimodal search: final-answer reward is too sparse to tell which intermediate decision caused success or failure. By assigning node-level credit to visual, query, evidence, and answer stages, DAG-IG provides a discriminative reward for grouped GRPO. In the Pix2Fact offline BM25 setting, this improves a Format-SFT two-stage agent on both dev and test, with a second seed confirming the recipe. Reward audits show the credit signal is non-collapsed and predictive of retrieval and strict success. The current system is not a complete web-search agent, but it establishes a practical, auditable route for training multimodal agents with structured credit rather than final-answer-only supervision.
+DAG-IG addresses a central problem in long-horizon multimodal search: final-answer reward is too sparse to tell which intermediate decision caused success or failure. By assigning node-level credit to visual, query, evidence, and answer stages, DAG-IG provides a discriminative reward for grouped GRPO. In the Pix2Fact evidence-note BM25 setting, the KL-fixed two-seed mean improves a Format-SFT two-stage agent on both dev and test. Reward audits show the training signal is non-collapsed. The current system is not a complete web-search agent, but it establishes a practical, auditable route for training multimodal agents with structured credit rather than final-answer-only supervision.
 
 ## Appendix Pointers
 
@@ -219,4 +219,6 @@ DAG-IG addresses a central problem in long-horizon multimodal search: final-answ
 - Method diagram: `outputs/dagig_paper_main_v1/paper_assets/figures/dagig_method_diagram.tex`
 - Reward equations: `outputs/dagig_paper_main_v1/paper_assets/figures/dagig_reward_equations.tex`
 - Case studies: `outputs/dagig_paper_main_v1/paper_assets/case_studies/CASE_STUDY_SUMMARY.md`
-- Evidence brief: `outputs/dagig_paper_main_v1/paper_assets/PAPER_MAIN_EVIDENCE_BRIEF.md`
+- Corrected evidence brief: `results/reports/PAPER_MAIN_EVIDENCE_BRIEF.md`
+- KL-fixed report: `results/reports/KLFIXED_GRPO_60_REPORT.md`
+- Corpus reality audit: `results/reports/CORPUS_REALITY_AUDIT.md`

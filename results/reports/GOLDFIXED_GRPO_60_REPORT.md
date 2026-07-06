@@ -1,5 +1,7 @@
 # Gold-Fixed GRPO 60 Report
 
+> Status: superseded old-KL control. This report predates the KL-fixed/checker-v4 correction and is retained as a historical control only. It must not be used to choose the current main checkpoint.
+
 ## 1. Motivation
 
 The train BM25 corpus had missing `is_gold=true` labels for 41 train samples. After a uniform train-only gold-label fix, the reward was re-audited and passed. This run tests the same stable paper-main recipe with the fixed train corpus as the only intended protocol change.
@@ -12,7 +14,7 @@ The train BM25 corpus had missing `is_gold=true` labels for 41 train samples. Af
 
 ## 3. Training
 
-- checkpoint root: `/root/autodl-tmp/search-test-1/outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_goldfixed_scale60_s320`
+- checkpoint root: `outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_goldfixed_scale60_s320`
 - optimizer steps: `60`
 - micro steps: `240`
 - training constant reward groups: `2 / 240` (`0.83%`)
@@ -40,7 +42,7 @@ The train BM25 corpus had missing `is_gold=true` labels for 41 train samples. Af
 
 ## 6. Decision
 
-NO PROMOTION. The fixed-corpus rerun is train-healthy and improves dev strict to `50.0%`, but test strict is `39.1%`, below the current seed42 main checkpoint's `40.6%`. Test R@5 also drops from `51.6%` to `50.0%`. Keep the existing seed42 scale60_s320 checkpoint as the paper-main checkpoint, and treat the fixed-corpus run as a useful robustness/control run rather than the new main result.
+NO PROMOTION. The fixed-corpus rerun was train-healthy under the old-KL protocol, but it is no longer part of the corrected paper headline. Treat it as a historical robustness/control run. Use `KLFIXED_GRPO_60_REPORT.md` for the current KL-fixed two-seed result.
 
 ## 7. Next Mainline Action
 

@@ -23,8 +23,8 @@ Broad regex/span answer repair and small reader/verifier pilots did not produce 
 
 The supplementary source bundle includes a reproducibility appendix and command template. These bundle-local files record the exact checkpoint identifiers, data split files, corpus files, training command, evaluation command, and metric locations used to generate the reported numbers.
 
-The split sizes are 458 train, 98 dev, and 64 test. The frozen evaluation corpus contains 201 BM25 documents. The main run starts from the Format-SFT adapter, uses Qwen2.5-VL-3B-Instruct, samples 4 rollouts per group, uses top-5 retrieval, applies KL coefficient 0.1, and optimizes the stage-1 visual/query policy for 60 optimizer steps.
+The split sizes are 458 train, 98 dev, and 64 test. The frozen evaluation corpus contains 201 short BM25 evidence-note documents with median length 6 whitespace tokens. The corrected main runs start from the Format-SFT adapter, use Qwen2.5-VL-3B-Instruct, sample 4 rollouts per group, use top-5 retrieval, apply KL coefficient 0.1 with the non-negative k3 estimator, and optimize the stage-1 visual/query policy for 60 optimizer steps.
 
 \section{Additional Claim Boundaries}
 
-This result should not be interpreted as live web-search generalization. It is an offline BM25 Pix2Fact result with fixed retrieval and fixed reader evaluation. The goldfixed run is a robustness/control experiment and is not promoted over the seed42 main checkpoint because its test strict success is lower.
+This result should not be interpreted as live web-search generalization. It is an offline BM25 Pix2Fact evidence-note result with fixed retrieval. The main headline is the KL-fixed two-seed mean, not the best test seed. Fixed-reader control uses the same Format-SFT reader for all KL-fixed queries and preserves the two-seed strict result.

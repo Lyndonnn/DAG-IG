@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import shutil
 from pathlib import Path
@@ -18,10 +19,7 @@ from typing import Any
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "outputs/dagig_grpo_main"
 DEFAULT_ASSET_ROOT = PROJECT_ROOT / "data/Pix2Fact_DAGIG_Clean_GRPO_ASSET"
-DEFAULT_MODEL_PATH = (
-    "/root/.cache/huggingface/hub/models--Qwen--Qwen2.5-VL-3B-Instruct/"
-    "snapshots/66285546d2b821cf421d4f5eb2576359d3770cd3"
-)
+DEFAULT_MODEL_PATH = os.environ.get("DAGIG_LOCAL_3B_MODEL", "Qwen/Qwen2.5-VL-3B-Instruct")
 
 MODELS = [
     "base",

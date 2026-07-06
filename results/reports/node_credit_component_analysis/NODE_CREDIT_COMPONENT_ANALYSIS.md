@@ -64,7 +64,7 @@ The stage1-only policy loss means the reward from the downstream reader/evidence
 
 ## 6. Interpretation
 
-The node credits are not collapsed. Query and evidence credits are highly aligned with retrieval-hit labels, while answer credit is most aligned with strict success. Group top-bottom comparisons show that the highest-reward samples in each GRPO group have much higher retrieval and strict rates than the lowest-reward samples. This supports using DAG-IG as counterfactual/node-level credit assignment for the stage1 policy, even though the final system is still limited by retrieval misses and reader errors.
+The node credits are not collapsed. Query and evidence credits are highly aligned with retrieval-hit labels, while answer credit is most aligned with strict success. Group top-bottom comparisons show that the highest-reward samples in each GRPO group have much higher retrieval and strict rates than the lowest-reward samples. This supports using DAG-IG as node-level credit assignment for the stage1 policy, even though it should not be interpreted as causal counterfactual intervention evidence and the final system is still limited by retrieval misses and reader errors.
 
 ## 7. Paper Use
 

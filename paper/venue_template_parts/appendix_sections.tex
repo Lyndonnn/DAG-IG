@@ -27,4 +27,4 @@ The split sizes are 458 train, 98 dev, and 64 test. The frozen evaluation corpus
 
 \section{Additional Claim Boundaries}
 
-This result should not be interpreted as live web-search generalization. It is an offline BM25 Pix2Fact result with fixed retrieval and fixed reader evaluation. The goldfixed run is a robustness/control experiment and is not promoted over the seed42 main checkpoint because its test strict success is lower.
+This result should not be interpreted as live web-search generalization. It is an offline BM25 Pix2Fact evidence-note result with fixed retrieval. The main headline is the KL-fixed two-seed mean, not the best test seed. Fixed-reader control uses the same Format-SFT reader for all KL-fixed queries and preserves the two-seed strict result.
