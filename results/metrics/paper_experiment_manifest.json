@@ -1,0 +1,57 @@
+{
+  "current_main_checkpoint": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60",
+  "confirmation_checkpoint": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_seed43/checkpoint-60",
+  "goldfixed_control_checkpoint": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_goldfixed_scale60_s320/checkpoint-60",
+  "main_result_table": "outputs/dagig_paper_main_v1/paper_assets/main_results_table.csv",
+  "node_credit_table": "outputs/dagig_paper_main_v1/paper_assets/node_credit_diagnostic_table.csv",
+  "training_config": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/grpo_run_config.json",
+  "training_summary": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/grpo_train_summary.json",
+  "seed43_training_summary": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_seed43/grpo_train_summary.json",
+  "goldfixed_training_summary": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_goldfixed_scale60_s320/grpo_train_summary.json",
+  "primary_reports": [
+    "outputs/dagig_paper_main_v1/reports/PAPER_MAIN_V1_CONSOLIDATED_RESULTS.md",
+    "outputs/dagig_paper_main_v1/reports/node_credit_component_analysis/NODE_CREDIT_COMPONENT_ANALYSIS.md",
+    "outputs/dagig_paper_main_v1/reports/GOLDFIXED_GRPO_60_REPORT.md",
+    "outputs/dagig_paper_main_v1/reports/SEED_CONFIRMATION_REPORT.md"
+  ],
+  "evidence_brief": "outputs/dagig_paper_main_v1/paper_assets/PAPER_MAIN_EVIDENCE_BRIEF.md",
+  "draft_outline": "outputs/dagig_paper_main_v1/paper_assets/PAPER_DRAFT_OUTLINE.md",
+  "draft_v0": "outputs/dagig_paper_main_v1/paper_assets/PAPER_DRAFT_V0.md",
+  "completion_checklist": "outputs/dagig_paper_main_v1/paper_assets/PAPER_COMPLETION_CHECKLIST.md",
+  "handoff_readme": "outputs/dagig_paper_main_v1/paper_assets/HANDOFF_README.md",
+  "reproducibility_appendix": "outputs/dagig_paper_main_v1/paper_assets/REPRODUCIBILITY_APPENDIX.md",
+  "reproduce_commands": "outputs/dagig_paper_main_v1/paper_assets/reproduce_main_commands.sh",
+  "paper_asset_audit_report": "outputs/dagig_paper_main_v1/paper_assets/PAPER_ASSET_AUDIT_REPORT.md",
+  "paper_asset_audit_json": "outputs/dagig_paper_main_v1/paper_assets/paper_asset_audit.json",
+  "claims_evidence_matrix": "outputs/dagig_paper_main_v1/paper_assets/CLAIMS_EVIDENCE_MATRIX.md",
+  "reviewer_risk_register": "outputs/dagig_paper_main_v1/paper_assets/REVIEWER_RISK_REGISTER.md",
+  "related_work_draft": "outputs/dagig_paper_main_v1/paper_assets/RELATED_WORK_DRAFT.md",
+  "citation_source_note": "outputs/dagig_paper_main_v1/paper_assets/CITATION_SOURCE_NOTE.md",
+  "appendix_diagnostic_index": "outputs/dagig_paper_main_v1/paper_assets/APPENDIX_DIAGNOSTIC_RESULTS_INDEX.md",
+  "case_study_summary": "outputs/dagig_paper_main_v1/paper_assets/case_studies/CASE_STUDY_SUMMARY.md",
+  "case_study_tables": {
+    "dev_jsonl": "outputs/dagig_paper_main_v1/paper_assets/case_studies/dev_case_table.jsonl",
+    "test_jsonl": "outputs/dagig_paper_main_v1/paper_assets/case_studies/test_case_table.jsonl",
+    "dev_csv": "outputs/dagig_paper_main_v1/paper_assets/case_studies/dev_case_table.csv",
+    "test_csv": "outputs/dagig_paper_main_v1/paper_assets/case_studies/test_case_table.csv"
+  },
+  "method_figure_assets": {
+    "diagram_tex": "outputs/dagig_paper_main_v1/paper_assets/figures/dagig_method_diagram.tex",
+    "reward_equations_tex": "outputs/dagig_paper_main_v1/paper_assets/figures/dagig_reward_equations.tex"
+  },
+  "latex_scaffold": {
+    "main_tex": "outputs/dagig_paper_main_v1/paper_assets/latex/main.tex",
+    "readme": "outputs/dagig_paper_main_v1/paper_assets/latex/README_LATEX.md",
+    "references_bib": "outputs/dagig_paper_main_v1/paper_assets/latex/references.bib",
+    "appendix_tex": "outputs/dagig_paper_main_v1/paper_assets/latex/appendix.tex",
+    "diagnostic_branches_table": "outputs/dagig_paper_main_v1/paper_assets/latex/diagnostic_branches_table.tex",
+    "algorithm_tex": "outputs/dagig_paper_main_v1/paper_assets/latex/algorithm_dagig_grpo.tex",
+    "makefile": "outputs/dagig_paper_main_v1/paper_assets/latex/Makefile"
+  },
+  "submission_bundle": {
+    "bundle_root": "outputs/dagig_paper_main_v1/paper_assets/submission_bundle",
+    "bundle_manifest": "outputs/dagig_paper_main_v1/paper_assets/submission_bundle/SUBMISSION_BUNDLE_MANIFEST.json",
+    "tarball": "outputs/dagig_paper_main_v1/paper_assets/DAGIG_Pix2Fact_paper_source_bundle.tar.gz",
+    "builder": "scripts/dagig_paper_main/30_build_submission_bundle.py"
+  }
+}

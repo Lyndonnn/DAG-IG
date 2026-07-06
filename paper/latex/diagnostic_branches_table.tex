@@ -1,0 +1,12 @@
+\begin{tabular}{llll}
+\toprule
+Branch & What it tested & Outcome & Paper role \\
+\midrule
+DAG-SFT trace & Imitate full DAG traces & Not main method & Motivation \\
+Query reranker/switch & Choose one query before retrieval & Selector unreliable & Negative diagnostic \\
+No-teacher fusion & Merge evidence from query paths & Clean fusion did not beat baseline & Negative diagnostic \\
+Answer repair/verifier & Post-hoc answer correction & No robust test gain & Limitation \\
+Query warmup & Retrieval-focused SFT/init & Helps retrieval, not strict & Failure analysis \\
+Goldfixed GRPO & Train support-label repair & Robust but not best test & Control \\
+\bottomrule
+\end{tabular}

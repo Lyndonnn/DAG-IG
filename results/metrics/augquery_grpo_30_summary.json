@@ -1,0 +1,124 @@
+{
+  "training": {
+    "status": "success",
+    "variant": "paper_main_v1",
+    "optimizer_steps": 30,
+    "micro_steps": 120,
+    "constant_reward_groups": 0,
+    "elapsed_seconds": 2461.9432687163353,
+    "output_dir": "/root/autodl-tmp/search-test-1/outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_augquery_stage1loss_kl01_30_s320",
+    "max_gpu_mem_gb": 19.81
+  },
+  "rows": [
+    {
+      "method": "Format-SFT full dev",
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics_rescored_v3/format_sft_two_stage_own_full_dev.json",
+      "n": 98,
+      "r1": 0.35714285714285715,
+      "r3": 0.4897959183673469,
+      "r5": 0.5204081632653061,
+      "answer": 0.45918367346938777,
+      "strict": 0.42857142857142855,
+      "format": 1.0,
+      "retrieval_miss": 47,
+      "hit_answer_wrong": 9
+    },
+    {
+      "method": "Augmented query-node SFT smoke + fixed reader",
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/query_node_sft_aug_format_init_smoke20_full__reader_format_sft_dev.json",
+      "n": 98,
+      "r1": 0.4387755102040816,
+      "r3": 0.5306122448979592,
+      "r5": 0.5612244897959183,
+      "answer": 0.4897959183673469,
+      "strict": 0.47959183673469385,
+      "format": 1.0,
+      "retrieval_miss": 43,
+      "hit_answer_wrong": 8
+    },
+    {
+      "method": "DAG-IG GRPO seed42 ckpt60 dev",
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_ckpt60_dev.json",
+      "n": 98,
+      "r1": 0.3877551020408163,
+      "r3": 0.5102040816326531,
+      "r5": 0.5714285714285714,
+      "answer": 0.5102040816326531,
+      "strict": 0.4897959183673469,
+      "format": 0.9897959183673469,
+      "retrieval_miss": 42,
+      "hit_answer_wrong": 8
+    },
+    {
+      "method": "DAG-IG GRPO seed43 ckpt60 dev",
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_seed43_ckpt60_dev.json",
+      "n": 98,
+      "r1": 0.40816326530612246,
+      "r3": 0.5306122448979592,
+      "r5": 0.5816326530612245,
+      "answer": 0.5102040816326531,
+      "strict": 0.4897959183673469,
+      "format": 0.9897959183673469,
+      "retrieval_miss": 41,
+      "hit_answer_wrong": 9
+    },
+    {
+      "method": "Query-warm GRPO ckpt30 + fixed Format reader",
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_querywarm_stage1loss_kl01_30_s320_ckpt30_formatreader__reader_format_sft_dev.json",
+      "n": 98,
+      "r1": 0.40816326530612246,
+      "r3": 0.5510204081632653,
+      "r5": 0.5918367346938775,
+      "answer": 0.5102040816326531,
+      "strict": 0.47959183673469385,
+      "format": 1.0,
+      "retrieval_miss": 40,
+      "hit_answer_wrong": 11
+    },
+    {
+      "method": "Aug-query GRPO ckpt10 dev",
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_augquery_stage1loss_kl01_30_s320_ckpt10_dev.json",
+      "n": 98,
+      "r1": 0.42857142857142855,
+      "r3": 0.5306122448979592,
+      "r5": 0.5510204081632653,
+      "answer": 0.47959183673469385,
+      "strict": 0.45918367346938777,
+      "format": 0.9897959183673469,
+      "retrieval_miss": 44,
+      "hit_answer_wrong": 9
+    },
+    {
+      "method": "Aug-query GRPO ckpt20 dev",
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_augquery_stage1loss_kl01_30_s320_ckpt20_dev.json",
+      "n": 98,
+      "r1": 0.42857142857142855,
+      "r3": 0.5408163265306123,
+      "r5": 0.5612244897959183,
+      "answer": 0.47959183673469385,
+      "strict": 0.45918367346938777,
+      "format": 0.9897959183673469,
+      "retrieval_miss": 43,
+      "hit_answer_wrong": 10
+    },
+    {
+      "method": "Aug-query GRPO ckpt30 dev",
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_augquery_stage1loss_kl01_30_s320_ckpt30_dev.json",
+      "n": 98,
+      "r1": 0.42857142857142855,
+      "r3": 0.5408163265306123,
+      "r5": 0.5612244897959183,
+      "answer": 0.47959183673469385,
+      "strict": 0.45918367346938777,
+      "format": 0.9897959183673469,
+      "retrieval_miss": 43,
+      "hit_answer_wrong": 10
+    }
+  ],
+  "decision": {
+    "promote": false,
+    "run_test": false,
+    "best_aug_checkpoint": "Aug-query GRPO ckpt20 dev",
+    "reason": "All augmented-init GRPO checkpoints are below current main dev strict and do not improve dev retrieval enough to justify test evaluation."
+  }
+}

@@ -1,0 +1,184 @@
+{
+  "train_summary": {
+    "status": "success",
+    "variant": "paper_main_v1",
+    "optimizer_steps": 60,
+    "micro_steps": 240,
+    "constant_reward_groups": 2,
+    "elapsed_seconds": 5706.563343964517,
+    "output_dir": "/root/autodl-tmp/search-test-1/outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320",
+    "max_gpu_mem_gb": 19.828
+  },
+  "metrics": {
+    "format_dev": {
+      "n": 98,
+      "r1": 0.35714285714285715,
+      "r3": 0.4897959183673469,
+      "r5": 0.5204081632653061,
+      "answer": 0.45918367346938777,
+      "strict": 0.42857142857142855,
+      "format": 1.0,
+      "hit_answer_wrong": 9,
+      "retrieval_miss": 47
+    },
+    "format_test": {
+      "n": 64,
+      "r1": 0.3125,
+      "r3": 0.4375,
+      "r5": 0.46875,
+      "answer": 0.34375,
+      "strict": 0.34375,
+      "format": 0.984375,
+      "hit_answer_wrong": 8,
+      "retrieval_miss": 34
+    },
+    "ckpt30_dev": {
+      "n": 98,
+      "r1": 0.3877551020408163,
+      "r3": 0.5204081632653061,
+      "r5": 0.5714285714285714,
+      "answer": 0.5,
+      "strict": 0.47959183673469385,
+      "format": 0.9897959183673469,
+      "hit_answer_wrong": 9,
+      "retrieval_miss": 42
+    },
+    "ckpt30_test": {
+      "n": 64,
+      "r1": 0.359375,
+      "r3": 0.453125,
+      "r5": 0.5,
+      "answer": 0.390625,
+      "strict": 0.390625,
+      "format": 0.96875,
+      "hit_answer_wrong": 7,
+      "retrieval_miss": 32
+    },
+    "ckpt30_fmt_dev": {
+      "n": 98,
+      "r1": 0.3877551020408163,
+      "r3": 0.5204081632653061,
+      "r5": 0.5714285714285714,
+      "answer": 0.5,
+      "strict": 0.47959183673469385,
+      "format": 0.9795918367346939,
+      "hit_answer_wrong": 9,
+      "retrieval_miss": 42
+    },
+    "ckpt30_fmt_test": {
+      "n": 64,
+      "r1": 0.359375,
+      "r3": 0.453125,
+      "r5": 0.5,
+      "answer": 0.390625,
+      "strict": 0.390625,
+      "format": 0.96875,
+      "hit_answer_wrong": 7,
+      "retrieval_miss": 32
+    },
+    "scale20_dev": {
+      "n": 98,
+      "r1": 0.3673469387755102,
+      "r3": 0.47959183673469385,
+      "r5": 0.5306122448979592,
+      "answer": 0.4489795918367347,
+      "strict": 0.42857142857142855,
+      "format": 0.9897959183673469,
+      "hit_answer_wrong": 10,
+      "retrieval_miss": 46
+    },
+    "scale40_dev": {
+      "n": 98,
+      "r1": 0.3673469387755102,
+      "r3": 0.46938775510204084,
+      "r5": 0.5408163265306123,
+      "answer": 0.45918367346938777,
+      "strict": 0.4387755102040816,
+      "format": 1.0,
+      "hit_answer_wrong": 10,
+      "retrieval_miss": 45
+    },
+    "scale60_dev": {
+      "n": 98,
+      "r1": 0.3877551020408163,
+      "r3": 0.5102040816326531,
+      "r5": 0.5714285714285714,
+      "answer": 0.5102040816326531,
+      "strict": 0.4897959183673469,
+      "format": 0.9897959183673469,
+      "hit_answer_wrong": 8,
+      "retrieval_miss": 42
+    },
+    "scale60_test": {
+      "n": 64,
+      "r1": 0.390625,
+      "r3": 0.46875,
+      "r5": 0.515625,
+      "answer": 0.40625,
+      "strict": 0.40625,
+      "format": 0.96875,
+      "hit_answer_wrong": 7,
+      "retrieval_miss": 31
+    },
+    "scale60_fmt_dev": {
+      "n": 98,
+      "r1": 0.3877551020408163,
+      "r3": 0.5102040816326531,
+      "r5": 0.5714285714285714,
+      "answer": 0.5,
+      "strict": 0.47959183673469385,
+      "format": 1.0,
+      "hit_answer_wrong": 9,
+      "retrieval_miss": 42
+    },
+    "scale60_fmt_test": {
+      "n": 64,
+      "r1": 0.390625,
+      "r3": 0.46875,
+      "r5": 0.515625,
+      "answer": 0.40625,
+      "strict": 0.40625,
+      "format": 0.953125,
+      "hit_answer_wrong": 7,
+      "retrieval_miss": 31
+    }
+  },
+  "deltas": {
+    "scale60_vs_format_dev": {
+      "n": 98,
+      "strict_recoveries": 8,
+      "strict_harms": 2,
+      "retrieval_recoveries": 8,
+      "retrieval_harms": 3,
+      "same_strict": 88,
+      "cases_path": "outputs/dagig_paper_main_v1/reports/scale60_s320_cases/scale60_vs_format_dev.jsonl"
+    },
+    "scale60_vs_format_test": {
+      "n": 64,
+      "strict_recoveries": 5,
+      "strict_harms": 1,
+      "retrieval_recoveries": 5,
+      "retrieval_harms": 2,
+      "same_strict": 58,
+      "cases_path": "outputs/dagig_paper_main_v1/reports/scale60_s320_cases/scale60_vs_format_test.jsonl"
+    },
+    "scale60_vs_ckpt30_dev": {
+      "n": 98,
+      "strict_recoveries": 3,
+      "strict_harms": 2,
+      "retrieval_recoveries": 2,
+      "retrieval_harms": 2,
+      "same_strict": 93,
+      "cases_path": "outputs/dagig_paper_main_v1/reports/scale60_s320_cases/scale60_vs_ckpt30_dev.jsonl"
+    },
+    "scale60_vs_ckpt30_test": {
+      "n": 64,
+      "strict_recoveries": 2,
+      "strict_harms": 1,
+      "retrieval_recoveries": 2,
+      "retrieval_harms": 1,
+      "same_strict": 61,
+      "cases_path": "outputs/dagig_paper_main_v1/reports/scale60_s320_cases/scale60_vs_ckpt30_test.jsonl"
+    }
+  }
+}

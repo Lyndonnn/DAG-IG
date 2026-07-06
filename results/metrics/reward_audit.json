@@ -1,0 +1,50 @@
+{
+  "status": "go",
+  "input": {
+    "derived_assets": "/root/autodl-tmp/search-test-1/outputs/dagig_grpo_main/derived_assets",
+    "old_grpo_root": "/root/autodl-tmp/search-test-1/outputs/dagig_grpo_main/checkpoints",
+    "rollout_runs": [
+      "outcome_grpo",
+      "trajectory_grpo",
+      "dagig_grpo_no_visual",
+      "dagig_grpo_full"
+    ],
+    "top_k": 5
+  },
+  "counts": {
+    "rollouts": 14656,
+    "groups": 3664,
+    "missing_train_rows": 0,
+    "constant_reward_groups": 40,
+    "constant_reward_group_rate": 0.010917030567685589
+  },
+  "reward_distribution": {
+    "mean": 0.28549245501057047,
+    "std": 0.29634842510882015,
+    "min": -0.24,
+    "max": 1.1600000000000001
+  },
+  "component_nonzero_rate": {
+    "format_credit": 0.9822598253275109,
+    "visual_credit": 0.896424672489083,
+    "query_credit": 0.4572871179039301,
+    "evidence_credit": 0.41805403930131,
+    "answer_credit": 0.020947052401746723,
+    "leak_penalty": 0.003206877729257642,
+    "path_penalty": 0.010166484716157205
+  },
+  "predictiveness": {
+    "query_credit_auc_support_hit": 1.0,
+    "evidence_credit_auc_support_hit": 1.0,
+    "answer_credit_auc_answer_correct": 1.0,
+    "total_reward_auc_strict": 0.9394172718523055
+  },
+  "gates": {
+    "max_constant_group_rate": 0.3,
+    "constant_group_gate": true,
+    "min_query_auc": 0.7,
+    "query_auc_gate": true,
+    "min_total_auc": 0.7,
+    "total_auc_gate": true
+  }
+}

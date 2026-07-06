@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Local environments
+.venv/
+venv/
+env/
+*.egg-info/
+
+# Large model/data artifacts
+checkpoints/
+outputs/
+data/
+downloads/
+*.safetensors
+*.bin
+*.pt
+*.pth
+*.ckpt
+*.zip
+*.tar
+*.tar.gz
+*.parquet
+*.jsonl
+
+# Allow curated small JSONL only if explicitly force-added.
+
+# Generated LaTeX artifacts
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.pdf
+*.synctex.gz
+
+# Local editor/OS files
+.DS_Store
+.idea/
+.vscode/

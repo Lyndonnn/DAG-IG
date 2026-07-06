@@ -1,0 +1,15 @@
+{
+  "created_at_utc": "2026-07-05T23:13:18.899933+00:00",
+  "source": "outputs/dagig_paper_main_v1/paper_assets/latex/main.tex",
+  "appendix_source": "outputs/dagig_paper_main_v1/paper_assets/latex/appendix.tex",
+  "outputs": [
+    "title.tex",
+    "abstract.tex",
+    "abstract_environment.tex",
+    "body_sections.tex",
+    "appendix_sections.tex",
+    "README.md"
+  ],
+  "path_convention": "bundle-root relative paths for figures/tables",
+  "do_not_edit_numbers_here": true
+}

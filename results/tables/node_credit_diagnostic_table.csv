@@ -1,0 +1,4 @@
+run,reward_auc_hit,reward_auc_strict,constant_groups,top_hit,bottom_hit,top_strict,bottom_strict,query_auc_hit,evidence_auc_hit,answer_auc_strict
+seed42_main,1.000,0.974,2/240,63.3,27.1,50.4,15.4,1.000,1.000,1.000
+seed43_confirm,1.000,0.984,2/240,56.2,24.2,43.8,12.1,1.000,1.000,1.000
+goldfixed_control,1.000,0.960,2/240,69.2,29.6,51.7,13.3,1.000,1.000,1.000

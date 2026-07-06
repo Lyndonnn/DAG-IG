@@ -1,0 +1,117 @@
+\section{Introduction}
+
+Many visually grounded questions cannot be answered from the image alone. A model may need to identify an entity in the image, formulate a search query, retrieve external evidence, and extract a precise answer. This creates a long-horizon multimodal search problem: early visual and query decisions determine which evidence is available, while the final answer is only observed after several intermediate decisions.
+
+Training such agents with final-answer reward is inefficient. If an answer is wrong, the failure may come from an incorrect visual observation, an underspecified query, a missing evidence document, or a reader that ignored the correct evidence. Treating all of these failures as a single scalar outcome makes credit assignment noisy.
+
+We study this problem on Pix2Fact with a two-stage rollout:
+\[
+\text{image + question} \rightarrow \text{visual observation} \rightarrow \text{search query} \rightarrow \text{top-}k\text{ evidence} \rightarrow \text{final answer}.
+\]
+The central idea of DAG-IG is to assign credit at the nodes of this rollout graph.
+
+\paragraph{Contributions.}
+We make five contributions: (1) a DAG-structured rollout formulation for multimodal fact-seeking agents; (2) a node-level DAG-IG reward that separates visual, query, evidence, answer, format, and leakage terms; (3) a two-stage GRPO training setup that optimizes the stage-1 policy while keeping retrieval and reader evaluation fixed; (4) empirical evidence on Pix2Fact showing consistent improvement over Format-SFT; and (5) a reward audit showing high AUC against retrieval and strict success with very low constant-reward group rate.
+
+\section{Related Work}
+
+\paragraph{Retrieval-augmented and tool-using language models.}
+Retrieval-augmented generation grounds model outputs in external documents \cite{lewis2020rag}. WebGPT, ReAct, Toolformer, and Self-RAG extend this direction toward browser-assisted question answering, interleaved reasoning/action, learned tool use, and self-reflective retrieval \cite{nakano2021webgpt,yao2023react,schick2023toolformer,asai2023selfrag}. DAG-IG differs by focusing on credit assignment inside the agent trajectory: it asks whether the visual node, query node, evidence node, or answer node caused success or failure.
+
+\paragraph{Knowledge-intensive visual question answering.}
+FVQA, OK-VQA, and InfoSeek study visual questions that require external knowledge or information seeking \cite{wang2017fvqa,marino2019okvqa,chen2023infoseek}. Pix2Fact follows this broad setting. DAG-IG targets the training problem created by such tasks: final answer correctness alone does not reveal whether an error came from image understanding, query formulation, evidence retrieval, or answer extraction.
+
+\paragraph{Process supervision and policy optimization.}
+Chain-of-thought prompting and process supervision show that intermediate reasoning steps can improve or supervise model behavior \cite{wei2022cot,lightman2023process}. Integrated Gradients motivates attribution-style thinking about component contributions \cite{sundararajan2017integrated}. RLHF and PPO optimize models from scalar rewards \cite{ouyang2022instructgpt,schulman2017ppo}, while GRPO-style grouped optimization has been used for reasoning models \cite{shao2024deepseekmath}. DAG-IG combines these themes for multimodal search by constructing node-specific rewards and auditing whether those rewards separate retrieval and strict-success rollouts.
+
+\paragraph{Base model and retrieval.}
+Our experiments use Qwen2.5-VL as the multimodal backbone \cite{qwen2025qwen25vl}. Retrieval uses a frozen BM25 corpus \cite{robertson1994okapi}, which makes the evidence stage deterministic and supports clean attribution of improvements to the learned visual/query policy.
+
+\section{Task and Agent Setup}
+
+Each example consists of an image, a natural-language question, a gold answer, and an offline evidence corpus. The model must answer the question using information grounded in the image and supported by retrieved evidence.
+
+In stage 1, the multimodal policy receives the image and question and emits compact JSON with two fields:
+\[
+\{\texttt{visual\_observation},\texttt{search\_query}\}.
+\]
+The query is passed to a frozen BM25 retriever over the offline corpus, returning top-5 documents. In stage 2, a fixed reader prompt receives the image, question, and retrieved evidence and emits \texttt{final\_answer}.
+
+Evaluation reports retrieval hit at rank 1, 3, and 5; answer correctness; evidence support; and strict success. Strict success requires both answer correctness and evidence support.
+
+\section{DAG-IG Method}
+
+\begin{figure}[t]
+\centering
+\resizebox{\linewidth}{!}{\input{figures/dagig_method_diagram.tex}}
+\caption{DAG-IG assigns node-level credit over a two-stage multimodal search rollout. The optimized stage-1 policy emits the visual observation and search query; retrieval and reader evaluation remain fixed and auditable.}
+\label{fig:method}
+\end{figure}
+
+\input{figures/dagig_reward_equations.tex}
+
+\input{algorithm_dagig_grpo.tex}
+
+\section{Experimental Setup}
+
+\paragraph{Data and retrieval.}
+We use the clean Pix2Fact diagnostic setup with an offline BM25 corpus. Dev and test evaluation use a frozen corpus and fixed top-5 retrieval. We do not use real web search. Teacher or oracle queries are not part of dev/test evaluation.
+
+\paragraph{Models.}
+The base model is Qwen2.5-VL-3B-Instruct. The main initializer is a Format-SFT adapter that teaches the two-stage JSON format. DAG-IG GRPO starts from this initializer and optimizes the stage-1 policy.
+
+\paragraph{Training recipe.}
+The main run uses two-stage rollout, stage1-only policy loss, top-k retrieval with \(k=5\), grouped GRPO with 4 generations per sample, KL coefficient 0.1, learning rate \(1\times10^{-6}\), and 60 optimizer steps.
+
+\paragraph{Baselines and controls.}
+The primary comparison includes Format-SFT, DAG-IG seed42 main, DAG-IG seed43 confirmation, and a goldfixed control. Earlier DAG-SFT, DPO, query-reranking, fusion, and answer-repair experiments are diagnostics rather than the main result.
+
+\section{Main Results}
+
+\begin{table}[t]
+\centering
+\input{tables/main_results_table.tex}
+\caption{Main two-stage offline Pix2Fact results. Strict success requires answer correctness and evidence support.}
+\label{tab:main}
+\end{table}
+
+DAG-IG seed42 improves strict success over Format-SFT by 6.1 points on dev and 6.2 points on test. Retrieval R@5 also improves from 52.0\% to 57.1\% on dev and from 46.9\% to 51.6\% on test. Seed43 confirms the direction of improvement, reaching 49.0\% dev strict and 39.1\% test strict. The goldfixed control reaches 50.0\% dev strict, but its test strict is 39.1\%, so seed42 remains the main checkpoint.
+
+\section{Reward and Credit Diagnostics}
+
+\begin{table}[t]
+\centering
+\input{tables/node_credit_diagnostic_table.tex}
+\caption{Reward audit over GRPO rollout groups. DAG-IG reward is predictive of retrieval hit and strict success, and constant-reward groups are rare.}
+\label{tab:reward}
+\end{table}
+
+The main seed42 run has only 2 constant-reward groups out of 240 training micro-steps. Query and evidence components have AUC(hit)=1.000, and the answer component has AUC(strict)=1.000. These diagnostics show that the reward separates good and bad rollouts and is not merely a format reward.
+
+\section{Qualitative Analysis}
+
+Compared with Format-SFT, DAG-IG seed42 has 8 dev strict-only wins and 2 dev strict-only losses. On test, it has 5 strict-only wins and 1 strict-only loss. It also has 8 dev retrieval gains and 5 test retrieval gains, versus 3 dev and 2 test retrieval losses.
+
+One dev win is \texttt{pix2fact\_11b37c2b51}. Format-SFT queries ``Bank of America Los Angeles branches'' and answers ``3'', missing support. DAG-IG queries ``Bank of America branches in Los Angeles offering home loan services'', retrieves support, and answers ``6''.
+
+One test win is \texttt{pix2fact\_e10ba14542}. Format-SFT queries only ``Auchan'' and fails. DAG-IG adds the shopping target and time context with ``Auchan Lego Duplo products in France April 2026'', retrieves support, and answers ``83''.
+
+DAG-IG also has losses. In \texttt{pix2fact\_9ac94cba26}, Format-SFT retrieves the correct Ontario contact answer, while DAG-IG drifts to a generic query about flags in a Canadian building and answers a wrong phone number.
+
+\section{Failure Analysis}
+
+The main remaining failures are not output format or answer leakage. Format parse success is near-perfect, and answer-in-query leakage is zero or near zero in the main runs. For seed42, dev/test retrieval misses are 42 and 31. Retrieved-evidence answer-wrong cases are 8 and 7. This indicates two bottlenecks: the stage-1 policy still sometimes fails to formulate a query that retrieves support, and the reader sometimes extracts the wrong span or answers at the wrong granularity even when evidence is retrieved.
+
+Several attempted fixes did not become the main path. Broad answer repair created false repairs and did not improve test. Lightweight answer verifiers and small reader-SFT runs did not solve the reader bottleneck. Query warmup improved retrieval in isolation but did not beat the main GRPO strict result.
+
+\section{Limitations}
+
+The experiment is offline and uses a frozen BM25 corpus, so it does not establish live web-search generalization. The split is modest, so effect sizes should be interpreted as diagnostic but meaningful rather than definitive large-scale performance. This implementation optimizes the visual/query stage only. Full end-to-end optimization of visual grounding, retrieval, evidence selection, and answer extraction remains future work.
+
+\section{Reproducibility}
+
+We provide a supplementary source bundle with the exact checkpoint identifiers, split sizes, corpus identifiers, training summaries, evaluation metrics, and command templates used for the primary run. The reported split sizes are 458 train, 98 dev, and 64 test examples; the frozen evaluation corpus has 201 BM25 documents.
+
+\section{Conclusion}
+
+DAG-IG addresses a central problem in long-horizon multimodal search: final-answer reward is too sparse to tell which intermediate decision caused success or failure. By assigning node-level credit to visual, query, evidence, and answer stages, DAG-IG provides a discriminative reward for grouped GRPO. In the Pix2Fact offline BM25 setting, this improves a Format-SFT two-stage agent on both dev and test, with a second seed confirming the recipe. The system is not a complete web-search agent, but it establishes a practical, auditable route for training multimodal agents with structured credit rather than final-answer-only supervision.

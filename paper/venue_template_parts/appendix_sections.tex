@@ -1,0 +1,30 @@
+\section{Diagnostic Branches}
+
+Table~\ref{tab:diagnostics} summarizes diagnostic branches that informed the final method but are not the primary claim. These experiments are included to clarify why the paper focuses on node-level DAG-IG GRPO rather than verbose trace imitation, query selection, evidence fusion, or post-hoc answer repair.
+
+\begin{table}[htbp]
+\centering
+\small
+\resizebox{\linewidth}{!}{\input{diagnostic_branches_table.tex}}
+\caption{Diagnostic branches and their role in the final paper narrative.}
+\label{tab:diagnostics}
+\end{table}
+
+\paragraph{DAG-SFT trace imitation.}
+Verbose DAG trace imitation was useful for understanding the rollout format, but it is not the main method. With limited clean data, long trace targets spend capacity on formatting and metadata rather than consistently improving retrieval and final answer success.
+
+\paragraph{Query selection and fusion.}
+Query reranking, switch selection, and no-teacher multi-query fusion exposed real retrieval headroom, but lightweight non-oracle selectors were not reliable enough to become the main method. This motivated optimizing the policy with DAG-IG reward rather than selecting among already generated queries.
+
+\paragraph{Answer repair.}
+Broad regex/span answer repair and small reader/verifier pilots did not produce robust test gains. The paper therefore treats answer extraction as an explicit remaining bottleneck.
+
+\section{Reproducibility Details}
+
+The supplementary source bundle includes a reproducibility appendix and command template. These bundle-local files record the exact checkpoint identifiers, data split files, corpus files, training command, evaluation command, and metric locations used to generate the reported numbers.
+
+The split sizes are 458 train, 98 dev, and 64 test. The frozen evaluation corpus contains 201 BM25 documents. The main run starts from the Format-SFT adapter, uses Qwen2.5-VL-3B-Instruct, samples 4 rollouts per group, uses top-5 retrieval, applies KL coefficient 0.1, and optimizes the stage-1 visual/query policy for 60 optimizer steps.
+
+\section{Additional Claim Boundaries}
+
+This result should not be interpreted as live web-search generalization. It is an offline BM25 Pix2Fact result with fixed retrieval and fixed reader evaluation. The goldfixed run is a robustness/control experiment and is not promoted over the seed42 main checkpoint because its test strict success is lower.

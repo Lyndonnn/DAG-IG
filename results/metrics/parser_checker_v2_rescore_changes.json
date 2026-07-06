@@ -1,0 +1,150 @@
+{
+  "format_sft_two_stage_own_full_test": [
+    {
+      "sample_id": "pix2fact_4e1fe5e108",
+      "gold_answer": "Santiago del Estero 247, C1075 Cdad. Autónoma de Buenos Aires",
+      "old_answer": "{",
+      "new_answer": "Abendessen Sonntag bis Donnerstag: 17:00 – 22:30 Uhr Dinner Sunday to Thursday: 17:00 – 22:3",
+      "old_answer_correct": false,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_pilot10_full_dev": [
+    {
+      "sample_id": "pix2fact_15ebe54ae6",
+      "gold_answer": "9,605.30",
+      "old_answer": "Cuba, 9,605.3 USD",
+      "new_answer": "Cuba, 9,605.3 USD",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "match_type": "numeric_contained"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_pilot10_full_test": [
+    {
+      "sample_id": "pix2fact_4e1fe5e108",
+      "gold_answer": "Santiago del Estero 247, C1075 Cdad. Autónoma de Buenos Aires",
+      "old_answer": "{",
+      "new_answer": "Abendessen Sonntag bis Donnerstag: 17:00 – 22:30 Uhr Dinner Sunday to Thursday: 17:00 – 22:3",
+      "old_answer_correct": false,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt20_dev": [
+    {
+      "sample_id": "pix2fact_15ebe54ae6",
+      "gold_answer": "9,605.30",
+      "old_answer": "Cuba, 9,605.3 USD",
+      "new_answer": "Cuba, 9,605.3 USD",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "match_type": "numeric_contained"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt30_dev": [
+    {
+      "sample_id": "pix2fact_c72859fea5",
+      "gold_answer": "17:00",
+      "old_answer": "{",
+      "new_answer": "The name of the barbecue restaurant in the picture that starts with \"TO\" is \"TORIKIZOKU\". It opens at 19:00.",
+      "old_answer_correct": false,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_15ebe54ae6",
+      "gold_answer": "9,605.30",
+      "old_answer": "Cuba, 9,605.3 USD",
+      "new_answer": "Cuba, 9,605.3 USD",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "match_type": "numeric_contained"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt30_test": [
+    {
+      "sample_id": "pix2fact_54ae9351dc",
+      "gold_answer": "6-30 Honmachi Kita-ku Okayama-shi Okayama,JAPAN, 700-0901",
+      "old_answer": "{",
+      "new_answer": "Yes, there is one store in Okayama that accepts WeChat Pay. The exact address is 6-30 Honmachi Kita-ku Okayama-shi Okayama, Japan,",
+      "old_answer_correct": false,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_4e1fe5e108",
+      "gold_answer": "Santiago del Estero 247, C1075 Cdad. Autónoma de Buenos Aires",
+      "old_answer": "{",
+      "new_answer": "Abendessen Sonntag bis Donnerstag: 17:00 – 22:30 Uhr Dinner Sunday to Thursday: 17:00 – 22:3",
+      "old_answer_correct": false,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt30_formatreader__reader_format_sft_dev": [
+    {
+      "sample_id": "pix2fact_c72859fea5",
+      "gold_answer": "17:00",
+      "old_answer": "{",
+      "new_answer": "The name of the barbecue restaurant in the picture that starts with \"TO\" is \"TORIKIZOKU\". It opens at 19:00.",
+      "old_answer_correct": false,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_1a5cb27263",
+      "gold_answer": "115",
+      "old_answer": "json",
+      "new_answer": "The capital of the country represented by the flag shown in the image is Moscow, and its ranking in the 2026 Safety Index by Global Residence Index is 115.\"",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "match_type": "numeric_contained"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt30_formatreader__reader_format_sft_test": [
+    {
+      "sample_id": "pix2fact_54ae9351dc",
+      "gold_answer": "6-30 Honmachi Kita-ku Okayama-shi Okayama,JAPAN, 700-0901",
+      "old_answer": "{",
+      "new_answer": "Yes, there is one store in Okayama that accepts WeChat Pay. The exact address is 6-30 Honmachi Kita-ku Okayama-shi Okayama, Japan,",
+      "old_answer_correct": false,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_4e1fe5e108",
+      "gold_answer": "Santiago del Estero 247, C1075 Cdad. Autónoma de Buenos Aires",
+      "old_answer": "{",
+      "new_answer": "Abendessen Sonntag bis Donnerstag: 17:00 – 22:30 Uhr Dinner Sunday to Thursday: 17:00 – 22:3",
+      "old_answer_correct": false,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "match_type": "no_match"
+    }
+  ]
+}

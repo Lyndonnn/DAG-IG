@@ -1,0 +1,60 @@
+{
+  "dev": {
+    "split": "dev",
+    "n": 98,
+    "strict_success": 48,
+    "errors": 50,
+    "counts": {
+      "retrieval_miss": 42,
+      "retrieval_miss:missing_semantic_anchor": 10,
+      "strict_success": 48,
+      "retrieval_miss:query_too_short_or_generic": 6,
+      "retrieval_miss:retrieves_wrong_sample_cluster": 7,
+      "retrieval_miss:retrieval_miss_other": 5,
+      "retrieval_miss:query_drift_from_teacher_search_intent": 14,
+      "hit_answer_wrong": 8,
+      "hit_answer_wrong:answer_extraction_wrong": 5,
+      "hit_answer_wrong:wrong_type_phone": 1,
+      "hit_answer_wrong:wrong_type_numeric": 1,
+      "hit_answer_wrong:too_short_address": 1
+    },
+    "answer_type_counts": {
+      "phone": 18,
+      "numeric": 16,
+      "entity": 25,
+      "time": 13,
+      "address": 24,
+      "price": 2
+    },
+    "error_path": "outputs/dagig_paper_main_v1/reports/scale60_error_analysis/dev_errors.jsonl"
+  },
+  "test": {
+    "split": "test",
+    "n": 64,
+    "strict_success": 26,
+    "errors": 38,
+    "counts": {
+      "hit_answer_wrong": 7,
+      "hit_answer_wrong:wrong_type_phone": 1,
+      "strict_success": 26,
+      "retrieval_miss": 31,
+      "retrieval_miss:retrieves_wrong_sample_cluster": 5,
+      "retrieval_miss:missing_semantic_anchor": 13,
+      "retrieval_miss:query_drift_from_teacher_search_intent": 7,
+      "hit_answer_wrong:answer_extraction_wrong": 4,
+      "retrieval_miss:retrieval_miss_other": 4,
+      "retrieval_miss:query_too_short_or_generic": 2,
+      "hit_answer_wrong:wrong_type_numeric": 2
+    },
+    "answer_type_counts": {
+      "phone": 19,
+      "address": 11,
+      "numeric": 11,
+      "entity": 16,
+      "price": 3,
+      "time": 2,
+      "email": 2
+    },
+    "error_path": "outputs/dagig_paper_main_v1/reports/scale60_error_analysis/test_errors.jsonl"
+  }
+}

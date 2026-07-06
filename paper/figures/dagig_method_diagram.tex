@@ -1,0 +1,55 @@
+% DAG-IG method diagram. Requires:
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta,positioning,fit,calc}
+
+\begin{tikzpicture}[
+  node distance=1.2cm and 1.0cm,
+  box/.style={draw, rounded corners=2pt, align=center, minimum width=2.8cm, minimum height=0.85cm, font=\small},
+  smallbox/.style={draw, rounded corners=2pt, align=center, minimum width=2.45cm, minimum height=0.72cm, font=\footnotesize},
+  credit/.style={draw, dashed, rounded corners=2pt, align=center, minimum width=2.25cm, minimum height=0.62cm, font=\scriptsize},
+  arrow/.style={-Latex, thick},
+  rewardarrow/.style={-Latex, dashed}
+]
+
+\node[box] (input) {Image + Question};
+\node[box, right=of input] (visual) {Visual node\\$z_v$: visual observation};
+\node[box, right=of visual] (query) {Query node\\$z_q$: search query};
+\node[box, right=of query] (evidence) {Evidence node\\$z_e$: top-$k$ retrieved docs};
+\node[box, right=of evidence] (answer) {Answer node\\$y$: final answer};
+
+\draw[arrow] (input) -- (visual);
+\draw[arrow] (visual) -- (query);
+\draw[arrow] (query) -- node[above, font=\scriptsize] {BM25} (evidence);
+\draw[arrow] (evidence) -- (answer);
+
+\node[smallbox, below=1.05cm of visual] (policy) {Stage-1 policy\\[0.1em] Qwen2.5-VL};
+\draw[arrow] (policy) -- (visual);
+\draw[arrow] (policy) -- (query);
+
+\node[smallbox, below=1.05cm of answer] (reader) {Fixed reader prompt\\[0.1em] image + question + evidence};
+\draw[arrow] (reader) -- (answer);
+
+\node[credit, above=0.9cm of visual] (cv) {$C_v$\\[0.1em] visual credit};
+\node[credit, above=0.9cm of query] (cq) {$C_q$\\[0.1em] query credit};
+\node[credit, above=0.9cm of evidence] (ce) {$C_e$\\[0.1em] evidence credit};
+\node[credit, above=0.9cm of answer] (ca) {$C_a$\\[0.1em] answer credit};
+
+\draw[rewardarrow] (visual) -- (cv);
+\draw[rewardarrow] (query) -- (cq);
+\draw[rewardarrow] (evidence) -- (ce);
+\draw[rewardarrow] (answer) -- (ca);
+
+\node[box, above=2.1cm of evidence, minimum width=3.6cm] (reward) {DAG-IG reward\\$R=C_v+C_q+C_e+C_a+C_f-P$};
+\draw[rewardarrow] (cv) -- (reward);
+\draw[rewardarrow] (cq) -- (reward);
+\draw[rewardarrow] (ce) -- (reward);
+\draw[rewardarrow] (ca) -- (reward);
+
+\node[box, below=2.25cm of query, minimum width=4.0cm] (grpo) {Grouped GRPO\\[0.1em] stage-1-only policy loss};
+\draw[arrow] (reward) |- (grpo);
+\draw[arrow] (grpo) -| (policy);
+
+\node[draw, rounded corners=3pt, fit=(visual)(query)(policy), inner sep=0.25cm, label={[font=\scriptsize]below:optimized}] (fitpolicy) {};
+\node[draw, rounded corners=3pt, fit=(evidence)(answer)(reader), inner sep=0.25cm, label={[font=\scriptsize]below:deterministic retrieval + fixed reader evaluation}] (fiteval) {};
+
+\end{tikzpicture}

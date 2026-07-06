@@ -1,0 +1,15 @@
+{
+  "train_samples": 458,
+  "corpus_docs": 610,
+  "samples_with_any_corpus_doc": 458,
+  "samples_with_gold_doc": 417,
+  "samples_missing_gold_doc": 41,
+  "classification_counts": {
+    "has_gold_doc": 417,
+    "sample_docs_present_but_none_marked_gold": 41
+  },
+  "outputs": {
+    "cases": "outputs/dagig_paper_main_v1/reports/train_gold_corpus_coverage/train_missing_gold_doc_cases.jsonl",
+    "report": "outputs/dagig_paper_main_v1/reports/train_gold_corpus_coverage/TRAIN_GOLD_CORPUS_COVERAGE_REPORT.md"
+  }
+}

@@ -1,0 +1,40 @@
+\begin{figure}[t]
+\centering
+\fbox{
+\begin{minipage}{0.94\linewidth}
+\small
+\textbf{Algorithm 1: DAG-IG grouped GRPO for two-stage multimodal search}
+
+\vspace{0.4em}
+\textbf{Input:} training sample $(I,q)$, stage-1 policy $\pi_\theta$, initializer $\pi_{\mathrm{init}}$, frozen BM25 retriever, fixed reader prompt, group size $G$.
+
+\vspace{0.4em}
+\textbf{For each training sample:}
+\begin{enumerate}
+  \item Sample $G$ stage-1 outputs from $\pi_\theta$:
+  \[
+    (z_{v,i}, z_{q,i}) \sim \pi_\theta(\cdot \mid I,q), \quad i=1,\ldots,G.
+  \]
+  \item Retrieve evidence for each query:
+  \[
+    z_{e,i} = \mathrm{BM25}(z_{q,i}, k).
+  \]
+  \item Run the fixed reader on image, question, and retrieved evidence to obtain $y_i$.
+  \item Compute node-level DAG-IG reward:
+  \[
+    R_i = w_v C_v + w_q C_q + w_e C_e + w_a C_a + w_f C_f - P_{\mathrm{leak}} - P_{\mathrm{path}}.
+  \]
+  \item Normalize rewards within the group to obtain relative advantages $A_i$.
+  \item Update only the stage-1 policy using GRPO with KL to $\pi_{\mathrm{init}}$:
+  \[
+    A_i \log \pi_\theta(z_{v,i},z_{q,i}\mid I,q)
+    - \beta \mathrm{KL}(\pi_\theta \Vert \pi_{\mathrm{init}}).
+  \]
+\end{enumerate}
+
+\textbf{Output:} optimized visual/query policy for the two-stage agent.
+\end{minipage}
+}
+\caption{DAG-IG optimizes the visual/query stage while keeping retrieval and reader evaluation fixed.}
+\label{fig:algorithm}
+\end{figure}

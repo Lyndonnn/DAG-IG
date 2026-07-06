@@ -1,0 +1,19 @@
+{
+  "dev": {
+    "both_strict": 40,
+    "both_retrieval_miss": 39,
+    "both_hit_answer_wrong": 6,
+    "dagig_strict_win": 8,
+    "format_strict_win": 2,
+    "dagig_retrieval_loss": 2,
+    "dagig_retrieval_gain_only": 1
+  },
+  "test": {
+    "both_retrieval_miss": 29,
+    "both_strict": 21,
+    "both_hit_answer_wrong": 7,
+    "dagig_retrieval_loss": 1,
+    "dagig_strict_win": 5,
+    "format_strict_win": 1
+  }
+}

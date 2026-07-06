@@ -1,0 +1,32 @@
+{
+  "train_rollouts": 14656,
+  "train_samples": 458,
+  "status_counts": {
+    "learnable_from_existing_rollouts": 339,
+    "candidate_insufficient_no_hit_rollout": 93,
+    "already_hit_no_miss_pair": 26
+  },
+  "train_pairs": 339,
+  "source_rollouts": {
+    "outcome_grpo": 3664,
+    "trajectory_grpo": 3664,
+    "dagig_grpo_no_visual": 3664,
+    "dagig_grpo_full": 3664
+  },
+  "source_hit5_rollouts": {
+    "outcome_grpo": 1605,
+    "dagig_grpo_no_visual": 1724,
+    "trajectory_grpo": 1668,
+    "dagig_grpo_full": 1697
+  },
+  "source_strict_rollouts_approx": {
+    "trajectory_grpo": 31,
+    "dagig_grpo_full": 38,
+    "outcome_grpo": 31,
+    "dagig_grpo_no_visual": 29
+  },
+  "outputs": {
+    "groups": "outputs/dagig_paper_main_v1/reports/hard_retrieval_mining_goldfixed/train_hard_retrieval_groups_goldfixed.jsonl",
+    "pairs": "outputs/dagig_paper_main_v1/reports/hard_retrieval_mining_goldfixed/train_query_hit_vs_miss_pairs_goldfixed.jsonl"
+  }
+}

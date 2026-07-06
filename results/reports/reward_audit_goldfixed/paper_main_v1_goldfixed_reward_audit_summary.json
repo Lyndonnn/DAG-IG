@@ -1,0 +1,42 @@
+{
+  "rollouts": 14656,
+  "samples": 458,
+  "old_reward_mean": 0.28549245501057047,
+  "old_reward_std": 0.29634842510882015,
+  "new_reward_mean": 0.3117490886228946,
+  "new_reward_std": 0.30235531504185287,
+  "old_hit_rollouts": 6127,
+  "new_hit_rollouts": 6801,
+  "old_strict_rollouts": 110,
+  "new_strict_rollouts": 140,
+  "reward_auc_new_hit": 0.9988127331033338,
+  "reward_auc_new_strict": 0.9376230169665,
+  "constant_reward_groups": 37,
+  "valid_reward_groups": 3664,
+  "constant_reward_group_rate": 0.01009825327510917,
+  "source_summary": {
+    "dagig_grpo_full": {
+      "rollouts": 3664,
+      "new_hit_rollouts": 1721,
+      "new_strict_rollouts": 39
+    },
+    "dagig_grpo_no_visual": {
+      "rollouts": 3664,
+      "new_hit_rollouts": 1751,
+      "new_strict_rollouts": 33
+    },
+    "outcome_grpo": {
+      "rollouts": 3664,
+      "new_hit_rollouts": 1632,
+      "new_strict_rollouts": 36
+    },
+    "trajectory_grpo": {
+      "rollouts": 3664,
+      "new_hit_rollouts": 1697,
+      "new_strict_rollouts": 32
+    }
+  },
+  "decision": {
+    "reward_audit_go": true
+  }
+}

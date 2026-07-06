@@ -1,0 +1,189 @@
+{
+  "created_at_utc": "2026-07-05T23:13:17.894333+00:00",
+  "purpose": "Single-entry audit trail for the DAG-IG Pix2Fact paper mainline.",
+  "overall_pass": true,
+  "checks": {
+    "paths": {
+      "missing": [],
+      "empty": [],
+      "passed": true
+    },
+    "data_manifest": {
+      "manifest": "outputs/dagig_grpo_main/derived_assets/derived_manifest.json",
+      "derived_counts": {
+        "derived_bm25_train_docs": 610,
+        "derived_bm25_eval_docs": 201,
+        "derived_train_gold_docs": 437,
+        "derived_eval_gold_docs": 153,
+        "derived_sft_warmup_train": 458,
+        "derived_grpo_train": 458,
+        "derived_grpo_dev": 98,
+        "derived_grpo_test": 64
+      },
+      "expected_counts": {
+        "derived_grpo_train": 458,
+        "derived_grpo_dev": 98,
+        "derived_grpo_test": 64,
+        "derived_bm25_train_docs": 610,
+        "derived_bm25_eval_docs": 201
+      },
+      "mismatches": [],
+      "passed": true
+    },
+    "rollout_schema": {
+      "path": "outputs/dagig_paper_main_v1/rollouts/train_rollouts_unified_scored.jsonl",
+      "rows": 14656,
+      "expected_min_rows": 1832,
+      "source_runs": {
+        "outcome_grpo": 3664,
+        "trajectory_grpo": 3664,
+        "dagig_grpo_no_visual": 3664,
+        "dagig_grpo_full": 3664
+      },
+      "split_counts": {
+        "train": 14656
+      },
+      "parsed_json_rate": 0.9822598253275109,
+      "top_k_counts": {
+        "5": 14656
+      },
+      "invalid_row_examples": [],
+      "passed": true
+    },
+    "reward_audit": {
+      "path": "outputs/dagig_paper_main_v1/reports/node_credit_component_analysis/node_credit_component_summary.json",
+      "runs": {
+        "seed42_main": {
+          "reward_auc_retrieval_hit": 0.9999562294278311,
+          "reward_auc_strict_success": 0.9737969199974489,
+          "constant_group_rate": 0.008333333333333333,
+          "top_strict_success": 0.5041666666666667,
+          "bottom_strict_success": 0.15416666666666667,
+          "query_auc_retrieval_hit": 1.0,
+          "evidence_auc_retrieval_hit": 1.0,
+          "answer_auc_strict_success": 1.0
+        },
+        "seed43_confirm": {
+          "reward_auc_retrieval_hit": 0.9999554200324542,
+          "reward_auc_strict_success": 0.9836526767958829,
+          "constant_group_rate": 0.008333333333333333,
+          "top_strict_success": 0.4375,
+          "bottom_strict_success": 0.12083333333333333,
+          "query_auc_retrieval_hit": 1.0,
+          "evidence_auc_retrieval_hit": 1.0,
+          "answer_auc_strict_success": 1.0
+        },
+        "goldfixed_control": {
+          "reward_auc_retrieval_hit": 0.9997915571980076,
+          "reward_auc_strict_success": 0.9602215952506906,
+          "constant_group_rate": 0.008333333333333333,
+          "top_strict_success": 0.5166666666666667,
+          "bottom_strict_success": 0.13333333333333333,
+          "query_auc_retrieval_hit": 1.0,
+          "evidence_auc_retrieval_hit": 1.0,
+          "answer_auc_strict_success": 1.0
+        }
+      },
+      "failures": [],
+      "passed": true
+    },
+    "training_checkpoint": {
+      "summary_path": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/grpo_train_summary.json",
+      "config_path": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/grpo_run_config.json",
+      "checkpoint": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60",
+      "status": "success",
+      "optimizer_steps": 60,
+      "micro_steps": 240,
+      "constant_reward_groups": 2,
+      "two_stage_rollout": true,
+      "two_stage_loss_scope": "stage1",
+      "kl_coef": 0.1,
+      "failures": [],
+      "passed": true
+    },
+    "main_results": {
+      "path": "outputs/dagig_paper_main_v1/reports/paper_main_v1_consolidated_results.json",
+      "comparisons": {
+        "dev": {
+          "format_strict": 0.42857142857142855,
+          "seed42_strict": 0.4897959183673469,
+          "seed43_strict": 0.4897959183673469,
+          "seed42_strict_gain": 0.06122448979591838,
+          "seed43_strict_gain": 0.06122448979591838,
+          "format_r5": 0.5204081632653061,
+          "seed42_r5": 0.5714285714285714,
+          "seed42_r5_gain": 0.05102040816326525,
+          "n": 98
+        },
+        "test": {
+          "format_strict": 0.34375,
+          "seed42_strict": 0.40625,
+          "seed43_strict": 0.390625,
+          "seed42_strict_gain": 0.0625,
+          "seed43_strict_gain": 0.046875,
+          "format_r5": 0.46875,
+          "seed42_r5": 0.515625,
+          "seed42_r5_gain": 0.046875,
+          "n": 64
+        }
+      },
+      "failures": [],
+      "passed": true
+    }
+  },
+  "stages": [
+    {
+      "stage": "data_and_corpora",
+      "claim": "GRPO train/dev/test data and frozen BM25 train/eval corpora are present and counted.",
+      "evidence": [
+        "outputs/dagig_grpo_main/derived_assets/derived_manifest.json",
+        "outputs/dagig_grpo_main/derived_assets"
+      ],
+      "passed": true
+    },
+    {
+      "stage": "rollout_schema",
+      "claim": "Unified rollouts expose visual, query, evidence, answer, metrics, and node-credit fields.",
+      "evidence": [
+        "outputs/dagig_paper_main_v1/protocol/PAPER_MAIN_V1_SCHEMA.md",
+        "outputs/dagig_paper_main_v1/rollouts/train_rollouts_unified_scored.jsonl"
+      ],
+      "passed": true
+    },
+    {
+      "stage": "reward_audit",
+      "claim": "DAG-IG node-level reward is discriminative and non-collapsed before main GRPO training.",
+      "evidence": [
+        "outputs/dagig_paper_main_v1/reports/node_credit_component_analysis/node_credit_component_summary.json",
+        "outputs/dagig_paper_main_v1/paper_assets/node_credit_diagnostic_table.tex"
+      ],
+      "passed": true
+    },
+    {
+      "stage": "main_grpo_training",
+      "claim": "The selected two-stage DAG-IG GRPO checkpoint trained successfully under the paper-main config.",
+      "evidence": [
+        "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/grpo_run_config.json",
+        "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/grpo_train_summary.json",
+        "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60"
+      ],
+      "passed": true
+    },
+    {
+      "stage": "main_dev_test_result",
+      "claim": "The selected DAG-IG checkpoint improves over Format-SFT on both dev and test strict success and R@5.",
+      "evidence": [
+        "outputs/dagig_paper_main_v1/reports/paper_main_v1_consolidated_results.json",
+        "outputs/dagig_paper_main_v1/paper_assets/main_results_table.tex"
+      ],
+      "passed": true
+    }
+  ],
+  "do_not_reopen_as_mainline": [
+    "DAG-SFT trace imitation",
+    "query reranking or switch selection",
+    "no-teacher evidence fusion",
+    "broad answer repair",
+    "same-recipe GRPO reruns without a new mechanism"
+  ]
+}

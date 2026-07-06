@@ -1,0 +1,152 @@
+{
+  "train": {
+    "status": "success",
+    "variant": "paper_main_v1",
+    "optimizer_steps": 60,
+    "micro_steps": 240,
+    "constant_reward_groups": 2,
+    "elapsed_seconds": 5723.496708957478,
+    "output_dir": "/root/autodl-tmp/search-test-1/outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_goldfixed_scale60_s320",
+    "max_gpu_mem_gb": 19.833
+  },
+  "audit": {
+    "rollouts": 14656,
+    "samples": 458,
+    "old_reward_mean": 0.28549245501057047,
+    "old_reward_std": 0.29634842510882015,
+    "new_reward_mean": 0.3117490886228946,
+    "new_reward_std": 0.30235531504185287,
+    "old_hit_rollouts": 6127,
+    "new_hit_rollouts": 6801,
+    "old_strict_rollouts": 110,
+    "new_strict_rollouts": 140,
+    "reward_auc_new_hit": 0.9988127331033338,
+    "reward_auc_new_strict": 0.9376230169665,
+    "constant_reward_groups": 37,
+    "valid_reward_groups": 3664,
+    "constant_reward_group_rate": 0.01009825327510917,
+    "source_summary": {
+      "dagig_grpo_full": {
+        "rollouts": 3664,
+        "new_hit_rollouts": 1721,
+        "new_strict_rollouts": 39
+      },
+      "dagig_grpo_no_visual": {
+        "rollouts": 3664,
+        "new_hit_rollouts": 1751,
+        "new_strict_rollouts": 33
+      },
+      "outcome_grpo": {
+        "rollouts": 3664,
+        "new_hit_rollouts": 1632,
+        "new_strict_rollouts": 36
+      },
+      "trajectory_grpo": {
+        "rollouts": 3664,
+        "new_hit_rollouts": 1697,
+        "new_strict_rollouts": 32
+      }
+    },
+    "decision": {
+      "reward_audit_go": true
+    }
+  },
+  "metrics": {
+    "format_dev": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics_rescored_v3/format_sft_two_stage_own_full_dev.json",
+      "r5": 0.5204081632653061,
+      "answer": 0.45918367346938777,
+      "strict": 0.42857142857142855,
+      "format": 1.0,
+      "retrieval_miss": 47,
+      "hit_answer_wrong": 9
+    },
+    "format_test": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics_rescored_v3/format_sft_two_stage_own_full_test.json",
+      "r5": 0.46875,
+      "answer": 0.34375,
+      "strict": 0.34375,
+      "format": 0.984375,
+      "retrieval_miss": 34,
+      "hit_answer_wrong": 8
+    },
+    "seed42_dev": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_ckpt60_dev.json",
+      "r5": 0.5714285714285714,
+      "answer": 0.5102040816326531,
+      "strict": 0.4897959183673469,
+      "format": 0.9897959183673469,
+      "retrieval_miss": 42,
+      "hit_answer_wrong": 8
+    },
+    "seed42_test": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_ckpt60_test.json",
+      "r5": 0.515625,
+      "answer": 0.40625,
+      "strict": 0.40625,
+      "format": 0.96875,
+      "retrieval_miss": 31,
+      "hit_answer_wrong": 7
+    },
+    "seed43_dev": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_seed43_ckpt60_dev.json",
+      "r5": 0.5816326530612245,
+      "answer": 0.5102040816326531,
+      "strict": 0.4897959183673469,
+      "format": 0.9897959183673469,
+      "retrieval_miss": 41,
+      "hit_answer_wrong": 9
+    },
+    "seed43_test": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_seed43_ckpt60_test.json",
+      "r5": 0.5,
+      "answer": 0.390625,
+      "strict": 0.390625,
+      "format": 0.984375,
+      "retrieval_miss": 32,
+      "hit_answer_wrong": 7
+    },
+    "goldfixed20_dev": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_goldfixed_scale60_s320_ckpt20_dev.json",
+      "r5": 0.5204081632653061,
+      "answer": 0.45918367346938777,
+      "strict": 0.4387755102040816,
+      "format": 1.0,
+      "retrieval_miss": 47,
+      "hit_answer_wrong": 8
+    },
+    "goldfixed40_dev": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_goldfixed_scale60_s320_ckpt40_dev.json",
+      "r5": 0.5510204081632653,
+      "answer": 0.47959183673469385,
+      "strict": 0.45918367346938777,
+      "format": 1.0,
+      "retrieval_miss": 44,
+      "hit_answer_wrong": 9
+    },
+    "goldfixed60_dev": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_goldfixed_scale60_s320_ckpt60_dev.json",
+      "r5": 0.5714285714285714,
+      "answer": 0.5204081632653061,
+      "strict": 0.5,
+      "format": 1.0,
+      "retrieval_miss": 42,
+      "hit_answer_wrong": 7
+    },
+    "goldfixed60_test": {
+      "path": "outputs/dagig_paper_main_v1/two_stage_metrics/paper_main_v1_goldfixed_scale60_s320_ckpt60_test.json",
+      "r5": 0.5,
+      "answer": 0.390625,
+      "strict": 0.390625,
+      "format": 0.96875,
+      "retrieval_miss": 32,
+      "hit_answer_wrong": 7
+    }
+  },
+  "decision": {
+    "promote": false,
+    "reason": "dev improves over current seed42, but test strict/R@5 are below current seed42",
+    "current_main": "paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60",
+    "goldfixed_checkpoint": "paper_main_v1_two_stage_stage1loss_kl01_goldfixed_scale60_s320/checkpoint-60"
+  }
+}

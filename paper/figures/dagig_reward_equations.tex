@@ -1,0 +1,31 @@
+% DAG-IG reward equations for the method section.
+
+\paragraph{DAG-structured rollout.}
+Given image-question input $x=(I,q)$, the agent first emits a visual observation and search query,
+\[
+  (z_v, z_q) \sim \pi_\theta(\cdot \mid I, q).
+\]
+The query is passed to a frozen retriever, yielding evidence $z_e=\mathrm{BM25}(z_q,k)$, and a fixed reader prompt produces the final answer $y$.
+
+\paragraph{Node-level credit.}
+We score each rollout with node-level credits over the directed agent graph:
+\[
+  R(x,z_v,z_q,z_e,y)
+  = w_v C_v + w_q C_q + w_e C_e + w_a C_a + w_f C_f - P_{\mathrm{leak}} - P_{\mathrm{path}}.
+\]
+Here $C_v$ rewards useful visual grounding, $C_q$ rewards retrieval-effective queries, $C_e$ rewards evidence support in the retrieved top-$k$ documents, $C_a$ rewards evidence-supported answer correctness, and $C_f$ rewards valid compact output format. The penalty terms discourage answer leakage in the query and degenerate paths.
+
+\paragraph{Grouped optimization.}
+For each training sample, we sample a group of candidate rollouts $\{r_i\}_{i=1}^{G}$ and rank them using the DAG-IG reward. GRPO optimizes the stage-1 policy with a KL penalty to the Format-SFT initializer:
+\[
+  \max_\theta
+  \mathbb{E}_{x, r_i}
+  \left[
+    A_i \log \pi_\theta(z_{v,i},z_{q,i}\mid x)
+    - \beta \mathrm{KL}\left(\pi_\theta(\cdot\mid x)\Vert\pi_{\mathrm{init}}(\cdot\mid x)\right)
+  \right],
+\]
+where $A_i$ is the group-relative advantage derived from $R(r_i)$. Retrieval and reader evaluation remain fixed during policy optimization, so improvements can be attributed to the learned visual/query stage.
+
+\paragraph{Reward audit.}
+The main run audits reward quality by measuring whether $R$ separates support-hitting and strict-success rollouts. For seed42, reward AUC is 1.000 for retrieval hit and 0.974 for strict success, with only 2 constant-reward groups out of 240 training micro-steps.

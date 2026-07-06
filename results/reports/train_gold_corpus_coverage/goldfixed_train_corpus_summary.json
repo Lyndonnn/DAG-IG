@@ -1,0 +1,15 @@
+{
+  "input_corpus": "outputs/dagig_grpo_main/derived_assets/bm25_train_corpus.jsonl",
+  "output_corpus": "outputs/dagig_paper_main_v1/derived_assets/bm25_train_corpus_goldfixed.jsonl",
+  "train_samples": 458,
+  "docs": 610,
+  "samples_with_gold_before": 417,
+  "samples_with_gold_after": 458,
+  "missing_gold_after": 0,
+  "docs_fixed": 56,
+  "fix_reason_counts": {
+    "evidence_url_missing_gold_flag": 51,
+    "answer_match_evidence_url": 5
+  },
+  "missing_after_sample_ids": []
+}
