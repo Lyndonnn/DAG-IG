@@ -3,6 +3,7 @@
   "train_script": "/root/autodl-tmp/search-test-1/scripts/dagig_grpo/02_train_grpo.py",
   "utils_script": "/root/autodl-tmp/search-test-1/scripts/dagig_grpo/grpo_utils.py",
   "no_top_level_7b_imports": true,
+  "no_hardcoded_local_model_paths": true,
   "checker_cases": [
     {
       "name": "am_pm_range_not_bare_time",

@@ -51,6 +51,10 @@ The corrected two-seed mean improves strict success over Format-SFT by +5.1 dev
 points and +4.7 test points. This is a modest small-sample main result, not a
 large-scale statistically settled result.
 
+Fixed-reader control, where all KL-fixed queries are answered by the same
+Format-SFT reader, gives the same two-seed strict result: dev 45.9% and test
+39.1%. This means the corrected gain is not explained by reader drift.
+
 ## Repository Layout
 
 ```text
@@ -113,7 +117,7 @@ To verify that the exported paper-main metrics are internally consistent:
 python scripts/verify_paper_main_results.py
 ```
 
-This checks the corrected KL-fixed summary, the main result table, and the seed42/seed43 training-health records. It does not rerun model inference.
+This checks the corrected KL-fixed summary, fixed-reader control, the main result table, and the seed42/seed43 training-health records. It does not rerun model inference.
 
 ## Reproduction Notes
 

@@ -2,8 +2,8 @@
 """Verify the corrected KL-fixed paper-main metrics shipped with this repo.
 
 This script does not rerun model inference. It checks internal consistency of
-the exported tables, corrected summary JSON, core-fix validation, and training
-health records.
+the exported tables, corrected summary JSON, fixed-reader control, core-fix
+validation, and training health records.
 """
 
 from __future__ import annotations
@@ -81,12 +81,17 @@ def assert_summary(rows: dict[tuple[str, str], dict[str, str]]) -> None:
             raise AssertionError(f"{key} strict table/JSON mismatch")
 
     avg = summary["averages"]["klfixed_two_seed_mean"]
+    fixed_avg = summary["averages"]["klfixed_fixed_reader_two_seed_mean"]
     for split in ("dev", "test"):
         row = rows[("KL-fixed GRPO two-seed mean", split)]
         if not close(float(row["r5"]), pct(avg[split]["r5"]["mean"])):
             raise AssertionError(f"{split} mean R@5 mismatch")
         if not close(float(row["strict_success"]), pct(avg[split]["strict"]["mean"])):
             raise AssertionError(f"{split} mean strict mismatch")
+        if not close(avg[split]["strict"]["mean"], fixed_avg[split]["strict"]["mean"], eps=1e-9):
+            raise AssertionError(f"{split} fixed-reader strict mean differs from own-reader mean")
+        if not close(avg[split]["r5"]["mean"], fixed_avg[split]["r5"]["mean"], eps=1e-9):
+            raise AssertionError(f"{split} fixed-reader R@5 mean differs from own-reader mean")
 
     train = summary["training"]
     expected_constant = {"klfixed_seed42": 3, "klfixed_seed43": 1}
@@ -106,6 +111,10 @@ def assert_core_fix() -> None:
     core = json.loads(CORE_FIX.read_text(encoding="utf-8"))
     if not core.get("passed"):
         raise AssertionError("Core fix validation did not pass")
+    if not core.get("no_top_level_7b_imports"):
+        raise AssertionError("Top-level 7B extension imports remain")
+    if not core.get("no_hardcoded_local_model_paths"):
+        raise AssertionError("Hard-coded local model/cache paths remain")
     k3 = core["k3_kl"]
     if k3["same_kl"] != 0.0:
         raise AssertionError(f"same-policy k3 KL should be zero: {k3}")

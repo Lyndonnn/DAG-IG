@@ -18,10 +18,7 @@ PROJECT_ROOT = Path(os.environ.get("DAGIG_PROJECT_ROOT", Path.cwd())).resolve()
 DEFAULT_ASSET_ROOT = PROJECT_ROOT / "data/Pix2Fact_DAGIG_Clean_GRPO_ASSET"
 DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "outputs/dagig_grpo_main"
 DEFAULT_MODEL = "Qwen/Qwen2.5-VL-3B-Instruct"
-LOCAL_3B_SNAPSHOT = (
-    Path("/root/.cache/huggingface/hub/models--Qwen--Qwen2.5-VL-3B-Instruct")
-    / "snapshots/66285546d2b821cf421d4f5eb2576359d3770cd3"
-)
+LOCAL_3B_SNAPSHOT = os.environ.get("DAGIG_LOCAL_3B_MODEL", "")
 
 TOKEN_RE = re.compile(r"[\w]+", flags=re.UNICODE)
 JSON_OBJECT_RE = re.compile(r"\{.*\}", flags=re.DOTALL)
@@ -695,6 +692,8 @@ def build_user_messages(image_path: str, question: str, prompt_text: str, max_pi
 
 
 def resolve_model_path(model_name_or_path: str) -> str:
-    if model_name_or_path == DEFAULT_MODEL and LOCAL_3B_SNAPSHOT.exists():
-        return str(LOCAL_3B_SNAPSHOT)
+    if model_name_or_path == DEFAULT_MODEL and LOCAL_3B_SNAPSHOT:
+        local_path = Path(LOCAL_3B_SNAPSHOT).expanduser()
+        if local_path.exists():
+            return str(local_path)
     return model_name_or_path

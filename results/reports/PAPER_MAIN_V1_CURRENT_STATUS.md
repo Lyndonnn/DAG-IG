@@ -29,6 +29,14 @@ The current paper-facing candidate is the KL-fixed two-stage GRPO rerun, not the
 
 The corrected two-seed mean improves strict success over Format-SFT by `+5.1` dev points and `+4.7` test points.
 
+Fixed-reader control uses KL-fixed stage-1 queries but the same Format-SFT reader for all methods. It matches the own-reader two-seed result exactly on strict success:
+
+| Control | Dev R@5 | Dev strict | Test R@5 | Test strict |
+|---|---:|---:|---:|---:|
+| KL-fixed fixed-reader two-seed mean | 56.1% | 45.9% | 50.0% | 39.1% |
+
+This closes the reader-drift concern for the corrected result.
+
 ## Training Health
 
 | Run | Optimizer steps | Micro steps | Constant reward groups | Constant rate |
@@ -46,6 +54,8 @@ The external audit identified several issues in the previous result package. Cur
 - KL bug fixed: the training loss now uses k3 KL instead of the old signed log-ratio penalty.
 - Checker v4 fixed: AM/PM bare fallback, substring boundary, and numeric-range false positives are blocked.
 - Test-selection contamination fixed: the current report uses seed42/seed43 mean and does not select the checkpoint by test performance.
+- Fixed-reader protocol checked: the same Format-SFT reader preserves the KL-fixed gain.
+- Release runnable fix: v1 training no longer has top-level 7B extension imports, and the default model resolver no longer hard-codes a local `/root` HuggingFace snapshot.
 - Old-KL results are diagnostic only.
 - The corpus should be described as a frozen Pix2Fact evidence-note corpus, not live web search.
 - The method claim should be phrased as node-level DAG-IG reward/credit over a two-stage search agent. Avoid overclaiming true causal counterfactual intervention unless that experiment is explicitly added.

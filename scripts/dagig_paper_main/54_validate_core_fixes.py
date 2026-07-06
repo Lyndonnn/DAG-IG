@@ -5,6 +5,7 @@ This is a fast, deterministic gate for the July 2026 audit fixes:
 - answer checker v4 false-positive guards;
 - non-negative k3 KL penalty with a real policy-gradient path;
 - no top-level dependency on the 7B reward extension modules.
+- no hard-coded local model/cache path in the default model resolver.
 """
 
 from __future__ import annotations
@@ -49,6 +50,20 @@ def assert_no_top_level_7b_import(path: Path) -> list[str]:
                 offenders.append(module)
     if offenders:
         raise AssertionError(f"top-level 7B imports remain: {offenders}")
+    return offenders
+
+
+def assert_no_hardcoded_local_model_paths(path: Path) -> list[str]:
+    text = path.read_text(encoding="utf-8")
+    forbidden = [
+        "/root/.cache/huggingface",
+        "/root/autodl-tmp",
+        "models--Qwen--Qwen2.5-VL-3B-Instruct",
+        "snapshots/66285546d2b821cf421d4f5eb2576359d3770cd3",
+    ]
+    offenders = [pattern for pattern in forbidden if pattern in text]
+    if offenders:
+        raise AssertionError(f"hard-coded local model/cache paths remain in {path}: {offenders}")
     return offenders
 
 
@@ -142,6 +157,7 @@ def validate_k3_kl(train_module) -> dict[str, float | bool]:
 
 def main() -> None:
     no_top_level_7b = assert_no_top_level_7b_import(TRAIN_SCRIPT)
+    no_hardcoded_local_paths = assert_no_hardcoded_local_model_paths(UTILS_SCRIPT)
     utils_module = load_module(UTILS_SCRIPT, "dagig_grpo_utils_validation")
     train_module = load_module(TRAIN_SCRIPT, "dagig_grpo_train_validation")
     checker_results = validate_checker(utils_module)
@@ -151,6 +167,7 @@ def main() -> None:
         "train_script": str(TRAIN_SCRIPT),
         "utils_script": str(UTILS_SCRIPT),
         "no_top_level_7b_imports": no_top_level_7b == [],
+        "no_hardcoded_local_model_paths": no_hardcoded_local_paths == [],
         "checker_cases": checker_results,
         "k3_kl": k3_result,
     }
@@ -162,6 +179,7 @@ def main() -> None:
         "- answer checker false-positive guard cases: `passed`\n",
         "- k3 KL non-negativity/gradient check: `passed`\n",
         "- top-level 7B extension imports: `none`\n",
+        "- hard-coded local model/cache paths: `none`\n",
         f"- machine-readable report: `{REPORT}`\n",
     ]
     REPORT_MD.write_text("".join(lines), encoding="utf-8")

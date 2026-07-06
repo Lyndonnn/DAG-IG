@@ -34,6 +34,8 @@ The earlier constant-reward concern does not hold for the KL-fixed main reruns: 
 | old-KL GRPO seed43 diagnostic | 58.2% | 46/98 = 46.9% | 50.0% | 25/64 = 39.1% |
 | KL-fixed GRPO seed42 | 56.1% | 45/98 = 45.9% | 51.6% | 26/64 = 40.6% |
 | KL-fixed GRPO seed43 | 56.1% | 45/98 = 45.9% | 48.4% | 24/64 = 37.5% |
+| KL-fixed seed42 + fixed Format reader | 56.1% | 45/98 = 45.9% | 51.6% | 26/64 = 40.6% |
+| KL-fixed seed43 + fixed Format reader | 56.1% | 45/98 = 45.9% | 48.4% | 24/64 = 37.5% |
 
 ## 5. Two-Seed Mean
 
@@ -41,8 +43,11 @@ The earlier constant-reward concern does not hold for the KL-fixed main reruns: 
 |---|---:|---:|---:|---:|---:|---:|
 | old-KL two-seed mean diagnostic | 57.7% | 46.9% | 50.8% | 39.8% | +6.1 | +5.5 |
 | KL-fixed two-seed mean | 56.1% | 45.9% | 50.0% | 39.1% | +5.1 | +4.7 |
+| KL-fixed fixed-reader two-seed mean | 56.1% | 45.9% | 50.0% | 39.1% | +5.1 | +4.7 |
 
 KL-fixed mean strict success is dev `45.9%` and test `39.1%`, versus Format-SFT dev `40.8%` and test `34.4%`. The corrected gain is therefore +5.1 dev and +4.7 test points.
+
+The fixed-reader two-seed mean is identical on strict success: dev `45.9%` and test `39.1%`. This closes the reader-drift confound for the KL-fixed result: the query/retrieval stage accounts for the observed gain under the same Format-SFT reader.
 
 ## 6. Paired Significance
 
@@ -56,6 +61,10 @@ KL-fixed mean strict success is dev `45.9%` and test `39.1%`, versus Format-SFT 
 | KL-fixed GRPO seed42 | test | 5 | 1 | 0.2188 | +5 / -2 |
 | KL-fixed GRPO seed43 | dev | 6 | 1 | 0.1250 | +7 / -3 |
 | KL-fixed GRPO seed43 | test | 2 | 0 | 0.5000 | +2 / -1 |
+| KL-fixed GRPO seed42 + fixed Format reader | dev | 6 | 1 | 0.1250 | +8 / -4 |
+| KL-fixed GRPO seed42 + fixed Format reader | test | 5 | 1 | 0.2188 | +5 / -2 |
+| KL-fixed GRPO seed43 + fixed Format reader | dev | 6 | 1 | 0.1250 | +7 / -3 |
+| KL-fixed GRPO seed43 + fixed Format reader | test | 2 | 0 | 0.5000 | +2 / -1 |
 
 The paired tests are directionally positive but not conventionally significant for KL-fixed seed42/seed43. This should be described as a small-sample main candidate, not a settled large-scale result.
 
@@ -64,6 +73,7 @@ The paired tests are directionally positive but not conventionally significant f
 - The old KL penalty was invalid for the paper claim; old-KL results should be marked diagnostic only.
 - The corrected KL-fixed rerun keeps the same direction of improvement over Format-SFT under checker v4.
 - Seed42 alone matches the old test headline, but seed43 is lower; the clean headline is the two-seed mean, not best test seed.
+- Fixed-reader control now matches the own-reader KL-fixed result on strict success, so the main improvement is not an artifact of evaluating each method with a different reader.
 - The result is useful enough to continue the DAG-IG main line, but the paper should avoid overstating statistical certainty until more seeds or larger data are run.
 
 ## 8. Next Step

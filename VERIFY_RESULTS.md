@@ -20,8 +20,9 @@ This script verifies:
 
 - the main result CSV contains the expected Format-SFT v4, KL-fixed seed42, KL-fixed seed43, and two-seed mean rows;
 - the CSV matches `klfixed_grpo_60_summary.json`;
+- fixed-reader two-seed strict and R@5 match the own-reader two-seed result;
 - seed42 and seed43 both trained successfully for 60 optimizer steps / 240 micro-steps;
 - KL-fixed seed42 had `3/240` constant-reward groups and seed43 had `1/240`;
-- `core_fix_validation.json` confirms k3 KL and checker-v4 behavior.
+- `core_fix_validation.json` confirms k3 KL, checker-v4 behavior, no top-level 7B imports, and no hard-coded local model/cache path.
 
 It does **not** rerun model inference. Full inference reproduction requires the Pix2Fact-derived assets, Qwen2.5-VL-3B base model, Format-SFT adapter, and DAG-IG adapters. See `MODEL_AND_DATA.md` and `docs/REPRODUCIBILITY_APPENDIX.md`.

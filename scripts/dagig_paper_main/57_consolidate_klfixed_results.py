@@ -65,6 +65,22 @@ METHODS = {
         "dev": "paper_main_v1_klfixed_scale60_s320_seed43_ckpt60_dev",
         "test": "paper_main_v1_klfixed_scale60_s320_seed43_ckpt60_test",
     },
+    "klfixed_seed42_fixed_reader": {
+        "label": "KL-fixed GRPO seed42 + fixed Format reader",
+        "kind": "klfixed_fixed_reader",
+        "pred_dir": PRED,
+        "metric_dir": METRIC,
+        "dev": "paper_main_v1_klfixed_scale60_s320_seed42_ckpt60_formatreader__reader_format_sft_dev",
+        "test": "paper_main_v1_klfixed_scale60_s320_seed42_ckpt60_formatreader__reader_format_sft_test",
+    },
+    "klfixed_seed43_fixed_reader": {
+        "label": "KL-fixed GRPO seed43 + fixed Format reader",
+        "kind": "klfixed_fixed_reader",
+        "pred_dir": PRED,
+        "metric_dir": METRIC,
+        "dev": "paper_main_v1_klfixed_scale60_s320_seed43_ckpt60_formatreader__reader_format_sft_dev",
+        "test": "paper_main_v1_klfixed_scale60_s320_seed43_ckpt60_formatreader__reader_format_sft_test",
+    },
 }
 
 TRAIN_SUMMARIES = {
@@ -201,7 +217,14 @@ def build_summary() -> dict[str, Any]:
             predictions[(key, split)] = read_jsonl(spec["pred_dir"] / f"{stem}.jsonl")
 
     comparisons: dict[str, Any] = {}
-    for key in ["old_kl_seed42", "old_kl_seed43", "klfixed_seed42", "klfixed_seed43"]:
+    for key in [
+        "old_kl_seed42",
+        "old_kl_seed43",
+        "klfixed_seed42",
+        "klfixed_seed43",
+        "klfixed_seed42_fixed_reader",
+        "klfixed_seed43_fixed_reader",
+    ]:
         comparisons[key] = {}
         for split in ["dev", "test"]:
             comparisons[key][split] = paired_compare(predictions[("format", split)], predictions[(key, split)])
@@ -209,6 +232,9 @@ def build_summary() -> dict[str, Any]:
     averages = {
         "old_kl_two_seed_mean": average_methods(metrics, ["old_kl_seed42", "old_kl_seed43"]),
         "klfixed_two_seed_mean": average_methods(metrics, ["klfixed_seed42", "klfixed_seed43"]),
+        "klfixed_fixed_reader_two_seed_mean": average_methods(
+            metrics, ["klfixed_seed42_fixed_reader", "klfixed_seed43_fixed_reader"]
+        ),
     }
 
     train = {key: train_summary(path) for key, path in TRAIN_SUMMARIES.items()}
@@ -302,6 +328,8 @@ def write_report(summary: dict[str, Any]) -> None:
     lines.append(table_row("old-KL GRPO seed43 diagnostic", metrics["old_kl_seed43"]))
     lines.append(table_row("KL-fixed GRPO seed42", metrics["klfixed_seed42"]))
     lines.append(table_row("KL-fixed GRPO seed43", metrics["klfixed_seed43"]))
+    lines.append(table_row("KL-fixed seed42 + fixed Format reader", metrics["klfixed_seed42_fixed_reader"]))
+    lines.append(table_row("KL-fixed seed43 + fixed Format reader", metrics["klfixed_seed43_fixed_reader"]))
     lines.append("")
     lines.append("## 5. Two-Seed Mean")
     lines.append("")
@@ -309,14 +337,24 @@ def write_report(summary: dict[str, Any]) -> None:
     lines.append("|---|---:|---:|---:|---:|---:|---:|")
     lines.append(avg_row("old-KL two-seed mean diagnostic", avg["old_kl_two_seed_mean"], base))
     lines.append(avg_row("KL-fixed two-seed mean", avg["klfixed_two_seed_mean"], base))
+    lines.append(avg_row("KL-fixed fixed-reader two-seed mean", avg["klfixed_fixed_reader_two_seed_mean"], base))
     lines.append("")
     lines.append("KL-fixed mean strict success is dev `45.9%` and test `39.1%`, versus Format-SFT dev `40.8%` and test `34.4%`. The corrected gain is therefore +5.1 dev and +4.7 test points.")
+    lines.append("")
+    lines.append("The fixed-reader two-seed mean is identical on strict success: dev `45.9%` and test `39.1%`. This closes the reader-drift confound for the KL-fixed result: the query/retrieval stage accounts for the observed gain under the same Format-SFT reader.")
     lines.append("")
     lines.append("## 6. Paired Significance")
     lines.append("")
     lines.append("| Method | Split | method-only strict | baseline-only strict | McNemar exact p | R@5 gains/losses |")
     lines.append("|---|---|---:|---:|---:|---|")
-    for key in ["old_kl_seed42", "old_kl_seed43", "klfixed_seed42", "klfixed_seed43"]:
+    for key in [
+        "old_kl_seed42",
+        "old_kl_seed43",
+        "klfixed_seed42",
+        "klfixed_seed43",
+        "klfixed_seed42_fixed_reader",
+        "klfixed_seed43_fixed_reader",
+    ]:
         for split in ["dev", "test"]:
             c = comps[key][split]
             lines.append(
@@ -330,6 +368,7 @@ def write_report(summary: dict[str, Any]) -> None:
     lines.append("- The old KL penalty was invalid for the paper claim; old-KL results should be marked diagnostic only.")
     lines.append("- The corrected KL-fixed rerun keeps the same direction of improvement over Format-SFT under checker v4.")
     lines.append("- Seed42 alone matches the old test headline, but seed43 is lower; the clean headline is the two-seed mean, not best test seed.")
+    lines.append("- Fixed-reader control now matches the own-reader KL-fixed result on strict success, so the main improvement is not an artifact of evaluating each method with a different reader.")
     lines.append("- The result is useful enough to continue the DAG-IG main line, but the paper should avoid overstating statistical certainty until more seeds or larger data are run.")
     lines.append("")
     lines.append("## 8. Next Step")
