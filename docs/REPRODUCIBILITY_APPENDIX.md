@@ -61,6 +61,21 @@ The corrected paper-main recipe is:
 - max optimizer steps: 60
 - bf16 and gradient checkpointing enabled
 
+Reward formula and caps:
+
+```text
+reward =
+  0.10 * format_credit
++ 0.15 * visual_credit
++ 0.40 * query_credit
++ 0.25 * evidence_credit
++ 0.35 * answer_credit
+- leakage_penalty
+- path_penalty
+```
+
+`format_credit` is internally capped at `0.10`, so its maximum weighted contribution is `0.01`. This is intentional in the corrected report: the format term verifies compact valid JSON but should not dominate retrieval/answer credit.
+
 Training summaries:
 
 | run | summary | optimizer steps | micro steps | constant groups | max GPU GB |

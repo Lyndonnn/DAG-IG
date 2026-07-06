@@ -65,6 +65,10 @@ def assert_summary(rows: dict[tuple[str, str], dict[str, str]]) -> None:
     if not SUMMARY.exists():
         raise FileNotFoundError(SUMMARY)
     summary = json.loads(SUMMARY.read_text(encoding="utf-8"))
+    if summary.get("checker_version") != "v4":
+        raise AssertionError(f"Unexpected checker version: {summary.get('checker_version')}")
+    if summary.get("selection_protocol") != "dev-only / two-seed mean; no test-set model selection":
+        raise AssertionError(f"Unexpected selection protocol: {summary.get('selection_protocol')}")
     metrics = summary["metrics"]
     checks = {
         ("Format-SFT v4", "dev"): metrics["format"]["dev"],
