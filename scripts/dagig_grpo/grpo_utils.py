@@ -14,7 +14,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-PROJECT_ROOT = Path("/root/autodl-tmp/search-test-1")
+PROJECT_ROOT = Path(os.environ.get("DAGIG_PROJECT_ROOT", Path.cwd())).resolve()
 DEFAULT_ASSET_ROOT = PROJECT_ROOT / "data/Pix2Fact_DAGIG_Clean_GRPO_ASSET"
 DEFAULT_OUTPUT_ROOT = PROJECT_ROOT / "outputs/dagig_grpo_main"
 DEFAULT_MODEL = "Qwen/Qwen2.5-VL-3B-Instruct"

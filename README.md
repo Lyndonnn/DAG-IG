@@ -16,7 +16,18 @@ image + question
 
 DAG-IG assigns counterfactual credit to the visual, query, evidence, and answer nodes, then uses the node-level reward for GRPO training.
 
-## Current Main Result
+## Current Main Result Status
+
+Important: after the initial core export, a critical audit found that the current result package is **paper-candidate but not final submission-ready**. See `results/reports/CRITICAL_PAPER_AUDIT_20260706.md`.
+
+The table below records the currently exported paper-main numbers, but the headline claim should be revised after fixing:
+
+- the KL implementation;
+- answer checker v4;
+- dev-only checkpoint selection;
+- own-reader vs fixed-reader wording;
+- corpus description;
+- "counterfactual" wording.
 
 The paper-main 3B result is:
 
@@ -114,4 +125,4 @@ The core training/evaluation scripts are included, but this repo does not bundle
 
 The main method is **DAG-IG GRPO over a two-stage multimodal search agent**.
 
-Do not present DAG-SFT as the main method. Do not present `reward_v3` verifier shaping as the 7B main method. The 7B extension uses `paper_main_v1` as the main reward for same-backbone comparison; verifier-shaped reward variants are optional ablations only.
+Do not present DAG-SFT as the main method. Do not use 7B/external-baseline work to support the current 3B paper-main claim until the critical audit items are resolved.

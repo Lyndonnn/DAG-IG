@@ -51,15 +51,25 @@ from scripts.dagig_grpo.grpo_utils import (
     tokenize,
     write_json,
 )
-from scripts.dagig_7b_extension.audit_qwen25vl7b_reward_v2_rescore import (
-    compute_v2_reward as compute_two_stage_reward_v2,
-)
-from scripts.dagig_7b_extension.reward_v3_utils import (
-    DEFAULT_REWARD_V3_SUMMARY,
-    DEFAULT_VERIFIER_MODEL,
-    compute_v3_reward as compute_two_stage_reward_v3,
-    load_reward_v3_state,
-)
+DEFAULT_REWARD_V3_SUMMARY = Path("outputs/dagig_7b_extension/reward_audit_v3/reward_v3_rescore_summary.json")
+DEFAULT_VERIFIER_MODEL = Path("outputs/dagig_7b_extension/verifier_reward_audit_v1/verifier_model.json")
+
+
+def load_reward_v2_fn():
+    from scripts.dagig_7b_extension.audit_qwen25vl7b_reward_v2_rescore import (
+        compute_v2_reward,
+    )
+
+    return compute_v2_reward
+
+
+def load_reward_v3_fns():
+    from scripts.dagig_7b_extension.reward_v3_utils import (
+        compute_v3_reward,
+        load_reward_v3_state,
+    )
+
+    return compute_v3_reward, load_reward_v3_state
 
 try:
     from qwen_vl_utils import process_vision_info
@@ -434,9 +444,14 @@ def main() -> None:
     if not corpus:
         raise ValueError(f"Empty corpus: {args.corpus_path}")
     bm25 = BM25Index.from_docs(corpus)
+    compute_two_stage_reward_v2 = None
+    compute_two_stage_reward_v3 = None
     reward_v3_state = None
+    if args.two_stage_reward_version == "v2":
+        compute_two_stage_reward_v2 = load_reward_v2_fn()
     if args.two_stage_reward_version == "v3":
-        reward_v3_state = load_reward_v3_state(
+        compute_two_stage_reward_v3, load_reward_v3_state_fn = load_reward_v3_fns()
+        reward_v3_state = load_reward_v3_state_fn(
             verifier_model_path=args.reward_v3_verifier_model,
             reward_v3_summary_path=args.reward_v3_summary,
             alpha=args.reward_v3_alpha,
