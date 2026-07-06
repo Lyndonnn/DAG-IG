@@ -123,9 +123,9 @@ def main() -> None:
         "seed42_gain_over_format": seed42_gain,
         "seed43_gain_over_format": seed43_gain,
         "two_seed_mean": two_seed_mean,
-        "selected_current_best": {
-            "checkpoint": "outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60",
-            "reason": "seed42 remains the best single checkpoint by test strict, while seed43 confirms the recipe improves over Format-SFT.",
+        "superseded_by": {
+            "report": "results/reports/KLFIXED_GRPO_60_REPORT.md",
+            "reason": "This seed-confirmation report is old-KL diagnostic output and must not select the current main checkpoint.",
         },
     }
     (REPORTS / "seed_confirmation_summary.json").write_text(
@@ -134,9 +134,12 @@ def main() -> None:
 
     lines: list[str] = []
     lines.append("# Paper Main v1 Seed Confirmation\n\n")
+    lines.append(
+        "> Status: superseded old-KL diagnostic. This report records the pre-audit seed confirmation run and must not be used as the corrected paper headline. Use `KLFIXED_GRPO_60_REPORT.md` for the current KL-fixed two-seed result.\n\n"
+    )
     lines.append("## Purpose\n\n")
     lines.append(
-        "This report checks whether the current two-stage DAG-IG GRPO recipe is a repeatable mainline result, not a single-seed artifact.\n\n"
+        "This report checks whether the earlier two-stage DAG-IG GRPO recipe was repeatable before the reviewer-audit KL/checker fixes.\n\n"
     )
 
     lines.append("## Training Health\n\n")
@@ -190,12 +193,11 @@ def main() -> None:
 
     lines.append("## Decision\n\n")
     lines.append(
-        "Seed43 confirms the main recipe: dev strict remains `49.0%`, test strict is `39.1%`, and both dev/test remain above Format-SFT. "
-        "The current best single checkpoint is still seed42 scale60_s320 checkpoint-60 because it has the best test strict (`40.6%`) and test R@5 (`51.6%`).\n\n"
+        "This old-KL diagnostic showed directionally positive seed behavior, but it is no longer the paper-facing selection result. "
+        "The corrected report uses k3 KL, checker v4, and the seed42/seed43 mean instead of selecting the best test checkpoint.\n\n"
     )
     lines.append(
-        "Use seed42 checkpoint-60 as the current main checkpoint, and cite seed43 as seed confirmation. "
-        "The next mainline work should target remaining retrieval misses with better query/evidence credit data, not more answer repair or reward reshuffling.\n"
+        "Use this file only as a historical diagnostic. Do not use seed42 checkpoint-60 from this report as the current main checkpoint.\n"
     )
 
     report_path = REPORTS / "SEED_CONFIRMATION_REPORT.md"

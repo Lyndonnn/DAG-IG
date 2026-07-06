@@ -177,7 +177,7 @@ def main() -> None:
     lines.append(
         "The remaining unrecovered set should not trigger another GRPO run. First inspect these cases for support/corpus mismatch and semantic-anchor mismatch. "
         "If most are support-text mismatch, the fix is data/corpus cleanup. If most are wrong-cluster retrieval, the fix is stronger query generation or retrieval scoring. "
-        "Keep this separate from the current main checkpoint, which remains seed42 scale60_s320 ckpt60.\n\n"
+        "Keep this separate from the corrected paper-facing KL-fixed two-seed result.\n\n"
     )
     lines.append("## Artifacts\n\n")
     lines.append(f"- cases: `{OUT / 'remaining_nohit_cases.jsonl'}`\n")

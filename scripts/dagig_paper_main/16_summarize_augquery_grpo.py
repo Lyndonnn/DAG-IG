@@ -94,6 +94,9 @@ def main() -> None:
 
     lines: list[str] = []
     lines.append("# Augmented-Query GRPO 30-Step Report\n\n")
+    lines.append(
+        "> Status: superseded old-KL diagnostic. This report predates the KL-fixed/checker-v4 correction and documents a failed warmup branch only.\n\n"
+    )
     lines.append("## Scope\n\n")
     lines.append(
         "This is the dev-gated GRPO run initialized from augmented query-node SFT. "
@@ -124,7 +127,7 @@ def main() -> None:
         f"- Best augmented-init GRPO checkpoint is `{best_aug['method']}` with dev strict `{pct(best_aug['strict'])}` and R@5 `{pct(best_aug['r5'])}`.\n"
     )
     lines.append(
-        f"- Current main seed42 ckpt60 remains better: dev strict `{pct(current_main['strict'])}`, R@5 `{pct(current_main['r5'])}`.\n"
+        f"- The then-current old-KL seed42 ckpt60 was better on this dev gate: dev strict `{pct(current_main['strict'])}`, R@5 `{pct(current_main['r5'])}`.\n"
     )
     lines.append(
         "- Augmented SFT data was useful as a warmup, but GRPO from that warmup degraded final dev strict rather than improving it.\n"
@@ -134,8 +137,8 @@ def main() -> None:
     )
     lines.append("## Decision\n\n")
     lines.append(
-        "No-go for augmented-init GRPO. Keep `paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60` as the current main checkpoint, with seed43 as confirmation. "
-        "The next mainline action should target stronger non-oracle query candidate generation for the remaining no-hit train samples, not another GRPO run from the same augmented warmup.\n\n"
+        "No-go for augmented-init GRPO under the old protocol. Do not use this report to select the current main checkpoint. "
+        "The corrected paper-facing result is the KL-fixed seed42/seed43 mean reported in `KLFIXED_GRPO_60_REPORT.md`.\n\n"
     )
     lines.append("## Artifacts\n\n")
     lines.append(f"- training summary: `{TRAIN}`\n")

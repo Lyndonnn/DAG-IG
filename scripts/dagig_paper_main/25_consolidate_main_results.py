@@ -174,10 +174,13 @@ def main() -> None:
 
     lines: list[str] = []
     lines.append("# Paper Main v1 Consolidated Results\n\n")
+    lines.append(
+        "> Status: superseded old-KL diagnostic. This report consolidates the pre-audit mainline before the KL/checker fixes. Use `KLFIXED_GRPO_60_REPORT.md` for the corrected paper-facing result.\n\n"
+    )
     lines.append("## 1. Scope\n\n")
     lines.append(
-        "This report consolidates the current paper-main evidence: Format-SFT baseline, seed42 main checkpoint, seed43 confirmation, and fixed-corpus control. "
-        "It does not introduce new training, new data, or new reward variants.\n\n"
+        "This report consolidates earlier paper-main evidence: Format-SFT baseline, old-KL seed42, old-KL seed43, and fixed-corpus control. "
+        "It does not reflect the corrected k3 KL reruns or checker v4 headline.\n\n"
     )
     lines.append("## 2. Main Table\n\n")
     lines.append("| Method | Split | R@1 | R@3 | R@5 | Answer correct | Strict success | Format | Retrieval miss | Hit-answer-wrong |\n")
@@ -212,23 +215,18 @@ def main() -> None:
     lines.append("\n")
     lines.append("## 4. Main Claim Status\n\n")
     lines.append(
-        "The stable claim is that the DAG-IG GRPO recipe improves over Format-SFT in a two-stage offline retrieval setting. "
-        "Seed42 improves strict success from `42.9%` to `49.0%` on dev and from `34.4%` to `40.6%` on test. "
-        "Seed43 confirms the recipe with `49.0%` dev and `39.1%` test strict. "
-        "The fixed-corpus control is train-healthy and reaches `50.0%` dev strict, but does not replace seed42 because test strict is `39.1%`.\n\n"
+        "These old-KL numbers are diagnostic only. The corrected stable claim is stated in `KLFIXED_GRPO_60_REPORT.md`: "
+        "KL-fixed two-seed mean strict success is `45.9%` dev and `39.1%` test, versus Format-SFT v4 `40.8%` dev and `34.4%` test.\n\n"
     )
     lines.append("## 5. Bottleneck\n\n")
     lines.append(
-        "The remaining bottleneck is not format or answer leakage: format is near-perfect and answer-in-query is zero in the main runs. "
-        "The dominant errors remain retrieval misses and retrieval-hit-answer-wrong cases. "
-        "For seed42, dev/test retrieval misses are `42 / 31`, and hit-answer-wrong cases are `8 / 7`. "
-        "For the fixed-corpus control, dev/test retrieval misses are `42 / 32`, and hit-answer-wrong cases are `7 / 7`.\n\n"
+        "The old-KL bottleneck pattern was retrieval misses plus retrieval-hit-answer-wrong cases. "
+        "For corrected failure counts, use `KLFIXED_GRPO_60_REPORT.md` and `klfixed_grpo_60_summary.json`.\n\n"
     )
     lines.append("## 6. Decision\n\n")
     lines.append(
-        "Keep `outputs/dagig_paper_main_v1/checkpoints/paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60` as the current main checkpoint. "
-        "Use seed43 as confirmation and the fixed-corpus run as a robustness/control ablation. "
-        "The next paper-facing step is not another same-recipe GRPO run; it is writing the method/result narrative around node-level DAG-IG credit, then deciding whether a targeted retrieval or reader mechanism is necessary for a stronger final result.\n"
+        "Do not keep the old-KL seed42 checkpoint as the current main checkpoint. "
+        "The corrected paper-facing result is the KL-fixed seed42/seed43 mean with checker v4 and fixed-reader control.\n"
     )
     REPORT.write_text("".join(lines), encoding="utf-8")
     print(f"wrote {REPORT}")
