@@ -38,7 +38,7 @@ def main() -> None:
     print("Trainer help path works.")
     run([sys.executable, "scripts/verify_paper_main_results.py"])
     print("Metric consistency verifier works.")
-    print("Release gate passed. Note: KL/checker-v4 audit items remain paper-blocking until fixed and rerun.")
+    print("Release gate passed. Corrected KL/checker-v4/fixed-reader/corpus audits are included in verify_paper_main_results.py.")
 
 
 if __name__ == "__main__":
