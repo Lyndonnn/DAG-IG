@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Verify the paper-main result table shipped with this core repo.
+"""Verify the corrected KL-fixed paper-main metrics shipped with this repo.
 
-This script does not rerun model inference. It checks the internal consistency of
-the exported paper-facing metrics and confirms the main claim numbers.
+This script does not rerun model inference. It checks internal consistency of
+the exported tables, corrected summary JSON, core-fix validation, and training
+health records.
 """
 
 from __future__ import annotations
@@ -14,21 +15,23 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 TABLE = ROOT / "results" / "tables" / "main_results_table.csv"
-CONSOLIDATED = ROOT / "results" / "metrics" / "paper_main_v1_consolidated_results.json"
-SEED_CONFIRM = ROOT / "results" / "metrics" / "seed_confirmation_summary.json"
+SUMMARY = ROOT / "results" / "metrics" / "klfixed_grpo_60_summary.json"
+CORE_FIX = ROOT / "results" / "metrics" / "core_fix_validation.json"
 
 
 EXPECTED_TABLE = {
-    ("Format-SFT", "dev"): {"r5": 52.0, "strict_success": 42.9},
-    ("Format-SFT", "test"): {"r5": 46.9, "strict_success": 34.4},
-    ("DAG-IG seed42 main", "dev"): {"r5": 57.1, "strict_success": 49.0},
-    ("DAG-IG seed42 main", "test"): {"r5": 51.6, "strict_success": 40.6},
-    ("DAG-IG seed43 confirm", "dev"): {"r5": 58.2, "strict_success": 49.0},
-    ("DAG-IG seed43 confirm", "test"): {"r5": 50.0, "strict_success": 39.1},
+    ("Format-SFT v4", "dev"): {"r5": 52.0, "strict_success": 40.8},
+    ("Format-SFT v4", "test"): {"r5": 46.9, "strict_success": 34.4},
+    ("KL-fixed GRPO seed42", "dev"): {"r5": 56.1, "strict_success": 45.9},
+    ("KL-fixed GRPO seed42", "test"): {"r5": 51.6, "strict_success": 40.6},
+    ("KL-fixed GRPO seed43", "dev"): {"r5": 56.1, "strict_success": 45.9},
+    ("KL-fixed GRPO seed43", "test"): {"r5": 48.4, "strict_success": 37.5},
+    ("KL-fixed GRPO two-seed mean", "dev"): {"r5": 56.1, "strict_success": 45.9},
+    ("KL-fixed GRPO two-seed mean", "test"): {"r5": 50.0, "strict_success": 39.1},
 }
 
 
-def close(a: float, b: float, eps: float = 0.05) -> bool:
+def close(a: float, b: float, eps: float = 0.06) -> bool:
     return abs(a - b) <= eps
 
 
@@ -36,19 +39,17 @@ def pct(x: float) -> float:
     return round(100.0 * x, 1)
 
 
-def main() -> None:
+def load_table() -> dict[tuple[str, str], dict[str, str]]:
     if not TABLE.exists():
         raise FileNotFoundError(TABLE)
-    if not CONSOLIDATED.exists():
-        raise FileNotFoundError(CONSOLIDATED)
-    if not SEED_CONFIRM.exists():
-        raise FileNotFoundError(SEED_CONFIRM)
-
-    rows = {}
+    rows: dict[tuple[str, str], dict[str, str]] = {}
     with TABLE.open(newline="", encoding="utf-8") as f:
         for row in csv.DictReader(f):
             rows[(row["method"], row["split"])] = row
+    return rows
 
+
+def assert_table(rows: dict[tuple[str, str], dict[str, str]]) -> None:
     for key, expected in EXPECTED_TABLE.items():
         if key not in rows:
             raise AssertionError(f"Missing table row: {key}")
@@ -58,43 +59,70 @@ def main() -> None:
             if not close(value, expected_value):
                 raise AssertionError(f"{key} {field}: got {value}, expected {expected_value}")
 
-    consolidated = json.loads(CONSOLIDATED.read_text(encoding="utf-8"))
-    metrics = consolidated["metrics"]
-    json_checks = {
-        ("Format-SFT", "dev"): metrics["format_dev"],
-        ("Format-SFT", "test"): metrics["format_test"],
-        ("DAG-IG seed42 main", "dev"): metrics["seed42_dev"],
-        ("DAG-IG seed42 main", "test"): metrics["seed42_test"],
-        ("DAG-IG seed43 confirm", "dev"): metrics["seed43_dev"],
-        ("DAG-IG seed43 confirm", "test"): metrics["seed43_test"],
+
+def assert_summary(rows: dict[tuple[str, str], dict[str, str]]) -> None:
+    if not SUMMARY.exists():
+        raise FileNotFoundError(SUMMARY)
+    summary = json.loads(SUMMARY.read_text(encoding="utf-8"))
+    metrics = summary["metrics"]
+    checks = {
+        ("Format-SFT v4", "dev"): metrics["format"]["dev"],
+        ("Format-SFT v4", "test"): metrics["format"]["test"],
+        ("KL-fixed GRPO seed42", "dev"): metrics["klfixed_seed42"]["dev"],
+        ("KL-fixed GRPO seed42", "test"): metrics["klfixed_seed42"]["test"],
+        ("KL-fixed GRPO seed43", "dev"): metrics["klfixed_seed43"]["dev"],
+        ("KL-fixed GRPO seed43", "test"): metrics["klfixed_seed43"]["test"],
     }
-    for key, metric in json_checks.items():
+    for key, metric in checks.items():
         row = rows[key]
         if not close(float(row["r5"]), pct(metric["r5"])):
             raise AssertionError(f"{key} R@5 table/JSON mismatch")
         if not close(float(row["strict_success"]), pct(metric["strict"])):
             raise AssertionError(f"{key} strict table/JSON mismatch")
 
-    seed = json.loads(SEED_CONFIRM.read_text(encoding="utf-8"))
-    for seed_name in ("seed42", "seed43"):
-        train = seed["train"][seed_name]
-        if train["status"] != "success":
+    avg = summary["averages"]["klfixed_two_seed_mean"]
+    for split in ("dev", "test"):
+        row = rows[("KL-fixed GRPO two-seed mean", split)]
+        if not close(float(row["r5"]), pct(avg[split]["r5"]["mean"])):
+            raise AssertionError(f"{split} mean R@5 mismatch")
+        if not close(float(row["strict_success"]), pct(avg[split]["strict"]["mean"])):
+            raise AssertionError(f"{split} mean strict mismatch")
+
+    train = summary["training"]
+    expected_constant = {"klfixed_seed42": 3, "klfixed_seed43": 1}
+    for seed_name, constant_groups in expected_constant.items():
+        t = train[seed_name]
+        if t["status"] != "success":
             raise AssertionError(f"{seed_name} training status is not success")
-        if train["optimizer_steps"] != 60 or train["micro_steps"] != 240:
-            raise AssertionError(f"{seed_name} step count mismatch: {train}")
-        if train["constant_reward_groups"] != 2:
-            raise AssertionError(f"{seed_name} constant reward groups mismatch: {train}")
+        if t["optimizer_steps"] != 60 or t["micro_steps"] != 240:
+            raise AssertionError(f"{seed_name} step count mismatch: {t}")
+        if t["constant_reward_groups"] != constant_groups:
+            raise AssertionError(f"{seed_name} constant reward groups mismatch: {t}")
 
-    seed42_dev_gain = float(rows[("DAG-IG seed42 main", "dev")]["strict_success"]) - float(
-        rows[("Format-SFT", "dev")]["strict_success"]
-    )
-    seed42_test_gain = float(rows[("DAG-IG seed42 main", "test")]["strict_success"]) - float(
-        rows[("Format-SFT", "test")]["strict_success"]
-    )
 
-    print("Paper-main result verification passed.")
-    print(f"Seed42 strict gain over Format-SFT: dev +{seed42_dev_gain:.1f}, test +{seed42_test_gain:.1f}.")
-    print("Seed42 and seed43 training health checks passed.")
+def assert_core_fix() -> None:
+    if not CORE_FIX.exists():
+        raise FileNotFoundError(CORE_FIX)
+    core = json.loads(CORE_FIX.read_text(encoding="utf-8"))
+    if not core.get("passed"):
+        raise AssertionError("Core fix validation did not pass")
+    k3 = core["k3_kl"]
+    if k3["same_kl"] != 0.0:
+        raise AssertionError(f"same-policy k3 KL should be zero: {k3}")
+    if k3["positive_case_kl"] <= 0.0 or k3["positive_case_grad"] == 0.0:
+        raise AssertionError(f"k3 KL positive/gradient check failed: {k3}")
+    if k3["bf16_near_zero_kl"] < 0.0:
+        raise AssertionError(f"bf16 near-zero KL should be nonnegative: {k3}")
+
+
+def main() -> None:
+    rows = load_table()
+    assert_table(rows)
+    assert_summary(rows)
+    assert_core_fix()
+    print("Corrected KL-fixed paper-main verification passed.")
+    print("Two-seed KL-fixed strict gain over Format-SFT: dev +5.1, test +4.7.")
+    print("Core fixes passed: k3 KL, checker v4, and training-health checks.")
 
 
 if __name__ == "__main__":

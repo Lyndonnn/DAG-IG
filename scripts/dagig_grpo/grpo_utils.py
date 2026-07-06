@@ -183,10 +183,7 @@ def answer_time_matches(target: str, prediction: str) -> bool:
     if target_suffixed:
         if len(target_suffixed) > 1:
             return set(target_suffixed).issubset(set(pred_suffixed))
-        if target_suffixed[0] in pred_suffixed:
-            return True
-        target_bare = re.sub(r"(am|pm)$", "", target_suffixed[0])
-        return target_bare in extract_time_tokens(prediction)
+        return target_suffixed[0] in pred_suffixed
     target_times = extract_time_tokens(target)
     pred_times = extract_time_tokens(prediction)
     if not target_times or not pred_times:
@@ -194,6 +191,24 @@ def answer_time_matches(target: str, prediction: str) -> bool:
     if len(target_times) > 1:
         return set(target_times).issubset(set(pred_times))
     return target_times[0] in pred_times
+
+
+def prediction_has_numeric_range(text: str) -> bool:
+    raw = unicodedata.normalize("NFKC", str(text)).lower()
+    number = r"[-+]?\d[\d,]*(?:\.\d+)?"
+    patterns = [
+        rf"\bfrom\s+{number}\s+(?:to|through|until|-|–|—)\s+{number}\b",
+        rf"\bbetween\s+{number}\s+and\s+{number}\b",
+        rf"{number}\s*(?:-|–|—|to|through|until)\s*{number}",
+    ]
+    return any(re.search(pattern, raw) for pattern in patterns)
+
+
+def normalized_substring_match(target_norm: str, pred_norm: str) -> bool:
+    if len(target_norm) < 4:
+        return False
+    pattern = rf"(?<![a-z0-9]){re.escape(target_norm)}(?![a-z0-9])"
+    return re.search(pattern, pred_norm) is not None
 
 
 def is_numeric_answer(text: str) -> bool:
@@ -248,7 +263,7 @@ def answer_match_details(prediction: str, gold: str, aliases: list[str] | None =
             result.update(answer_correct=True, answer_match_type="time_normalized")
             return result
         if is_numeric_answer(target) and target_numbers:
-            if target_numbers[0] in pred_numbers:
+            if target_numbers[0] in pred_numbers and not prediction_has_numeric_range(prediction):
                 result.update(answer_correct=True, answer_match_type="numeric_contained")
                 return result
             if target_numbers[0] in extract_number_word_tokens(prediction):
@@ -258,7 +273,7 @@ def answer_match_details(prediction: str, gold: str, aliases: list[str] | None =
             if target_numbers[0] in pred_numbers:
                 result.update(answer_correct=True, answer_match_type="identifier_number_contained")
                 return result
-        if not is_numeric_answer(target) and len(target_norm) >= 4 and target_norm in pred_norm:
+        if not is_numeric_answer(target) and normalized_substring_match(target_norm, pred_norm):
             result.update(answer_correct=True, answer_match_type="substring_normalized")
             return result
         first = first or result

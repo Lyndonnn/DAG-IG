@@ -1,0 +1,870 @@
+{
+  "format_sft_two_stage_dev20_dev": [
+    {
+      "sample_id": "pix2fact_15ebe54ae6",
+      "split": "dev",
+      "gold_answer": "9,605.30",
+      "final_answer": "Cuba, 9,605.3 USD",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "evidence_supported": true,
+      "match_type": "numeric_contained"
+    }
+  ],
+  "format_sft_two_stage_own_full_dev": [
+    {
+      "sample_id": "pix2fact_daf350b1d5",
+      "split": "dev",
+      "gold_answer": "10 am",
+      "final_answer": "11:30 AM - 10:00 PM",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": false,
+      "new_strict": false,
+      "evidence_supported": false,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_augquery_stage1loss_kl01_30_s320_ckpt10_dev": [
+    {
+      "sample_id": "pix2fact_daf350b1d5",
+      "split": "dev",
+      "gold_answer": "10 am",
+      "final_answer": "10:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_augquery_stage1loss_kl01_30_s320_ckpt20_dev": [
+    {
+      "sample_id": "pix2fact_daf350b1d5",
+      "split": "dev",
+      "gold_answer": "10 am",
+      "final_answer": "10:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_augquery_stage1loss_kl01_30_s320_ckpt30_dev": [
+    {
+      "sample_id": "pix2fact_daf350b1d5",
+      "split": "dev",
+      "gold_answer": "10 am",
+      "final_answer": "10:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_goldfixed_scale60_s320_ckpt20_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_goldfixed_scale60_s320_ckpt40_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_goldfixed_scale60_s320_ckpt60_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_querywarm_stage1loss_kl01_30_s320_ckpt10_dev": [
+    {
+      "sample_id": "pix2fact_daf350b1d5",
+      "split": "dev",
+      "gold_answer": "10 am",
+      "final_answer": "10:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_querywarm_stage1loss_kl01_30_s320_ckpt20_dev": [
+    {
+      "sample_id": "pix2fact_daf350b1d5",
+      "split": "dev",
+      "gold_answer": "10 am",
+      "final_answer": "10:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_querywarm_stage1loss_kl01_30_s320_ckpt30_dev": [
+    {
+      "sample_id": "pix2fact_daf350b1d5",
+      "split": "dev",
+      "gold_answer": "10 am",
+      "final_answer": "10:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_querywarm_stage1loss_kl01_30_s320_ckpt30_formatreader__reader_format_sft_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_grpo_smoke_full_dev": [
+    {
+      "sample_id": "pix2fact_64c5293e49",
+      "split": "dev",
+      "gold_answer": "No. 152",
+      "final_answer": "152",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "evidence_supported": true,
+      "match_type": "identifier_number_contained"
+    }
+  ],
+  "paper_main_v1_two_stage_grpo_smoke_full_test": [
+    {
+      "sample_id": "pix2fact_994a83217a",
+      "split": "test",
+      "gold_answer": "73.00%",
+      "final_answer": "University of Mobile, 73%",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "evidence_supported": true,
+      "match_type": "numeric_contained"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt10_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt20_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt30_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt30_formatreader__reader_format_sft_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt30_reader_sft_aligned_smoke20__reader_reader_sft_aligned_format_init_smoke20_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_medium30_ckpt30_reader_sft_smoke20__reader_reader_sft_format_init_smoke20_dev": [
+    {
+      "sample_id": "pix2fact_daf350b1d5",
+      "split": "dev",
+      "gold_answer": "10 am",
+      "final_answer": "10:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_pilot10_dev20_dev": [
+    {
+      "sample_id": "pix2fact_15ebe54ae6",
+      "split": "dev",
+      "gold_answer": "9,605.30",
+      "final_answer": "Cuba, 9,605.3 USD",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "evidence_supported": true,
+      "match_type": "numeric_contained"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_pilot10_full_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_ckpt20_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_ckpt40_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_ckpt60_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_ckpt60_formatreader__reader_format_sft_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_seed43_ckpt20_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_seed43_ckpt40_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "paper_main_v1_two_stage_stage1loss_kl01_scale60_s320_seed43_ckpt60_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "query_node_sft_aug_format_init_smoke20_full__reader_format_sft_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "query_node_sft_format_init_smoke20_full__reader_format_sft_dev": [
+    {
+      "sample_id": "pix2fact_a56dd9e7d9",
+      "split": "dev",
+      "gold_answer": "9 am",
+      "final_answer": "9:00-22:00",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    },
+    {
+      "sample_id": "pix2fact_d7063afcae",
+      "split": "dev",
+      "gold_answer": "12:00 PM",
+      "final_answer": "12:00以前",
+      "old_answer_correct": true,
+      "new_answer_correct": false,
+      "old_strict": true,
+      "new_strict": false,
+      "evidence_supported": true,
+      "match_type": "no_match"
+    }
+  ],
+  "v2_2_query_sft_two_stage_current_dev20_dev": [
+    {
+      "sample_id": "pix2fact_15ebe54ae6",
+      "split": "dev",
+      "gold_answer": "9,605.30",
+      "final_answer": "9605.3",
+      "old_answer_correct": false,
+      "new_answer_correct": true,
+      "old_strict": false,
+      "new_strict": true,
+      "evidence_supported": true,
+      "match_type": "numeric_contained"
+    }
+  ]
+}

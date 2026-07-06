@@ -414,6 +414,18 @@ def sequence_logps(model: torch.nn.Module, batch: dict[str, torch.Tensor]) -> tu
     return seq_logps, token_counts
 
 
+def k3_kl_per_token(policy_logp: torch.Tensor, ref_logp: torch.Tensor, token_count: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor]:
+    """Approximate per-token KL(pi || ref) with a non-negative k3 estimator."""
+
+    token_count_f = token_count.float().clamp_min(1.0)
+    policy_logp_f = policy_logp.float()
+    ref_logp_f = ref_logp.float()
+    log_ref_over_policy = ((ref_logp_f - policy_logp_f) / token_count_f).clamp(min=-20.0, max=20.0)
+    k3 = (torch.exp(log_ref_over_policy) - 1.0 - log_ref_over_policy).clamp_min(0.0)
+    signed_policy_ref = (policy_logp_f - ref_logp_f) / token_count_f
+    return k3, signed_policy_ref
+
+
 def save_checkpoint(model: torch.nn.Module, processor: Any, output_dir: Path, step: int) -> None:
     ckpt = output_dir / f"checkpoint-{step}"
     ckpt.mkdir(parents=True, exist_ok=True)
@@ -578,6 +590,7 @@ def main() -> None:
 
                 group_loss = 0.0
                 group_kl = 0.0
+                group_signed_log_ratio = 0.0
                 response_tokens = 0.0
                 for gen_idx, (completion, info, adv) in enumerate(zip(completions, reward_infos, advantages.tolist())):
                     if args.two_stage_rollout:
@@ -619,10 +632,11 @@ def main() -> None:
                         with torch.no_grad():
                             ref_logp, _ = sequence_logps(ref, batch)
                     logp_per_token = policy_logp / token_count
-                    kl_per_token = (policy_logp - ref_logp) / token_count
+                    kl_per_token, signed_log_ratio_per_token = k3_kl_per_token(policy_logp, ref_logp, token_count)
                     loss = -(float(adv) * logp_per_token).mean() + args.kl_coef * kl_per_token.mean()
                     group_loss = group_loss + loss
                     group_kl += float(kl_per_token.detach().cpu().mean())
+                    group_signed_log_ratio += float(signed_log_ratio_per_token.detach().cpu().mean())
                     response_tokens += float(token_count.detach().float().cpu().mean())
                     rollout_log.write(
                         json.dumps(
@@ -638,6 +652,8 @@ def main() -> None:
                                 "retrieval_hit": info["retrieval_hit"],
                                 "answer_correct": info["answer_correct"],
                                 "strict_success": info["strict_success"],
+                                "kl_k3_per_token": float(kl_per_token.detach().cpu().mean()),
+                                "signed_log_ratio_per_token": float(signed_log_ratio_per_token.detach().cpu().mean()),
                                 "reward_v2_diagnostics": info.get("reward_v2_diagnostics", {}),
                                 "reward_v3_diagnostics": info.get("reward_v3_diagnostics", {}),
                             },
@@ -664,7 +680,8 @@ def main() -> None:
                         "reward_std": float(rewards.detach().cpu().std(unbiased=False)),
                         "reward_min": float(rewards.detach().cpu().min()),
                         "reward_max": float(rewards.detach().cpu().max()),
-                        "avg_kl_per_token": group_kl / max(1, args.num_generations),
+                        "avg_kl_k3_per_token": group_kl / max(1, args.num_generations),
+                        "avg_signed_log_ratio_per_token": group_signed_log_ratio / max(1, args.num_generations),
                         "avg_response_tokens": response_tokens / max(1, args.num_generations),
                         "constant_reward_groups": constant_reward_groups,
                         "gpu_mem_gb": round(torch.cuda.max_memory_allocated() / (1024**3), 3) if torch.cuda.is_available() else 0.0,

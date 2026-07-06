@@ -1,0 +1,95 @@
+{
+  "passed": true,
+  "train_script": "/root/autodl-tmp/search-test-1/scripts/dagig_grpo/02_train_grpo.py",
+  "utils_script": "/root/autodl-tmp/search-test-1/scripts/dagig_grpo/grpo_utils.py",
+  "no_top_level_7b_imports": true,
+  "checker_cases": [
+    {
+      "name": "am_pm_range_not_bare_time",
+      "prediction": "11:30 AM - 10:00 PM",
+      "gold": "10 am",
+      "expected": false,
+      "detail": {
+        "answer_correct": false,
+        "answer_match_type": "no_match",
+        "normalized_gold": "10 am",
+        "normalized_pred": "11:30 am - 10:00 pm",
+        "matched_alias": "gold"
+      }
+    },
+    {
+      "name": "am_pm_exact_suffix_required",
+      "prediction": "5:00 AM",
+      "gold": "5 pm",
+      "expected": false,
+      "detail": {
+        "answer_correct": false,
+        "answer_match_type": "no_match",
+        "normalized_gold": "5 pm",
+        "normalized_pred": "5:00 am",
+        "matched_alias": "gold"
+      }
+    },
+    {
+      "name": "substring_word_boundary",
+      "prediction": "Romeo cafe",
+      "gold": "Rome",
+      "expected": false,
+      "detail": {
+        "answer_correct": false,
+        "answer_match_type": "no_match",
+        "normalized_gold": "rome",
+        "normalized_pred": "romeo cafe",
+        "matched_alias": "gold"
+      }
+    },
+    {
+      "name": "numeric_range_not_single_year",
+      "prediction": "from 2019 to 2023",
+      "gold": "2019",
+      "expected": false,
+      "detail": {
+        "answer_correct": false,
+        "answer_match_type": "no_match",
+        "normalized_gold": "2019",
+        "normalized_pred": "from 2019 to 2023",
+        "matched_alias": "gold"
+      }
+    },
+    {
+      "name": "numeric_contained_still_valid",
+      "prediction": "The farm has 3 proprietary varieties of plums.",
+      "gold": "3",
+      "expected": true,
+      "detail": {
+        "answer_correct": true,
+        "answer_match_type": "numeric_contained",
+        "normalized_gold": "3",
+        "normalized_pred": "farm has 3 proprietary varieties of plums.",
+        "matched_alias": "gold"
+      }
+    },
+    {
+      "name": "phone_compact_match",
+      "prediction": "65-6535-6455",
+      "gold": "(65) 6535 6455",
+      "expected": true,
+      "detail": {
+        "answer_correct": true,
+        "answer_match_type": "phone_compact_contained",
+        "normalized_gold": "65 6535 6455",
+        "normalized_pred": "65-6535-6455",
+        "matched_alias": "gold"
+      }
+    }
+  ],
+  "k3_kl": {
+    "same_kl": 0.0,
+    "same_signed_log_ratio": 0.0,
+    "positive_case_kl": 0.3678794503211975,
+    "positive_case_signed_log_ratio": 1.0,
+    "positive_case_grad": 0.031606025993824005,
+    "old_constant_grad_reference": 0.05,
+    "bf16_near_zero_kl": 0.0
+  }
+}

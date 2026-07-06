@@ -1,9 +1,9 @@
 method,split,r1,r3,r5,answer_correct,strict_success,format_success,retrieval_miss,hit_answer_wrong
-Format-SFT,dev,35.7,49.0,52.0,45.9,42.9,100.0,47,9
-Format-SFT,test,31.2,43.8,46.9,34.4,34.4,98.4,34,8
-DAG-IG seed42 main,dev,38.8,51.0,57.1,51.0,49.0,99.0,42,8
-DAG-IG seed42 main,test,39.1,46.9,51.6,40.6,40.6,96.9,31,7
-DAG-IG seed43 confirm,dev,40.8,53.1,58.2,51.0,49.0,99.0,41,9
-DAG-IG seed43 confirm,test,39.1,46.9,50.0,39.1,39.1,98.4,32,7
-Goldfixed control,dev,38.8,51.0,57.1,52.0,50.0,100.0,42,7
-Goldfixed control,test,35.9,45.3,50.0,39.1,39.1,96.9,32,7
+Format-SFT v4,dev,35.7,49.0,52.0,42.9,40.8,100.0,47,11
+Format-SFT v4,test,31.2,43.8,46.9,34.4,34.4,98.4,34,8
+KL-fixed GRPO seed42,dev,36.7,51.0,56.1,48.0,45.9,98.0,43,10
+KL-fixed GRPO seed42,test,39.1,46.9,51.6,40.6,40.6,100.0,31,7
+KL-fixed GRPO seed43,dev,36.7,51.0,56.1,48.0,45.9,99.0,43,10
+KL-fixed GRPO seed43,test,34.4,43.8,48.4,37.5,37.5,95.3,33,7
+KL-fixed GRPO two-seed mean,dev,36.7,51.0,56.1,48.0,45.9,98.5,43,10
+KL-fixed GRPO two-seed mean,test,36.8,45.4,50.0,39.1,39.1,97.7,32,7

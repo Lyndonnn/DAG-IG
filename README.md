@@ -2,7 +2,7 @@
 
 This repository is the cleaned paper-core package for:
 
-**DAG-IG: Counterfactual Node-Level Credit Assignment for Long-Horizon Multimodal Search Agents**
+**DAG-IG: Node-Level Credit Assignment for Long-Horizon Multimodal Search Agents**
 
 The main experiment studies a two-stage Pix2Fact search agent:
 
@@ -14,40 +14,42 @@ image + question
 -> final_answer
 ```
 
-DAG-IG assigns counterfactual credit to the visual, query, evidence, and answer nodes, then uses the node-level reward for GRPO training.
+DAG-IG assigns node-level credit/reward to the visual, query, evidence, and answer nodes, then uses that signal for GRPO training. The released 3B result should be described as node-level credit optimization; stronger counterfactual-causal claims require additional intervention experiments.
 
 ## Current Main Result Status
 
-Important: after the initial core export, a critical audit found that the current result package is **paper-candidate but not final submission-ready**. See `results/reports/CRITICAL_PAPER_AUDIT_20260706.md`.
+Important: this repository has been updated after an external audit. The old
+parser/checker-v3 and old-KL headline is retained only as diagnostic history.
+The paper-facing result now uses:
 
-The table below records the currently exported paper-main numbers, but the headline claim should be revised after fixing:
-
-- the KL implementation;
+- k3 KL penalty, not the old signed log-ratio penalty;
 - answer checker v4;
-- dev-only checkpoint selection;
-- own-reader vs fixed-reader wording;
-- corpus description;
-- "counterfactual" wording.
+- dev-only / two-seed reporting, with no test-set checkpoint selection;
+- a two-stage rollout evaluation: `visual_observation + search_query`, BM25 retrieval, then final answer reading.
 
-The paper-main 3B result is:
+The current 3B paper-main candidate is:
 
 - initializer: `Format-SFT`
 - method: two-stage rollout
 - policy loss: stage-1 only
 - reward: `paper_main_v1`
-- KL: `0.1`
-- main checkpoint: `paper_main_v1_two_stage_stage1loss_kl01_scale60_s320/checkpoint-60`
+- KL coefficient: `0.1`, implemented with non-negative k3 KL
+- checkpoints:
+  - `paper_main_v1_klfixed_scale60_s320_seed42/checkpoint-60`
+  - `paper_main_v1_klfixed_scale60_s320_seed43/checkpoint-60`
 
-Parser/checker v3 metrics:
+Checker-v4 / KL-fixed metrics:
 
 | Method | Dev R@5 | Dev strict | Test R@5 | Test strict |
 |---|---:|---:|---:|---:|
-| Format-SFT | 52.0% | 42.9% | 46.9% | 34.4% |
-| DAG-IG medium30 ckpt30 | 57.1% | 48.0% | 50.0% | 39.1% |
-| DAG-IG scale60_s320 seed42 ckpt60 | 57.1% | 49.0% | 51.6% | 40.6% |
-| DAG-IG scale60_s320 seed43 ckpt60 | 58.2% | 49.0% | 50.0% | 39.1% |
+| Format-SFT v4 | 52.0% | 40.8% | 46.9% | 34.4% |
+| KL-fixed GRPO seed42 | 56.1% | 45.9% | 51.6% | 40.6% |
+| KL-fixed GRPO seed43 | 56.1% | 45.9% | 48.4% | 37.5% |
+| KL-fixed GRPO two-seed mean | 56.1% | 45.9% | 50.0% | 39.1% |
 
-The main result improves strict success over Format-SFT by +6.1 dev points and +6.2 test points. Seed43 confirms the recipe is not a single-seed artifact.
+The corrected two-seed mean improves strict success over Format-SFT by +5.1 dev
+points and +4.7 test points. This is a modest small-sample main result, not a
+large-scale statistically settled result.
 
 ## Repository Layout
 
@@ -90,8 +92,12 @@ The main LoRA adapter file is larger than GitHub's normal 100MB file limit. Rele
 
 ## Key Files
 
+- Corrected KL-fixed status: `results/reports/KLFIXED_GRPO_60_REPORT.md`
 - Main status: `results/reports/PAPER_MAIN_V1_CURRENT_STATUS.md`
-- Consolidated results: `results/reports/PAPER_MAIN_V1_CONSOLIDATED_RESULTS.md`
+- Audit fixes: `results/reports/CORE_FIX_VALIDATION.md`
+- Checker-v4 rescore: `results/reports/CHECKER_V4_RESCORING_REPORT.md`
+- Dev-selection correction: `results/reports/PAPER_MAIN_V1_CORRECTED_V4_DEV_SELECTION.md`
+- Historical consolidated results: `results/reports/PAPER_MAIN_V1_CONSOLIDATED_RESULTS.md`
 - Reward audit: `results/reports/REWARD_AUDIT_REPORT.md`
 - Seed confirmation: `results/reports/SEED_CONFIRMATION_REPORT.md`
 - Goldfixed control: `results/reports/GOLDFIXED_GRPO_60_REPORT.md`
@@ -107,7 +113,7 @@ To verify that the exported paper-main metrics are internally consistent:
 python scripts/verify_paper_main_results.py
 ```
 
-This checks the main result table against the consolidated JSON metrics and confirms the seed42/seed43 training-health records. It does not rerun model inference.
+This checks the corrected KL-fixed summary, the main result table, and the seed42/seed43 training-health records. It does not rerun model inference.
 
 ## Reproduction Notes
 
@@ -125,4 +131,4 @@ The core training/evaluation scripts are included, but this repo does not bundle
 
 The main method is **DAG-IG GRPO over a two-stage multimodal search agent**.
 
-Do not present DAG-SFT as the main method. Do not use 7B/external-baseline work to support the current 3B paper-main claim until the critical audit items are resolved.
+Do not present DAG-SFT as the main method. Do not use 7B/external-baseline work to support the current 3B paper-main claim. Do not report the old-KL result as paper-facing.
