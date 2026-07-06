@@ -1,0 +1,230 @@
+{
+  "corpora": {
+    "train_original": {
+      "name": "train_original",
+      "docs": 610,
+      "split_doc_counts": {
+        "train": 610
+      },
+      "sources": {
+        "train_source_evidence": 610
+      },
+      "unique_samples_in_corpus": 458,
+      "expected_samples": 458,
+      "samples_with_any_doc": 458,
+      "samples_with_gold_doc": 417,
+      "sample_gold_doc_coverage": 0.9104803493449781,
+      "gold_docs": 437,
+      "unique_domains": 427,
+      "top_domains": [
+        [
+          "en.wikipedia.org",
+          42
+        ],
+        [
+          "",
+          32
+        ],
+        [
+          "zh.wikipedia.org",
+          9
+        ],
+        [
+          "baike.baidu.com",
+          7
+        ],
+        [
+          "nike.com",
+          7
+        ],
+        [
+          "semcoop.com",
+          7
+        ],
+        [
+          "google.com.hk",
+          6
+        ],
+        [
+          "yelp.com",
+          5
+        ],
+        [
+          "nike.com.cn",
+          4
+        ],
+        [
+          "google.com",
+          4
+        ]
+      ],
+      "lengths": {
+        "token_mean": 9.057377049180328,
+        "token_median": 6.0,
+        "token_min": 1,
+        "token_max": 99,
+        "char_mean": 82.96885245901639,
+        "char_median": 67.0,
+        "char_min": 7,
+        "char_max": 589
+      },
+      "gold_doc_answer_embedded_samples": 322,
+      "gold_doc_answer_checked_samples": 417,
+      "gold_doc_answer_embedded_rate": 0.7721822541966427,
+      "note": "Frozen Pix2Fact evidence-note corpus; not live web pages."
+    },
+    "train_goldfixed": {
+      "name": "train_goldfixed",
+      "docs": 610,
+      "split_doc_counts": {
+        "train": 610
+      },
+      "sources": {
+        "train_source_evidence": 610
+      },
+      "unique_samples_in_corpus": 458,
+      "expected_samples": 458,
+      "samples_with_any_doc": 458,
+      "samples_with_gold_doc": 458,
+      "sample_gold_doc_coverage": 1.0,
+      "gold_docs": 493,
+      "unique_domains": 427,
+      "top_domains": [
+        [
+          "en.wikipedia.org",
+          42
+        ],
+        [
+          "",
+          32
+        ],
+        [
+          "zh.wikipedia.org",
+          9
+        ],
+        [
+          "baike.baidu.com",
+          7
+        ],
+        [
+          "nike.com",
+          7
+        ],
+        [
+          "semcoop.com",
+          7
+        ],
+        [
+          "google.com.hk",
+          6
+        ],
+        [
+          "yelp.com",
+          5
+        ],
+        [
+          "nike.com.cn",
+          4
+        ],
+        [
+          "google.com",
+          4
+        ]
+      ],
+      "lengths": {
+        "token_mean": 9.057377049180328,
+        "token_median": 6.0,
+        "token_min": 1,
+        "token_max": 99,
+        "char_mean": 82.96885245901639,
+        "char_median": 67.0,
+        "char_min": 7,
+        "char_max": 589
+      },
+      "gold_doc_answer_embedded_samples": 322,
+      "gold_doc_answer_checked_samples": 458,
+      "gold_doc_answer_embedded_rate": 0.7030567685589519,
+      "note": "Frozen Pix2Fact evidence-note corpus; not live web pages."
+    },
+    "eval_devtest": {
+      "name": "eval_devtest",
+      "docs": 201,
+      "split_doc_counts": {
+        "dev": 119,
+        "test": 82
+      },
+      "sources": {
+        "eval_source_evidence": 201
+      },
+      "unique_samples_in_corpus": 162,
+      "expected_samples": 162,
+      "samples_with_any_doc": 162,
+      "samples_with_gold_doc": 150,
+      "sample_gold_doc_coverage": 0.9259259259259259,
+      "gold_docs": 153,
+      "unique_domains": 140,
+      "top_domains": [
+        [
+          "google.com",
+          18
+        ],
+        [
+          "",
+          10
+        ],
+        [
+          "facebook.com",
+          5
+        ],
+        [
+          "tripadvisor.com",
+          4
+        ],
+        [
+          "tabelog.com",
+          4
+        ],
+        [
+          "maps.app.goo.gl",
+          3
+        ],
+        [
+          "lenovo.com",
+          3
+        ],
+        [
+          "amazon.co.uk",
+          3
+        ],
+        [
+          "worldometers.info",
+          3
+        ],
+        [
+          "oasisinet.com",
+          2
+        ]
+      ],
+      "lengths": {
+        "token_mean": 8.805970149253731,
+        "token_median": 6,
+        "token_min": 1,
+        "token_max": 83,
+        "char_mean": 81.46766169154229,
+        "char_median": 71,
+        "char_min": 6,
+        "char_max": 609
+      },
+      "gold_doc_answer_embedded_samples": 121,
+      "gold_doc_answer_checked_samples": 150,
+      "gold_doc_answer_embedded_rate": 0.8066666666666666,
+      "note": "Frozen Pix2Fact evidence-note corpus; not live web pages."
+    }
+  },
+  "split_sizes": {
+    "train": 458,
+    "dev": 98,
+    "test": 64
+  },
+  "claim_boundary": "offline frozen evidence-note BM25 corpus, not live web search"
+}

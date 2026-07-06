@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 TABLE = ROOT / "results" / "tables" / "main_results_table.csv"
 SUMMARY = ROOT / "results" / "metrics" / "klfixed_grpo_60_summary.json"
 CORE_FIX = ROOT / "results" / "metrics" / "core_fix_validation.json"
+CORPUS_AUDIT = ROOT / "results" / "metrics" / "corpus_reality_audit.json"
 
 
 EXPECTED_TABLE = {
@@ -124,14 +125,30 @@ def assert_core_fix() -> None:
         raise AssertionError(f"bf16 near-zero KL should be nonnegative: {k3}")
 
 
+def assert_corpus_audit() -> None:
+    if not CORPUS_AUDIT.exists():
+        raise FileNotFoundError(CORPUS_AUDIT)
+    audit = json.loads(CORPUS_AUDIT.read_text(encoding="utf-8"))
+    if audit.get("claim_boundary") != "offline frozen evidence-note BM25 corpus, not live web search":
+        raise AssertionError("Corpus claim boundary is missing or too broad")
+    eval_corpus = audit["corpora"]["eval_devtest"]
+    if eval_corpus["docs"] != 201:
+        raise AssertionError(f"Unexpected eval corpus size: {eval_corpus['docs']}")
+    if eval_corpus["lengths"]["token_median"] != 6:
+        raise AssertionError(f"Unexpected eval corpus median token length: {eval_corpus['lengths']}")
+    if eval_corpus["gold_doc_answer_embedded_rate"] < 0.80:
+        raise AssertionError("Expected audit to record high answer-string embedding in gold notes")
+
+
 def main() -> None:
     rows = load_table()
     assert_table(rows)
     assert_summary(rows)
     assert_core_fix()
+    assert_corpus_audit()
     print("Corrected KL-fixed paper-main verification passed.")
     print("Two-seed KL-fixed strict gain over Format-SFT: dev +5.1, test +4.7.")
-    print("Core fixes passed: k3 KL, checker v4, and training-health checks.")
+    print("Core fixes passed: k3 KL, checker v4, training health, fixed reader, and corpus boundary.")
 
 
 if __name__ == "__main__":

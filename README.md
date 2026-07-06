@@ -55,6 +55,10 @@ Fixed-reader control, where all KL-fixed queries are answered by the same
 Format-SFT reader, gives the same two-seed strict result: dev 45.9% and test
 39.1%. This means the corrected gain is not explained by reader drift.
 
+The retrieval setting is a frozen Pix2Fact evidence-note BM25 corpus, not live
+web search. The dev/test evaluation corpus has 201 short documents with median
+length 6 whitespace tokens; see `results/reports/CORPUS_REALITY_AUDIT.md`.
+
 ## Repository Layout
 
 ```text
@@ -101,6 +105,7 @@ The main LoRA adapter file is larger than GitHub's normal 100MB file limit. Rele
 - Audit fixes: `results/reports/CORE_FIX_VALIDATION.md`
 - Checker-v4 rescore: `results/reports/CHECKER_V4_RESCORING_REPORT.md`
 - Dev-selection correction: `results/reports/PAPER_MAIN_V1_CORRECTED_V4_DEV_SELECTION.md`
+- Corpus reality audit: `results/reports/CORPUS_REALITY_AUDIT.md`
 - Historical consolidated results: `results/reports/PAPER_MAIN_V1_CONSOLIDATED_RESULTS.md`
 - Reward audit: `results/reports/REWARD_AUDIT_REPORT.md`
 - Seed confirmation: `results/reports/SEED_CONFIRMATION_REPORT.md`

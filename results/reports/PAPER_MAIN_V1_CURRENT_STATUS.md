@@ -16,7 +16,13 @@ The current paper-facing candidate is the KL-fixed two-stage GRPO rerun, not the
 - checker: answer checker v4
 - seeds:
   - `paper_main_v1_klfixed_scale60_s320_seed42/checkpoint-60`
-  - `paper_main_v1_klfixed_scale60_s320_seed43/checkpoint-60`
+- `paper_main_v1_klfixed_scale60_s320_seed43/checkpoint-60`
+
+## Corpus Boundary
+
+The experiment uses a frozen Pix2Fact evidence-note BM25 corpus, not live web search. The dev/test evaluation corpus contains `201` short documents over `162` dev/test samples. Median evidence-note length is `6` whitespace tokens, and `80.7%` of checked dev/test gold-support samples have the answer string embedded in the gold note text.
+
+This must be described as controlled offline evidence-note retrieval, not retrieval from noisy full web documents. See `results/reports/CORPUS_REALITY_AUDIT.md`.
 
 ## Corrected Main Metrics
 
@@ -56,6 +62,7 @@ The external audit identified several issues in the previous result package. Cur
 - Test-selection contamination fixed: the current report uses seed42/seed43 mean and does not select the checkpoint by test performance.
 - Fixed-reader protocol checked: the same Format-SFT reader preserves the KL-fixed gain.
 - Release runnable fix: v1 training no longer has top-level 7B extension imports, and the default model resolver no longer hard-codes a local `/root` HuggingFace snapshot.
+- Corpus wording fixed: reports now identify the retrieval corpus as a frozen Pix2Fact evidence-note corpus.
 - Old-KL results are diagnostic only.
 - The corpus should be described as a frozen Pix2Fact evidence-note corpus, not live web search.
 - The method claim should be phrased as node-level DAG-IG reward/credit over a two-stage search agent. Avoid overclaiming true causal counterfactual intervention unless that experiment is explicitly added.
@@ -66,6 +73,7 @@ The external audit identified several issues in the previous result package. Cur
 - Checker-v4 rescore: `results/reports/CHECKER_V4_RESCORING_REPORT.md`
 - Dev-selection correction: `results/reports/PAPER_MAIN_V1_CORRECTED_V4_DEV_SELECTION.md`
 - Corrected KL-fixed result: `results/reports/KLFIXED_GRPO_60_REPORT.md`
+- Corpus reality audit: `results/reports/CORPUS_REALITY_AUDIT.md`
 - Machine-readable summary: `results/metrics/klfixed_grpo_60_summary.json`
 
 ## Decision
