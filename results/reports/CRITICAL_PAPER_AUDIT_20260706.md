@@ -15,4 +15,6 @@ This audit is mirrored in the full workspace at:
 outputs/dagig_paper_main_v1/reports/CRITICAL_PAPER_AUDIT_20260706.md
 ```
 
-The code export has been adjusted so `scripts/dagig_grpo/02_train_grpo.py --help` no longer requires omitted 7B modules. The remaining issues are result-affecting and require rescore/retraining or paper-claim revision.
+The code export has been adjusted so `scripts/dagig_grpo/02_train_grpo.py --help` no longer requires omitted 7B modules. A lightweight release gate is available at `scripts/release_gate_check.py`.
+
+The remaining issues are result-affecting and require rescore/retraining or paper-claim revision.
