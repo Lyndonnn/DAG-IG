@@ -88,6 +88,16 @@ The main LoRA adapter file is larger than GitHub's normal 100MB file limit. Rele
 - Reproduction appendix: `docs/REPRODUCIBILITY_APPENDIX.md`
 - Commands: `scripts/reproduce_main_commands.sh`
 
+## Quick Verification
+
+To verify that the exported paper-main metrics are internally consistent:
+
+```bash
+python scripts/verify_paper_main_results.py
+```
+
+This checks the main result table against the consolidated JSON metrics and confirms the seed42/seed43 training-health records. It does not rerun model inference.
+
 ## Reproduction Notes
 
 The command template in `scripts/reproduce_main_commands.sh` assumes the original local asset layout from the experiment machine. For a fresh machine, update:
