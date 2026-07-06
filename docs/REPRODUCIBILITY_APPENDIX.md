@@ -38,6 +38,8 @@ Corpus sizes and nature:
 
 Important boundary: these are frozen Pix2Fact evidence-note corpora with URLs/domains, not live web pages and not live web search. Gold support notes often contain the answer string directly; the dev/test gold-doc answer-string embedded rate is 80.7%. See `results/reports/CORPUS_REALITY_AUDIT.md`.
 
+Because not every dev/test sample has a gold/supporting document in the frozen corpus, strict success has a corpus-coverage upper bound before any model errors: dev `92/98 = 93.9%`, test `58/64 = 90.6%`.
+
 ## Main Training Recipe
 
 The corrected paper-main recipe is:

@@ -18,6 +18,9 @@ This audit describes the frozen BM25 corpora used by the paper-main experiments.
 - Evidence text is short annotation-style support text. The median whitespace token length is low, so the paper should not describe this as retrieval from noisy full web documents.
 - Gold support notes often contain the answer string directly. Strict success should therefore be interpreted as a controlled offline evidence-acquisition + extraction metric, not a live-web QA score.
 - The goldfixed train corpus fixes train-side gold labels only; dev/test corpora remain frozen.
+- Dev/test strict success is bounded by the availability of gold/supporting documents in this frozen corpus:
+  - dev: 92/98 samples with gold docs = 93.9% upper bound from gold-doc coverage.
+  - test: 58/64 samples with gold docs = 90.6% upper bound from gold-doc coverage.
 
 ## Required Paper Wording
 

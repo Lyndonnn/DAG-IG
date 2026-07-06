@@ -17,7 +17,7 @@ This file maps the external audit findings to the corrected release artifacts. I
 
 | audit item | status | remediation | evidence |
 |---|---|---|---|
-| Corpus was short evidence notes, not live/noisy web documents | fixed in wording and audit | Corpus reality audit reports 201 dev/test docs, median 6 tokens, and describes the setting as frozen Pix2Fact evidence-note BM25 retrieval. | `results/reports/CORPUS_REALITY_AUDIT.md`; `paper/latex/main.tex`; `docs/REPRODUCIBILITY_APPENDIX.md` |
+| Corpus was short evidence notes, not live/noisy web documents | fixed in wording and audit | Corpus reality audit reports 201 dev/test docs, median 6 tokens, 80.7% answer-string embedding in checked gold notes, and dev/test gold-doc upper bounds of 93.9% / 90.6%. | `results/reports/CORPUS_REALITY_AUDIT.md`; `results/metrics/corpus_reality_audit.json`; `paper/latex/main.tex`; `docs/REPRODUCIBILITY_APPENDIX.md` |
 | Old unclean/oracle sources | guarded | Training utilities reject forbidden model/source names and paper text states old unclean/oracle trajectories are outside the paper-main path. | `scripts/dagig_grpo/grpo_utils.py`; `docs/PAPER_MAIN_V1_SCHEMA.md`; `paper/latex/main.tex` |
 
 ## C. Statistical And Selection Claims

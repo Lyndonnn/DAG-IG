@@ -31,6 +31,7 @@ This matrix ties each paper-facing claim to the exact evidence artifact that sup
 | train corpus docs | 610 | `REPRODUCIBILITY_APPENDIX.md`; `paper_asset_audit.json` |
 | eval corpus median doc length | 6 tokens | `CORPUS_REALITY_AUDIT.md` |
 | eval gold-note answer embedded rate | 80.7% | `CORPUS_REALITY_AUDIT.md` |
+| dev/test gold-doc coverage upper bound | 93.9% / 90.6% | `CORPUS_REALITY_AUDIT.md`; `corpus_reality_audit.json` |
 | Format-SFT v4 dev/test strict | 40.8% / 34.4% | `main_results_table.csv` |
 | KL-fixed two-seed mean dev/test strict | 45.9% / 39.1% | `main_results_table.csv`; `klfixed_grpo_60_summary.json` |
 | KL-fixed two-seed mean dev/test R@5 | 56.1% / 50.0% | `main_results_table.csv`; `klfixed_grpo_60_summary.json` |

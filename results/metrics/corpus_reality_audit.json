@@ -71,6 +71,14 @@
       "gold_doc_answer_embedded_samples": 322,
       "gold_doc_answer_checked_samples": 417,
       "gold_doc_answer_embedded_rate": 0.7721822541966427,
+      "per_split": {
+        "train": {
+          "expected_samples": 458,
+          "samples_with_gold_doc": 417,
+          "sample_gold_doc_coverage": 0.9104803493449781,
+          "strict_upper_bound_from_gold_doc_coverage": 0.9104803493449781
+        }
+      },
       "note": "Frozen Pix2Fact evidence-note corpus; not live web pages."
     },
     "train_goldfixed": {
@@ -144,6 +152,14 @@
       "gold_doc_answer_embedded_samples": 322,
       "gold_doc_answer_checked_samples": 458,
       "gold_doc_answer_embedded_rate": 0.7030567685589519,
+      "per_split": {
+        "train": {
+          "expected_samples": 458,
+          "samples_with_gold_doc": 458,
+          "sample_gold_doc_coverage": 1.0,
+          "strict_upper_bound_from_gold_doc_coverage": 1.0
+        }
+      },
       "note": "Frozen Pix2Fact evidence-note corpus; not live web pages."
     },
     "eval_devtest": {
@@ -218,6 +234,20 @@
       "gold_doc_answer_embedded_samples": 121,
       "gold_doc_answer_checked_samples": 150,
       "gold_doc_answer_embedded_rate": 0.8066666666666666,
+      "per_split": {
+        "dev": {
+          "expected_samples": 98,
+          "samples_with_gold_doc": 92,
+          "sample_gold_doc_coverage": 0.9387755102040817,
+          "strict_upper_bound_from_gold_doc_coverage": 0.9387755102040817
+        },
+        "test": {
+          "expected_samples": 64,
+          "samples_with_gold_doc": 58,
+          "sample_gold_doc_coverage": 0.90625,
+          "strict_upper_bound_from_gold_doc_coverage": 0.90625
+        }
+      },
       "note": "Frozen Pix2Fact evidence-note corpus; not live web pages."
     }
   },

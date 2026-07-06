@@ -138,6 +138,23 @@ def assert_corpus_audit() -> None:
         raise AssertionError(f"Unexpected eval corpus median token length: {eval_corpus['lengths']}")
     if eval_corpus["gold_doc_answer_embedded_rate"] < 0.80:
         raise AssertionError("Expected audit to record high answer-string embedding in gold notes")
+    per_split = eval_corpus.get("per_split") or {}
+    expected_coverage = {
+        "dev": {"expected_samples": 98, "samples_with_gold_doc": 92, "coverage": 92 / 98},
+        "test": {"expected_samples": 64, "samples_with_gold_doc": 58, "coverage": 58 / 64},
+    }
+    for split, expected in expected_coverage.items():
+        if split not in per_split:
+            raise AssertionError(f"Missing per-split corpus coverage for {split}")
+        row = per_split[split]
+        if row["expected_samples"] != expected["expected_samples"]:
+            raise AssertionError(f"{split} expected sample count mismatch: {row}")
+        if row["samples_with_gold_doc"] != expected["samples_with_gold_doc"]:
+            raise AssertionError(f"{split} gold-doc sample count mismatch: {row}")
+        if not close(row["sample_gold_doc_coverage"], expected["coverage"], eps=1e-9):
+            raise AssertionError(f"{split} gold-doc coverage mismatch: {row}")
+        if not close(row["strict_upper_bound_from_gold_doc_coverage"], expected["coverage"], eps=1e-9):
+            raise AssertionError(f"{split} strict upper bound mismatch: {row}")
 
 
 def main() -> None:

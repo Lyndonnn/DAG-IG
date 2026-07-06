@@ -114,11 +114,14 @@ def summarize_corpus(name: str, docs: list[dict[str, Any]], split_rows: dict[str
     gold_docs = [doc for doc in docs if doc.get("is_gold")]
 
     relevant_rows: list[dict[str, Any]] = []
+    relevant_splits: list[str] = []
     for split, rows in split_rows.items():
         if name.startswith("train") and split == "train":
             relevant_rows.extend(rows)
+            relevant_splits.append(split)
         elif name == "eval_devtest" and split in {"dev", "test"}:
             relevant_rows.extend(rows)
+            relevant_splits.append(split)
 
     answers = sample_answers(relevant_rows)
     samples = {str(row["sample_id"]) for row in relevant_rows}
@@ -138,6 +141,19 @@ def summarize_corpus(name: str, docs: list[dict[str, Any]], split_rows: dict[str
         gold_doc_answer_checks.append({"sample_id": sid, "embedded": embedded})
 
     sample_count = len(samples)
+    per_split: dict[str, Any] = {}
+    for split in relevant_splits:
+        rows = split_rows[split]
+        split_samples = {str(row["sample_id"]) for row in rows}
+        split_with_gold = split_samples & set(gold_by_sample)
+        coverage = (len(split_with_gold) / len(split_samples)) if split_samples else None
+        per_split[split] = {
+            "expected_samples": len(split_samples),
+            "samples_with_gold_doc": len(split_with_gold),
+            "sample_gold_doc_coverage": coverage,
+            "strict_upper_bound_from_gold_doc_coverage": coverage,
+        }
+
     return {
         "name": name,
         "docs": len(docs),
@@ -157,6 +173,7 @@ def summarize_corpus(name: str, docs: list[dict[str, Any]], split_rows: dict[str
         "gold_doc_answer_embedded_rate": (gold_answer_embedded / gold_doc_samples_checked)
         if gold_doc_samples_checked
         else None,
+        "per_split": per_split,
         "note": "Frozen Pix2Fact evidence-note corpus; not live web pages.",
     }
 
@@ -189,6 +206,16 @@ def write_report(summary: dict[str, Any]) -> None:
     lines.append("- Evidence text is short annotation-style support text. The median whitespace token length is low, so the paper should not describe this as retrieval from noisy full web documents.")
     lines.append("- Gold support notes often contain the answer string directly. Strict success should therefore be interpreted as a controlled offline evidence-acquisition + extraction metric, not a live-web QA score.")
     lines.append("- The goldfixed train corpus fixes train-side gold labels only; dev/test corpora remain frozen.")
+    eval_per_split = summary["corpora"]["eval_devtest"]["per_split"]
+    if eval_per_split:
+        lines.append("- Dev/test strict success is bounded by the availability of gold/supporting documents in this frozen corpus:")
+        for split in ["dev", "test"]:
+            if split in eval_per_split:
+                row = eval_per_split[split]
+                lines.append(
+                    f"  - {split}: {row['samples_with_gold_doc']}/{row['expected_samples']} samples with gold docs "
+                    f"= {100*row['sample_gold_doc_coverage']:.1f}% upper bound from gold-doc coverage."
+                )
     lines.append("")
     lines.append("## Required Paper Wording")
     lines.append("")
