@@ -1,5 +1,13 @@
 # DAG-IG Pix2Fact Core Repository
 
+> **Current status (2026-07-20):** the repository now includes the v6 complete
+> counterfactual-DAG development snapshot. The 3B KL-fixed GRPO result below is
+> a historical baseline, not the final DAG-IG proof. A support-label audit
+> invalidated the legacy support/strict contract, so the corrected full
+> selector-only experiment is still in progress. Read
+> [`docs/CURRENT_RESEARCH_STATUS_2026-07-20.md`](docs/CURRENT_RESEARCH_STATUS_2026-07-20.md)
+> before using any result as a paper claim.
+
 This repository is the cleaned paper-core package for:
 
 **DAG-IG: Node-Level Credit Assignment for Long-Horizon Multimodal Search Agents**
@@ -16,7 +24,7 @@ image + question
 
 DAG-IG assigns node-level credit/reward to the visual, query, evidence, and answer nodes, then uses that signal for GRPO training. The released 3B result should be described as node-level credit optimization; stronger counterfactual-causal claims require additional intervention experiments.
 
-## Current Main Result Status
+## Historical 3B Result Status
 
 Important: this repository has been updated after an external audit. The old
 parser/checker-v3 and old-KL headline is retained only as diagnostic history.
@@ -27,7 +35,7 @@ The paper-facing result now uses:
 - dev-only / two-seed reporting, with no test-set checkpoint selection;
 - a two-stage rollout evaluation: `visual_observation + search_query`, BM25 retrieval, then final answer reading.
 
-The current 3B paper-main candidate is:
+The historical corrected 3B candidate is:
 
 - initializer: `Format-SFT`
 - method: two-stage rollout
@@ -100,6 +108,9 @@ The main LoRA adapter file is larger than GitHub's normal 100MB file limit. Rele
 
 ## Key Files
 
+- Current v6 status and claim boundary: `docs/CURRENT_RESEARCH_STATUS_2026-07-20.md`
+- Current top-conference roadmap: `v6/reports/DAGIG_V6_TOP_CONFERENCE_RESULT_ROADMAP.md`
+- v6 code and audit snapshot: `v6/README.md`
 - Corrected KL-fixed status: `results/reports/KLFIXED_GRPO_60_REPORT.md`
 - Main status: `results/reports/PAPER_MAIN_V1_CURRENT_STATUS.md`
 - Audit fixes: `results/reports/CORE_FIX_VALIDATION.md`
@@ -138,6 +149,9 @@ The core training/evaluation scripts are included, but this repo does not bundle
 
 ## Main Claim Boundary
 
-The main method is **DAG-IG GRPO over a two-stage multimodal search agent**.
+The intended main method is **exact node-level DAG-IG credit over a complete
+counterfactual multimodal search DAG**. The current primary experiment is the
+direct posterior selector; GRPO/GDPO distillation is deferred until that
+selector passes under corrected semantic-support labels.
 
 Do not present DAG-SFT as the main method. Do not use 7B/external-baseline work to support the current 3B paper-main claim. Do not report the old-KL result as paper-facing.

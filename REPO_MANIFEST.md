@@ -19,6 +19,11 @@ This manifest records what was exported from the full experiment workspace into 
   - query/error diagnostics
   - paper asset builders
 - `scripts/reproduce_main_commands.sh`
+- `v6/dagig_causal/`
+  - current reusable counterfactual DAG, value, schema, and policy modules
+- `v6/scripts/`
+  - v6 method-development scripts 700-846
+  - structured semantic-support label repair and corrected terminal-value path
 
 ### Results
 
@@ -31,6 +36,10 @@ This manifest records what was exported from the full experiment workspace into 
 - selected retrieval, node-credit, and failure-analysis report summaries
 - consolidated JSON metrics in `results/metrics/`
 - paper table sources in `results/tables/`
+- `v6/reports/`
+  - current selector-only, label-contract, failed-v2, and cited-v3 audit reports
+- `docs/CURRENT_RESEARCH_STATUS_2026-07-20.md`
+  - complete current status, trust boundary, and next-step order
 
 ### Paper Assets
 
@@ -49,6 +58,8 @@ This manifest records what was exported from the full experiment workspace into 
 - per-sample prediction JSONL files
 - compiled LaTeX outputs
 - old 414 diagnostics and non-mainline branches
+- private semantic-support labels and independent-audit examples
+- OpenAI/Serper API request logs, usage logs, and environment files
 - 7B exploratory artifacts except for textual guidance in reports
 
 ## Why This Export Is Small

@@ -9,6 +9,11 @@ __pycache__/
 venv/
 env/
 *.egg-info/
+.env
+.env.*
+*_private_env
+*.secret
+*.secrets
 
 # Large model/data artifacts
 checkpoints/
@@ -25,6 +30,14 @@ downloads/
 *.tar.gz
 *.parquet
 *.jsonl
+
+# Private supervision/API artifacts
+*private*.jsonl
+api_request_log.jsonl
+api_usage.jsonl
+structured_support_v3_scores_*.jsonl
+private_train_labels*
+private_internal_labels*
 
 # Allow curated small JSONL only if explicitly force-added.
 

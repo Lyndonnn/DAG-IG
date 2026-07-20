@@ -2,6 +2,11 @@
 
 This GitHub repo contains code, reports, metrics, and paper assets only.
 
+The v6 snapshot additionally excludes private semantic-support labels and API
+request logs. Only aggregate public audit reports are included. Runtime v6
+selectors must not read gold answers, qrels, support labels, target documents,
+or final-answer correctness.
+
 ## Dataset
 
 The experiments use a Pix2Fact-derived clean asset package. The dataset/images are not included in this GitHub-core export.
@@ -36,7 +41,7 @@ Recommended release options:
 - GitHub Releases with Git LFS;
 - cloud storage link with checksums.
 
-## Main Reward Choice
+## Historical 3B Reward Choice
 
 The main 3B/7B comparable method uses `paper_main_v1` reward:
 
@@ -48,3 +53,11 @@ The main 3B/7B comparable method uses `paper_main_v1` reward:
 - leak/path penalties
 
 Do not use verifier-shaped `reward_v3` as the 7B mainline reward; it is a separate optional ablation.
+
+## Current v6 Value Contract
+
+The active v6 method no longer treats the historical weighted reward sum as the
+method proof. It constructs cardinal terminal-success probabilities and applies
+exact backward control-as-inference posteriors at answer, evidence, query, and
+visual nodes. See `docs/CURRENT_RESEARCH_STATUS_2026-07-20.md` and
+`v6/reports/DAGIG_V6_TOP_CONFERENCE_RESULT_ROADMAP.md`.
